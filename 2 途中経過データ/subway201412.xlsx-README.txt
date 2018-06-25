@@ -1,1 +1,1 @@
-subway201412.csv���x�[�X�ɏC���E�ǋL�������́B
+﻿subway201412.csvをベースに修正・追記したもの。

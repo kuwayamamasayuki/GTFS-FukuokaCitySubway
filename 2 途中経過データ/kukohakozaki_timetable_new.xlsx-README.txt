@@ -1,3 +1,3 @@
-kukohakozaki_timetable_new.pdf
-���C�u�����Ȃ�PDF STANDARD Ver.3�v�Ƃ����\�t�g�E�F�A��Excel�`���ɕϊ��������́B
-OCR�@�\��p���Ă���̂ŁC�ꕔ���܂��ϊ��ł��Ă��Ȃ��Ƃ��날��B
+﻿kukohakozaki_timetable_new.pdf
+を，「いきなりPDF STANDARD Ver.3」というソフトウェアでExcel形式に変換したもの。
+OCR機能を用いているので，一部うまく変換できていないところあり。

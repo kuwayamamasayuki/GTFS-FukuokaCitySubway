@@ -1,1 +1,1 @@
-nanakuma_timetable_new.xlsx���x�[�X�ɁCOCR�ɂ��ϊ������܂������Ă��Ȃ��Ƃ�����蓮�ŏC�������肵�����́B
+﻿nanakuma_timetable_new.xlsxをベースに，OCRによる変換がうまくいっていないところを手動で修正したりしたもの。

@@ -1,2 +1,2 @@
-ƒf[ƒ^æ“¾Œ³‚ÍŸ‚ÌURLB
+ï»¿ãƒ‡ãƒ¼ã‚¿å–å¾—å…ƒã¯æ¬¡ã®URLã€‚
 https://subway.city.fukuoka.lg.jp/subway/about/material.php
