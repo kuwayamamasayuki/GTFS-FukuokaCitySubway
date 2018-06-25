@@ -1,0 +1,1 @@
+nanakuma_timetable_new.xlsxをベースに，OCRによる変換がうまくいっていないところを手動で修正したりしたもの。
