@@ -1,7 +1,7 @@
 ﻿fare_id,price,currency_type,payment_method,transfers,transfer_duration
-Fare200yen_017200,200,JPY,0,1,7200
-Fare260yen_017200,260,JPY,0,1,7200
-Fare300yen_017200,300,JPY,0,1,7200
-Fare330yen_017200,330,JPY,0,1,7200
-Fare350yen_017200,350,JPY,0,1,7200
-Fare370yen_017200,370,JPY,0,1,7200
+１区,200,JPY,0,1,7200
+２区,260,JPY,0,1,7200
+３区,300,JPY,0,1,7200
+４区,330,JPY,0,1,7200
+５区,350,JPY,0,1,7200
+６区,370,JPY,0,1,7200
