@@ -16,3 +16,6 @@
 
 ## transfers.txt
 * 作成されないので，手動で作成した。
+
+## trips.txt
+* block_idの扱いに難があったため，block_id部分を手動で修正した。
