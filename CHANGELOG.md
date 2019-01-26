@@ -1,5 +1,15 @@
 ﻿# 変更履歴
 
+## 2019-01-26
+### fare_rules.txt
+* origin_id及びdestination_idの指定に、駅（stops.txtでlocation_typeを1としているもの）のzone_idではなく、ホーム（stops.txtでlocation_typeを0としているもの）のzone_idを用いるようにしました。
+
+### feedinfo.txt
+
+* 以上の変更を行ったことにより，feed_versionを「20180317_06」にしました。
+
+
+
 ## 2018-11-19
 ### shapes.txt
 * shapes.txtを追加しました。
