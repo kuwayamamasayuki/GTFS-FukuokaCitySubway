@@ -1,0 +1,4 @@
+agency_id,route_color,route_id,route_long_name,route_short_name,route_type
+3000020401307_0,f7931d,空港線,,空港線,1
+3000020401307_0,00aeef,箱崎線,,箱崎線,1
+3000020401307_0,009157,七隈線,,七隈線,1

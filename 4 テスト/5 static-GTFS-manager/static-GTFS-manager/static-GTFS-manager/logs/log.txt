@@ -1,0 +1,1058 @@
+2019-Mar-31 18:04:41 : Loaded dependencies, starting static GTFS Manager program.
+2019-Mar-31 18:04:41 : 
+
+Open http://localhost:5000 in your Web Browser if you don't see it opening automatically in 5 seconds.
+
+Note: If this is through docker, then it's not going to auto-open in browser, don't wait.
+2019-Mar-31 18:04:43 : 
+stats GET call
+2019-Mar-31 18:04:43 : readTableDB: Loaded agency, 0 records
+2019-Mar-31 18:04:43 : agency              : 0 entries
+2019-Mar-31 18:04:43 : calendar            : 0 entries
+2019-Mar-31 18:04:43 : stops               : 0 entries
+2019-Mar-31 18:04:43 : routes              : 0 entries
+2019-Mar-31 18:04:43 : trips               : 0 entries
+2019-Mar-31 18:04:43 : stop_times          : 0 entries
+2019-Mar-31 18:04:43 : calendar_dates      : 0 entries
+2019-Mar-31 18:04:43 : fare_attributes     : 0 entries
+2019-Mar-31 18:04:43 : fare_rules          : 0 entries
+2019-Mar-31 18:04:43 : shapes              : 0 entries
+2019-Mar-31 18:04:43 : frequencies         : 0 entries
+2019-Mar-31 18:04:43 : transfers           : 0 entries
+2019-Mar-31 18:04:43 : feed_info           : 0 entries
+2019-Mar-31 18:04:43 : stats GET call took 0.05 seconds.
+2019-Mar-31 18:04:44 : 
+pastCommits GET call
+2019-Mar-31 18:06:40 : 
+gtfsImportZip GET call
+2019-Mar-31 18:06:40 : Saving filename: FukuokaCitySubway-20190316.zip to uploads/
+2019-Mar-31 18:06:40 : 
+backupDB: Creating backup of DB in export/2019-03-31-backup-1806/.
+2019-Mar-31 18:06:40 : Generated GTFS feed at export/2019-03-31-backup-1806/
+2019-Mar-31 18:06:40 : Backup created.
+
+2019-Mar-31 18:06:40 : Extracting uploaded zip to uploads/unzip-180640/
+2019-Mar-31 18:06:40 : Extracted files: ['agency.txt', 'calendar.txt', 'calendar_dates.txt', 'fare_attributes.txt', 'fare_rules.txt', 'feed_info.txt', 'routes.txt', 'stops.txt', 'stop_times.txt', 'transfers.txt', 'translations.txt', 'trips.txt']
+2019-Mar-31 18:06:40 : Removed .h5 files from db/
+2019-Mar-31 18:06:40 : Removed .json files from db/
+2019-Mar-31 18:06:40 : db/sequence.json purged.
+2019-Mar-31 18:06:40 : Commencing conversion of gtfs feed files into the DB's .h5 files
+2019-Mar-31 18:06:40 : agency.h5: 1 rows
+2019-Mar-31 18:06:40 : calendar.h5: 2 rows
+2019-Mar-31 18:06:40 : calendar_dates.h5: 46 rows
+2019-Mar-31 18:06:40 : fare_attributes.h5: 1122 rows
+2019-Mar-31 18:06:40 : fare_rules.h5: 1122 rows
+2019-Mar-31 18:06:40 : feed_info.h5: 1 rows
+2019-Mar-31 18:06:41 : routes.h5: 3 rows
+2019-Mar-31 18:06:41 : stops.h5: 107 rows
+2019-Mar-31 18:06:41 : Storing stop_times in chunks.
+2019-Mar-31 18:06:41 : stop_times_1.h5: 22769 rows
+2019-Mar-31 18:06:41 : Appending the 16 rows of last ID to last chunk stop_times_1.h5
+2019-Mar-31 18:06:41 : Lookup json: stop_times_lookup.json created for mapping ID trip_id to stop_times_n.h5 chunk files.
+2019-Mar-31 18:06:41 : transfers.h5: 2 rows
+2019-Mar-31 18:06:41 : translations.h5: 119 rows
+2019-Mar-31 18:06:41 : trips.h5: 1953 rows
+2019-Mar-31 18:06:41 : Finished importing GTFS feed. You can remove the feed zip FukuokaCitySubway-20190316.zip and folder uploads/unzip-180640/ from uploads/ if you want.
+2019-Mar-31 18:06:41 : gtfsImportZip POST call took 1.39 seconds.
+2019-Mar-31 18:06:42 : 
+stats GET call
+2019-Mar-31 18:06:42 : readTableDB: Loaded agency, 1 records
+2019-Mar-31 18:06:42 : agency              : 1 entries
+2019-Mar-31 18:06:42 : calendar            : 2 entries
+2019-Mar-31 18:06:42 : stops               : 107 entries
+2019-Mar-31 18:06:42 : routes              : 3 entries
+2019-Mar-31 18:06:42 : trips               : 1,953 entries
+2019-Mar-31 18:06:42 : stop_times          : 22,785 entries
+2019-Mar-31 18:06:42 : calendar_dates      : 46 entries
+2019-Mar-31 18:06:42 : fare_attributes     : 1,122 entries
+2019-Mar-31 18:06:42 : fare_rules          : 1,122 entries
+2019-Mar-31 18:06:42 : shapes              : 0 entries
+2019-Mar-31 18:06:42 : frequencies         : 0 entries
+2019-Mar-31 18:06:42 : transfers           : 2 entries
+2019-Mar-31 18:06:42 : feed_info           : 1 entries
+2019-Mar-31 18:06:42 : translations        : 119 entries
+2019-Mar-31 18:06:42 : stats GET call took 0.15 seconds.
+2019-Mar-31 18:06:43 : 
+pastCommits GET call
+2019-Mar-31 18:06:43 : pastCommits GET call took 0.02 seconds.
+2019-Mar-31 18:09:19 : 
+gtfsImportZip GET call
+2019-Mar-31 18:09:19 : Saving filename: FukuokaCitySubway-20190316.zip to uploads/
+2019-Mar-31 18:09:19 : 
+backupDB: Creating backup of DB in export/2019-03-31-backup-1809/.
+2019-Mar-31 18:09:19 : Writing agency to disk and zipping...
+2019-Mar-31 18:09:19 : Added agency in 0.016 seconds.
+2019-Mar-31 18:09:20 : Writing calendar to disk and zipping...
+2019-Mar-31 18:09:20 : Added calendar in 0.016 seconds.
+2019-Mar-31 18:09:20 : Writing calendar_dates to disk and zipping...
+2019-Mar-31 18:09:20 : Added calendar_dates in 0.0 seconds.
+2019-Mar-31 18:09:20 : Writing fare_attributes to disk and zipping...
+2019-Mar-31 18:09:20 : Added fare_attributes in 0.016 seconds.
+2019-Mar-31 18:09:20 : Writing fare_rules to disk and zipping...
+2019-Mar-31 18:09:20 : Added fare_rules in 0.047 seconds.
+2019-Mar-31 18:09:20 : Writing feed_info to disk and zipping...
+2019-Mar-31 18:09:20 : Added feed_info in 0.016 seconds.
+2019-Mar-31 18:09:20 : Writing routes to disk and zipping...
+2019-Mar-31 18:09:20 : Added routes in 0.016 seconds.
+2019-Mar-31 18:09:20 : Writing stops to disk and zipping...
+2019-Mar-31 18:09:20 : Added stops in 0.016 seconds.
+2019-Mar-31 18:09:20 : Writing transfers to disk and zipping...
+2019-Mar-31 18:09:20 : Added transfers in 0.016 seconds.
+2019-Mar-31 18:09:20 : Writing translations to disk and zipping...
+2019-Mar-31 18:09:20 : Added translations in 0.016 seconds.
+2019-Mar-31 18:09:20 : Writing trips to disk and zipping...
+2019-Mar-31 18:09:20 : Added trips in 0.031 seconds.
+2019-Mar-31 18:09:20 : Columns for stop_times: ['trip_id', 'pickup_type', 'stop_headsign', 'stop_sequence', 'departure_time', 'stop_id', 'arrival_time', 'drop_off_type']
+2019-Mar-31 18:09:20 : Writing stop_times_1.h5 to csv
+2019-Mar-31 18:09:20 : CSV stop_times.txt created in 0.222 seconds, now zipping
+2019-Mar-31 18:09:20 : Added stop_times to zip in 0.045 seconds.
+2019-Mar-31 18:09:20 : Added stop_times in 0.266 seconds.
+2019-Mar-31 18:09:20 : Generated GTFS feed at export/2019-03-31-backup-1809/
+2019-Mar-31 18:09:20 : Backup created.
+
+2019-Mar-31 18:09:20 : Extracting uploaded zip to uploads/unzip-180920/
+2019-Mar-31 18:09:20 : Extracted files: ['agency.txt', 'calendar.txt', 'calendar_dates.txt', 'fare_attributes.txt', 'fare_rules.txt', 'feed_info.txt', 'routes.txt', 'stops.txt', 'stop_times.txt', 'transfers.txt', 'translations.txt', 'trips.txt']
+2019-Mar-31 18:09:20 : Removed .h5 files from db/
+2019-Mar-31 18:09:20 : Removed .json files from db/
+2019-Mar-31 18:09:20 : db/sequence.json purged.
+2019-Mar-31 18:09:20 : Commencing conversion of gtfs feed files into the DB's .h5 files
+2019-Mar-31 18:09:20 : agency.h5: 1 rows
+2019-Mar-31 18:09:20 : calendar.h5: 2 rows
+2019-Mar-31 18:09:20 : calendar_dates.h5: 46 rows
+2019-Mar-31 18:09:20 : fare_attributes.h5: 1122 rows
+2019-Mar-31 18:09:20 : fare_rules.h5: 1122 rows
+2019-Mar-31 18:09:20 : feed_info.h5: 1 rows
+2019-Mar-31 18:09:20 : routes.h5: 3 rows
+2019-Mar-31 18:09:20 : stops.h5: 107 rows
+2019-Mar-31 18:09:21 : Storing stop_times in chunks.
+2019-Mar-31 18:09:21 : stop_times_1.h5: 22769 rows
+2019-Mar-31 18:09:21 : Appending the 16 rows of last ID to last chunk stop_times_1.h5
+2019-Mar-31 18:09:21 : Lookup json: stop_times_lookup.json created for mapping ID trip_id to stop_times_n.h5 chunk files.
+2019-Mar-31 18:09:21 : transfers.h5: 2 rows
+2019-Mar-31 18:09:21 : translations.h5: 119 rows
+2019-Mar-31 18:09:21 : trips.h5: 1953 rows
+2019-Mar-31 18:09:21 : Finished importing GTFS feed. You can remove the feed zip FukuokaCitySubway-20190316.zip and folder uploads/unzip-180920/ from uploads/ if you want.
+2019-Mar-31 18:09:21 : gtfsImportZip POST call took 1.67 seconds.
+2019-Mar-31 18:09:22 : 
+stats GET call
+2019-Mar-31 18:09:22 : readTableDB: Loaded agency, 1 records
+2019-Mar-31 18:09:22 : agency              : 1 entries
+2019-Mar-31 18:09:22 : calendar            : 2 entries
+2019-Mar-31 18:09:22 : stops               : 107 entries
+2019-Mar-31 18:09:22 : routes              : 3 entries
+2019-Mar-31 18:09:22 : trips               : 1,953 entries
+2019-Mar-31 18:09:22 : stop_times          : 22,785 entries
+2019-Mar-31 18:09:22 : calendar_dates      : 46 entries
+2019-Mar-31 18:09:22 : fare_attributes     : 1,122 entries
+2019-Mar-31 18:09:22 : fare_rules          : 1,122 entries
+2019-Mar-31 18:09:22 : shapes              : 0 entries
+2019-Mar-31 18:09:22 : frequencies         : 0 entries
+2019-Mar-31 18:09:22 : transfers           : 2 entries
+2019-Mar-31 18:09:22 : feed_info           : 1 entries
+2019-Mar-31 18:09:22 : translations        : 119 entries
+2019-Mar-31 18:09:22 : stats GET call took 0.19 seconds.
+2019-Mar-31 18:09:22 : 
+pastCommits GET call
+2019-Mar-31 18:09:22 : pastCommits GET call took 0.02 seconds.
+2019-Mar-31 18:09:28 : 
+tableReadSave GET call for table=agency
+2019-Mar-31 18:09:28 : readTableDB: Loaded agency, 1 records
+2019-Mar-31 18:09:29 : tableReadSave GET call for table=agency took 0.02 seconds.
+2019-Mar-31 18:09:29 : 
+tableReadSave GET call for table=feed_info
+2019-Mar-31 18:09:29 : readTableDB: Loaded feed_info, 1 records
+2019-Mar-31 18:09:30 : tableReadSave GET call for table=feed_info took 0.02 seconds.
+2019-Mar-31 18:09:47 : 
+tableReadSave GET call for table=stops
+2019-Mar-31 18:09:47 : readTableDB: Loaded stops, 107 records
+2019-Mar-31 18:09:48 : tableReadSave GET call for table=stops took 0.02 seconds.
+2019-Mar-31 18:10:02 : 
+tableReadSave POST call for table=stops
+2019-Mar-31 18:10:02 : Replaced stops with new data, 107 entries inserted.
+2019-Mar-31 18:10:03 : tableReadSave POST call for table=stops took 0.22 seconds.
+2019-Mar-31 18:10:09 : 
+tableReadSave GET call for table=routes
+2019-Mar-31 18:10:09 : readTableDB: Loaded routes, 3 records
+2019-Mar-31 18:10:10 : tableReadSave GET call for table=routes took 0.02 seconds.
+2019-Mar-31 18:10:10 : 
+agency GET call
+2019-Mar-31 18:10:10 : readTableDB: Loaded agency, 1 records
+2019-Mar-31 18:10:10 : agency GET call took 0.02 seconds.
+2019-Mar-31 18:10:15 : 
+tableReadSave POST call for table=routes
+2019-Mar-31 18:10:15 : Replaced routes with new data, 3 entries inserted.
+2019-Mar-31 18:10:15 : tableReadSave POST call for table=routes took 0.23 seconds.
+2019-Mar-31 18:10:15 : 
+tableReadSave GET call for table=routes
+2019-Mar-31 18:10:15 : readTableDB: Loaded routes, 3 records
+2019-Mar-31 18:10:16 : tableReadSave GET call for table=routes took 0.04 seconds.
+2019-Mar-31 18:10:19 : 
+tableReadSave GET call for table=calendar
+2019-Mar-31 18:10:19 : readTableDB: Loaded calendar, 2 records
+2019-Mar-31 18:10:19 : tableReadSave GET call for table=calendar took 0.02 seconds.
+2019-Mar-31 18:10:19 : 
+tableReadSave GET call for table=calendar_dates
+2019-Mar-31 18:10:19 : readTableDB: Loaded calendar_dates, 46 records
+2019-Mar-31 18:10:20 : tableReadSave GET call for table=calendar_dates took 0.01 seconds.
+2019-Mar-31 18:10:23 : 
+tableReadSave GET call for table=routes
+2019-Mar-31 18:10:23 : readTableDB: Loaded routes, 3 records
+2019-Mar-31 18:10:24 : tableReadSave GET call for table=routes took 0.03 seconds.
+2019-Mar-31 18:10:24 : 
+calendar GET call
+2019-Mar-31 18:10:24 : readTableDB: Loaded calendar, 2 records
+2019-Mar-31 18:10:24 : 20190331.0
+2019-Mar-31 18:10:24 : calendar GET call took 0.03 seconds.
+2019-Mar-31 18:10:24 : 
+tripIdList GET call
+2019-Mar-31 18:10:24 : readTableDB: Loaded trips, 1953 records
+2019-Mar-31 18:10:24 : tripIdList GET call took 0.05 seconds.
+2019-Mar-31 18:10:24 : 
+allStopsKeyed GET call
+2019-Mar-31 18:10:24 : readTableDB: Loaded stops, 107 records
+2019-Mar-31 18:10:24 : allStopsKeyed GET call took 0.03 seconds.
+2019-Mar-31 18:10:24 : 
+allShapesList GET call
+2019-Mar-31 18:10:24 : allShapesList GET call took 0.08 seconds.
+2019-Mar-31 18:10:36 : 
+trips GET call
+2019-Mar-31 18:10:36 : readTableDB: table:trips, column:route_id, value:"空港線"
+2019-Mar-31 18:10:36 : readTableDB: Loaded trips, 871 records
+2019-Mar-31 18:10:36 : trips GET call took 0.06 seconds.
+2019-Mar-31 18:10:41 : 
+allStopsKeyed GET call
+2019-Mar-31 18:10:41 : readTableDB: Loaded stops, 107 records
+2019-Mar-31 18:10:41 : allStopsKeyed GET call took 0.02 seconds.
+2019-Mar-31 18:10:41 : 
+tableReadSave GET call for table=routes
+2019-Mar-31 18:10:41 : readTableDB: Loaded routes, 3 records
+2019-Mar-31 18:10:41 : tableReadSave GET call for table=routes took 0.03 seconds.
+2019-Mar-31 18:10:41 : 
+allShapesList GET call
+2019-Mar-31 18:10:41 : allShapesList GET call took 0.03 seconds.
+2019-Mar-31 18:10:46 : 
+sequence GET call
+2019-Mar-31 18:10:46 : sequence not found in sequence DB file, so extracting from gtfs tables instead.
+2019-Mar-31 18:10:46 : readTableDB: table:trips, column:route_id, value:"空港線"
+2019-Mar-31 18:10:46 : readTableDB: Loaded trips, 871 records
+2019-Mar-31 18:10:46 : readTableDB: table:stop_times, column:trip_id, value:"空港線平日空港線平日福岡空港4"
+2019-Mar-31 18:10:46 : readTableDB: Loaded stop_times, 13 records
+2019-Mar-31 18:10:46 : extractSequencefromGTFS: Loading sequence for route 空港線, onward direction from trip 空港線平日空港線平日福岡空港4:
+['1_1', '2_1', '3_1', '4_1', '5_1', '6_1', '7_1', '8_1', '9_3', '10_1', '11_1', '12_1', '13_1']
+2019-Mar-31 18:10:46 : readTableDB: table:stop_times, column:trip_id, value:"空港線平日空港線平日姪浜1"
+2019-Mar-31 18:10:46 : readTableDB: Loaded stop_times, 11 records
+2019-Mar-31 18:10:46 : extractSequencefromGTFS: Loading sequence for route 空港線, return direction from trip 空港線平日空港線平日姪浜1:
+['11_2', '10_2', '9_4', '8_2', '7_2', '6_2', '5_2', '4_2', '3_2', '2_2', '1_2']
+2019-Mar-31 18:10:46 : sequence GET call took 0.42 seconds.
+2019-Mar-31 18:10:46 : 
+shapesList GET call
+2019-Mar-31 18:10:46 : readTableDB: table:trips, column:route_id, value:"空港線"
+2019-Mar-31 18:10:46 : readTableDB: Loaded trips, 871 records
+2019-Mar-31 18:12:45 : 
+stats GET call
+2019-Mar-31 18:12:45 : readTableDB: Loaded agency, 1 records
+2019-Mar-31 18:12:45 : agency              : 1 entries
+2019-Mar-31 18:12:45 : calendar            : 2 entries
+2019-Mar-31 18:12:45 : stops               : 107 entries
+2019-Mar-31 18:12:45 : routes              : 3 entries
+2019-Mar-31 18:12:45 : trips               : 1,953 entries
+2019-Mar-31 18:12:45 : stop_times          : 22,785 entries
+2019-Mar-31 18:12:45 : calendar_dates      : 46 entries
+2019-Mar-31 18:12:45 : fare_attributes     : 1,122 entries
+2019-Mar-31 18:12:45 : fare_rules          : 1,122 entries
+2019-Mar-31 18:12:45 : shapes              : 0 entries
+2019-Mar-31 18:12:45 : frequencies         : 0 entries
+2019-Mar-31 18:12:45 : transfers           : 2 entries
+2019-Mar-31 18:12:45 : feed_info           : 1 entries
+2019-Mar-31 18:12:45 : translations        : 119 entries
+2019-Mar-31 18:12:45 : stats GET call took 0.2 seconds.
+2019-Mar-31 18:12:45 : 
+pastCommits GET call
+2019-Mar-31 18:12:45 : pastCommits GET call took 0.03 seconds.
+2019-Mar-31 18:12:53 : 
+gtfsImportZip GET call
+2019-Mar-31 18:12:53 : Saving filename: FukuokaCitySubway-20190316.zip to uploads/
+2019-Mar-31 18:12:53 : 
+backupDB: Creating backup of DB in export/2019-03-31-backup-1812/.
+2019-Mar-31 18:12:53 : Writing agency to disk and zipping...
+2019-Mar-31 18:12:53 : Added agency in 0.016 seconds.
+2019-Mar-31 18:12:53 : Writing calendar to disk and zipping...
+2019-Mar-31 18:12:53 : Added calendar in 0.016 seconds.
+2019-Mar-31 18:12:53 : Writing calendar_dates to disk and zipping...
+2019-Mar-31 18:12:53 : Added calendar_dates in 0.016 seconds.
+2019-Mar-31 18:12:53 : Writing fare_attributes to disk and zipping...
+2019-Mar-31 18:12:53 : Added fare_attributes in 0.016 seconds.
+2019-Mar-31 18:12:53 : Writing fare_rules to disk and zipping...
+2019-Mar-31 18:12:53 : Added fare_rules in 0.031 seconds.
+2019-Mar-31 18:12:53 : Writing feed_info to disk and zipping...
+2019-Mar-31 18:12:53 : Added feed_info in 0.016 seconds.
+2019-Mar-31 18:12:53 : Writing routes to disk and zipping...
+2019-Mar-31 18:12:53 : Added routes in 0.0 seconds.
+2019-Mar-31 18:12:53 : Writing stops to disk and zipping...
+2019-Mar-31 18:12:53 : Added stops in 0.016 seconds.
+2019-Mar-31 18:12:53 : Writing transfers to disk and zipping...
+2019-Mar-31 18:12:53 : Added transfers in 0.016 seconds.
+2019-Mar-31 18:12:53 : Writing translations to disk and zipping...
+2019-Mar-31 18:12:53 : Added translations in 0.016 seconds.
+2019-Mar-31 18:12:53 : Writing trips to disk and zipping...
+2019-Mar-31 18:12:53 : Added trips in 0.031 seconds.
+2019-Mar-31 18:12:53 : Columns for stop_times: ['trip_id', 'pickup_type', 'stop_headsign', 'stop_sequence', 'departure_time', 'stop_id', 'arrival_time', 'drop_off_type']
+2019-Mar-31 18:12:53 : Writing stop_times_1.h5 to csv
+2019-Mar-31 18:12:54 : CSV stop_times.txt created in 0.26 seconds, now zipping
+2019-Mar-31 18:12:54 : Added stop_times to zip in 0.047 seconds.
+2019-Mar-31 18:12:54 : Added stop_times in 0.307 seconds.
+2019-Mar-31 18:12:54 : Generated GTFS feed at export/2019-03-31-backup-1812/
+2019-Mar-31 18:12:54 : Backup created.
+
+2019-Mar-31 18:12:54 : Extracting uploaded zip to uploads/unzip-181254/
+2019-Mar-31 18:12:54 : Extracted files: ['agency.txt', 'calendar.txt', 'calendar_dates.txt', 'fare_attributes.txt', 'fare_rules.txt', 'feed_info.txt', 'routes.txt', 'stops.txt', 'stop_times.txt', 'transfers.txt', 'translations.txt', 'trips.txt']
+2019-Mar-31 18:12:54 : Removed .h5 files from db/
+2019-Mar-31 18:12:54 : Removed .json files from db/
+2019-Mar-31 18:12:54 : db/sequence.json purged.
+2019-Mar-31 18:12:54 : Commencing conversion of gtfs feed files into the DB's .h5 files
+2019-Mar-31 18:12:54 : agency.h5: 1 rows
+2019-Mar-31 18:12:54 : calendar.h5: 2 rows
+2019-Mar-31 18:12:54 : calendar_dates.h5: 46 rows
+2019-Mar-31 18:12:54 : fare_attributes.h5: 1122 rows
+2019-Mar-31 18:12:54 : fare_rules.h5: 1122 rows
+2019-Mar-31 18:12:54 : feed_info.h5: 1 rows
+2019-Mar-31 18:12:54 : routes.h5: 3 rows
+2019-Mar-31 18:12:54 : stops.h5: 107 rows
+2019-Mar-31 18:12:54 : Storing stop_times in chunks.
+2019-Mar-31 18:12:54 : stop_times_1.h5: 22769 rows
+2019-Mar-31 18:12:55 : Appending the 16 rows of last ID to last chunk stop_times_1.h5
+2019-Mar-31 18:12:55 : Lookup json: stop_times_lookup.json created for mapping ID trip_id to stop_times_n.h5 chunk files.
+2019-Mar-31 18:12:55 : transfers.h5: 2 rows
+2019-Mar-31 18:12:55 : translations.h5: 119 rows
+2019-Mar-31 18:12:55 : trips.h5: 1953 rows
+2019-Mar-31 18:12:55 : Finished importing GTFS feed. You can remove the feed zip FukuokaCitySubway-20190316.zip and folder uploads/unzip-181254/ from uploads/ if you want.
+2019-Mar-31 18:12:55 : gtfsImportZip POST call took 2.1 seconds.
+2019-Mar-31 18:12:55 : 
+stats GET call
+2019-Mar-31 18:12:55 : readTableDB: Loaded agency, 1 records
+2019-Mar-31 18:12:56 : agency              : 1 entries
+2019-Mar-31 18:12:56 : calendar            : 2 entries
+2019-Mar-31 18:12:56 : stops               : 107 entries
+2019-Mar-31 18:12:56 : routes              : 3 entries
+2019-Mar-31 18:12:56 : trips               : 1,953 entries
+2019-Mar-31 18:12:56 : stop_times          : 22,785 entries
+2019-Mar-31 18:12:56 : calendar_dates      : 46 entries
+2019-Mar-31 18:12:56 : fare_attributes     : 1,122 entries
+2019-Mar-31 18:12:56 : fare_rules          : 1,122 entries
+2019-Mar-31 18:12:56 : shapes              : 0 entries
+2019-Mar-31 18:12:56 : frequencies         : 0 entries
+2019-Mar-31 18:12:56 : transfers           : 2 entries
+2019-Mar-31 18:12:56 : feed_info           : 1 entries
+2019-Mar-31 18:12:56 : translations        : 119 entries
+2019-Mar-31 18:12:56 : stats GET call took 0.21 seconds.
+2019-Mar-31 18:12:56 : 
+pastCommits GET call
+2019-Mar-31 18:12:56 : pastCommits GET call took 0.0 seconds.
+2019-Mar-31 18:12:59 : 
+tableReadSave GET call for table=agency
+2019-Mar-31 18:12:59 : readTableDB: Loaded agency, 1 records
+2019-Mar-31 18:12:59 : tableReadSave GET call for table=agency took 0.03 seconds.
+2019-Mar-31 18:12:59 : 
+tableReadSave GET call for table=feed_info
+2019-Mar-31 18:12:59 : readTableDB: Loaded feed_info, 1 records
+2019-Mar-31 18:13:00 : tableReadSave GET call for table=feed_info took 0.02 seconds.
+2019-Mar-31 18:13:01 : 
+tableReadSave GET call for table=stops
+2019-Mar-31 18:13:01 : readTableDB: Loaded stops, 107 records
+2019-Mar-31 18:13:01 : tableReadSave GET call for table=stops took 0.02 seconds.
+2019-Mar-31 18:13:03 : 
+tableReadSave POST call for table=stops
+2019-Mar-31 18:13:03 : Replaced stops with new data, 107 entries inserted.
+2019-Mar-31 18:13:04 : tableReadSave POST call for table=stops took 0.23 seconds.
+2019-Mar-31 18:13:06 : 
+tableReadSave GET call for table=routes
+2019-Mar-31 18:13:06 : readTableDB: Loaded routes, 3 records
+2019-Mar-31 18:13:06 : tableReadSave GET call for table=routes took 0.03 seconds.
+2019-Mar-31 18:13:06 : 
+agency GET call
+2019-Mar-31 18:13:06 : readTableDB: Loaded agency, 1 records
+2019-Mar-31 18:13:06 : agency GET call took 0.02 seconds.
+2019-Mar-31 18:13:08 : 
+tableReadSave POST call for table=routes
+2019-Mar-31 18:13:08 : Replaced routes with new data, 3 entries inserted.
+2019-Mar-31 18:13:08 : tableReadSave POST call for table=routes took 0.21 seconds.
+2019-Mar-31 18:13:08 : 
+tableReadSave GET call for table=routes
+2019-Mar-31 18:13:08 : readTableDB: Loaded routes, 3 records
+2019-Mar-31 18:13:09 : tableReadSave GET call for table=routes took 0.02 seconds.
+2019-Mar-31 18:13:10 : 
+tableReadSave GET call for table=calendar
+2019-Mar-31 18:13:10 : readTableDB: Loaded calendar, 2 records
+2019-Mar-31 18:13:11 : tableReadSave GET call for table=calendar took 0.02 seconds.
+2019-Mar-31 18:13:11 : 
+tableReadSave GET call for table=calendar_dates
+2019-Mar-31 18:13:11 : readTableDB: Loaded calendar_dates, 46 records
+2019-Mar-31 18:13:11 : tableReadSave GET call for table=calendar_dates took 0.02 seconds.
+2019-Mar-31 18:13:13 : 
+tableReadSave GET call for table=routes
+2019-Mar-31 18:13:13 : readTableDB: Loaded routes, 3 records
+2019-Mar-31 18:13:13 : tableReadSave GET call for table=routes took 0.02 seconds.
+2019-Mar-31 18:13:13 : 
+allShapesList GET call
+2019-Mar-31 18:13:13 : allShapesList GET call took 0.05 seconds.
+2019-Mar-31 18:13:13 : 
+calendar GET call
+2019-Mar-31 18:13:13 : readTableDB: Loaded calendar, 2 records
+2019-Mar-31 18:13:13 : 20190331.0
+2019-Mar-31 18:13:13 : calendar GET call took 0.04 seconds.
+2019-Mar-31 18:13:13 : 
+tripIdList GET call
+2019-Mar-31 18:13:13 : readTableDB: Loaded trips, 1953 records
+2019-Mar-31 18:13:13 : tripIdList GET call took 0.04 seconds.
+2019-Mar-31 18:13:13 : 
+allStopsKeyed GET call
+2019-Mar-31 18:13:13 : readTableDB: Loaded stops, 107 records
+2019-Mar-31 18:13:13 : allStopsKeyed GET call took 0.03 seconds.
+2019-Mar-31 18:13:17 : 
+trips GET call
+2019-Mar-31 18:13:17 : readTableDB: table:trips, column:route_id, value:"空港線"
+2019-Mar-31 18:13:17 : readTableDB: Loaded trips, 871 records
+2019-Mar-31 18:13:17 : trips GET call took 0.04 seconds.
+2019-Mar-31 18:13:19 : 
+allStopsKeyed GET call
+2019-Mar-31 18:13:19 : readTableDB: Loaded stops, 107 records
+2019-Mar-31 18:13:19 : allStopsKeyed GET call took 0.02 seconds.
+2019-Mar-31 18:13:19 : 
+tableReadSave GET call for table=routes
+2019-Mar-31 18:13:19 : readTableDB: Loaded routes, 3 records
+2019-Mar-31 18:13:20 : tableReadSave GET call for table=routes took 0.05 seconds.
+2019-Mar-31 18:13:20 : 
+allShapesList GET call
+2019-Mar-31 18:13:20 : allShapesList GET call took 0.04 seconds.
+2019-Mar-31 18:13:26 : 
+sequence GET call
+2019-Mar-31 18:13:26 : sequence not found in sequence DB file, so extracting from gtfs tables instead.
+2019-Mar-31 18:13:27 : readTableDB: table:trips, column:route_id, value:"空港線"
+2019-Mar-31 18:13:27 : readTableDB: Loaded trips, 871 records
+2019-Mar-31 18:13:27 : readTableDB: table:stop_times, column:trip_id, value:"空港線平日空港線平日福岡空港4"
+2019-Mar-31 18:13:27 : readTableDB: Loaded stop_times, 13 records
+2019-Mar-31 18:13:27 : extractSequencefromGTFS: Loading sequence for route 空港線, onward direction from trip 空港線平日空港線平日福岡空港4:
+['1_1', '2_1', '3_1', '4_1', '5_1', '6_1', '7_1', '8_1', '9_3', '10_1', '11_1', '12_1', '13_1']
+2019-Mar-31 18:13:27 : readTableDB: table:stop_times, column:trip_id, value:"空港線平日空港線平日姪浜1"
+2019-Mar-31 18:13:27 : readTableDB: Loaded stop_times, 11 records
+2019-Mar-31 18:13:27 : extractSequencefromGTFS: Loading sequence for route 空港線, return direction from trip 空港線平日空港線平日姪浜1:
+['11_2', '10_2', '9_4', '8_2', '7_2', '6_2', '5_2', '4_2', '3_2', '2_2', '1_2']
+2019-Mar-31 18:13:27 : sequence GET call took 0.42 seconds.
+2019-Mar-31 18:13:27 : 
+shapesList GET call
+2019-Mar-31 18:13:27 : readTableDB: table:trips, column:route_id, value:"空港線"
+2019-Mar-31 18:13:27 : readTableDB: Loaded trips, 871 records
+2019-Mar-31 18:13:51 : 
+stats GET call
+2019-Mar-31 18:13:51 : readTableDB: Loaded agency, 1 records
+2019-Mar-31 18:13:51 : agency              : 1 entries
+2019-Mar-31 18:13:51 : calendar            : 2 entries
+2019-Mar-31 18:13:51 : stops               : 107 entries
+2019-Mar-31 18:13:51 : routes              : 3 entries
+2019-Mar-31 18:13:51 : trips               : 1,953 entries
+2019-Mar-31 18:13:51 : stop_times          : 22,785 entries
+2019-Mar-31 18:13:51 : calendar_dates      : 46 entries
+2019-Mar-31 18:13:51 : fare_attributes     : 1,122 entries
+2019-Mar-31 18:13:51 : fare_rules          : 1,122 entries
+2019-Mar-31 18:13:51 : shapes              : 0 entries
+2019-Mar-31 18:13:51 : frequencies         : 0 entries
+2019-Mar-31 18:13:51 : transfers           : 2 entries
+2019-Mar-31 18:13:51 : feed_info           : 1 entries
+2019-Mar-31 18:13:51 : translations        : 119 entries
+2019-Mar-31 18:13:51 : stats GET call took 0.22 seconds.
+2019-Mar-31 18:13:51 : 
+pastCommits GET call
+2019-Mar-31 18:13:51 : pastCommits GET call took 0.01 seconds.
+2019-Mar-31 18:14:15 : 
+gtfsImportZip GET call
+2019-Mar-31 18:14:15 : Saving filename: FukuokaCitySubway-20190316.zip to uploads/
+2019-Mar-31 18:14:15 : 
+backupDB: Creating backup of DB in export/2019-03-31-backup-1814/.
+2019-Mar-31 18:14:15 : Writing agency to disk and zipping...
+2019-Mar-31 18:14:15 : Added agency in 0.013 seconds.
+2019-Mar-31 18:14:15 : Writing calendar to disk and zipping...
+2019-Mar-31 18:14:15 : Added calendar in 0.016 seconds.
+2019-Mar-31 18:14:15 : Writing calendar_dates to disk and zipping...
+2019-Mar-31 18:14:15 : Added calendar_dates in 0.016 seconds.
+2019-Mar-31 18:14:15 : Writing fare_attributes to disk and zipping...
+2019-Mar-31 18:14:15 : Added fare_attributes in 0.016 seconds.
+2019-Mar-31 18:14:15 : Writing fare_rules to disk and zipping...
+2019-Mar-31 18:14:15 : Added fare_rules in 0.016 seconds.
+2019-Mar-31 18:14:15 : Writing feed_info to disk and zipping...
+2019-Mar-31 18:14:15 : Added feed_info in 0.022 seconds.
+2019-Mar-31 18:14:15 : Writing routes to disk and zipping...
+2019-Mar-31 18:14:15 : Added routes in 0.016 seconds.
+2019-Mar-31 18:14:15 : Writing stops to disk and zipping...
+2019-Mar-31 18:14:15 : Added stops in 0.016 seconds.
+2019-Mar-31 18:14:15 : Writing transfers to disk and zipping...
+2019-Mar-31 18:14:15 : Added transfers in 0.016 seconds.
+2019-Mar-31 18:14:15 : Writing translations to disk and zipping...
+2019-Mar-31 18:14:15 : Added translations in 0.016 seconds.
+2019-Mar-31 18:14:15 : Writing trips to disk and zipping...
+2019-Mar-31 18:14:15 : Added trips in 0.022 seconds.
+2019-Mar-31 18:14:15 : Columns for stop_times: ['trip_id', 'pickup_type', 'stop_headsign', 'stop_sequence', 'departure_time', 'stop_id', 'arrival_time', 'drop_off_type']
+2019-Mar-31 18:14:15 : Writing stop_times_1.h5 to csv
+2019-Mar-31 18:14:16 : CSV stop_times.txt created in 0.24 seconds, now zipping
+2019-Mar-31 18:14:16 : Added stop_times to zip in 0.06 seconds.
+2019-Mar-31 18:14:16 : Added stop_times in 0.3 seconds.
+2019-Mar-31 18:14:16 : Generated GTFS feed at export/2019-03-31-backup-1814/
+2019-Mar-31 18:14:16 : Backup created.
+
+2019-Mar-31 18:14:16 : Extracting uploaded zip to uploads/unzip-181416/
+2019-Mar-31 18:14:16 : Extracted files: ['agency.txt', 'calendar.txt', 'calendar_dates.txt', 'fare_attributes.txt', 'fare_rules.txt', 'feed_info.txt', 'routes.txt', 'stops.txt', 'stop_times.txt', 'transfers.txt', 'translations.txt', 'trips.txt']
+2019-Mar-31 18:14:16 : Removed .h5 files from db/
+2019-Mar-31 18:14:16 : Removed .json files from db/
+2019-Mar-31 18:14:16 : db/sequence.json purged.
+2019-Mar-31 18:14:16 : Commencing conversion of gtfs feed files into the DB's .h5 files
+2019-Mar-31 18:14:16 : agency.h5: 1 rows
+2019-Mar-31 18:14:16 : calendar.h5: 2 rows
+2019-Mar-31 18:14:16 : calendar_dates.h5: 46 rows
+2019-Mar-31 18:14:16 : fare_attributes.h5: 1122 rows
+2019-Mar-31 18:14:16 : fare_rules.h5: 1122 rows
+2019-Mar-31 18:14:16 : feed_info.h5: 1 rows
+2019-Mar-31 18:14:16 : routes.h5: 3 rows
+2019-Mar-31 18:14:16 : stops.h5: 107 rows
+2019-Mar-31 18:14:17 : Storing stop_times in chunks.
+2019-Mar-31 18:14:17 : stop_times_1.h5: 22769 rows
+2019-Mar-31 18:14:17 : Appending the 16 rows of last ID to last chunk stop_times_1.h5
+2019-Mar-31 18:14:17 : Lookup json: stop_times_lookup.json created for mapping ID trip_id to stop_times_n.h5 chunk files.
+2019-Mar-31 18:14:17 : transfers.h5: 2 rows
+2019-Mar-31 18:14:17 : translations.h5: 119 rows
+2019-Mar-31 18:14:17 : trips.h5: 1953 rows
+2019-Mar-31 18:14:17 : Finished importing GTFS feed. You can remove the feed zip FukuokaCitySubway-20190316.zip and folder uploads/unzip-181416/ from uploads/ if you want.
+2019-Mar-31 18:14:17 : gtfsImportZip POST call took 2.18 seconds.
+2019-Mar-31 18:14:18 : 
+stats GET call
+2019-Mar-31 18:14:18 : readTableDB: Loaded agency, 1 records
+2019-Mar-31 18:14:18 : agency              : 1 entries
+2019-Mar-31 18:14:18 : calendar            : 2 entries
+2019-Mar-31 18:14:18 : stops               : 107 entries
+2019-Mar-31 18:14:18 : routes              : 3 entries
+2019-Mar-31 18:14:18 : trips               : 1,953 entries
+2019-Mar-31 18:14:18 : stop_times          : 22,785 entries
+2019-Mar-31 18:14:18 : calendar_dates      : 46 entries
+2019-Mar-31 18:14:18 : fare_attributes     : 1,122 entries
+2019-Mar-31 18:14:18 : fare_rules          : 1,122 entries
+2019-Mar-31 18:14:18 : shapes              : 0 entries
+2019-Mar-31 18:14:18 : frequencies         : 0 entries
+2019-Mar-31 18:14:18 : transfers           : 2 entries
+2019-Mar-31 18:14:18 : feed_info           : 1 entries
+2019-Mar-31 18:14:18 : translations        : 119 entries
+2019-Mar-31 18:14:18 : stats GET call took 0.18 seconds.
+2019-Mar-31 18:14:18 : 
+pastCommits GET call
+2019-Mar-31 18:14:18 : pastCommits GET call took 0.01 seconds.
+2019-Mar-31 18:14:23 : 
+stats GET call
+2019-Mar-31 18:14:23 : readTableDB: Loaded agency, 1 records
+2019-Mar-31 18:14:23 : agency              : 1 entries
+2019-Mar-31 18:14:23 : calendar            : 2 entries
+2019-Mar-31 18:14:23 : stops               : 107 entries
+2019-Mar-31 18:14:23 : routes              : 3 entries
+2019-Mar-31 18:14:23 : trips               : 1,953 entries
+2019-Mar-31 18:14:23 : stop_times          : 22,785 entries
+2019-Mar-31 18:14:23 : calendar_dates      : 46 entries
+2019-Mar-31 18:14:23 : fare_attributes     : 1,122 entries
+2019-Mar-31 18:14:24 : fare_rules          : 1,122 entries
+2019-Mar-31 18:14:24 : shapes              : 0 entries
+2019-Mar-31 18:14:24 : frequencies         : 0 entries
+2019-Mar-31 18:14:24 : transfers           : 2 entries
+2019-Mar-31 18:14:24 : feed_info           : 1 entries
+2019-Mar-31 18:14:24 : translations        : 119 entries
+2019-Mar-31 18:14:24 : stats GET call took 0.2 seconds.
+2019-Mar-31 18:14:24 : 
+pastCommits GET call
+2019-Mar-31 18:14:24 : pastCommits GET call took 0.01 seconds.
+2019-Mar-31 18:15:03 : Loaded dependencies, starting static GTFS Manager program.
+2019-Mar-31 18:15:03 : 
+
+Open http://localhost:5000 in your Web Browser if you don't see it opening automatically in 5 seconds.
+
+Note: If this is through docker, then it's not going to auto-open in browser, don't wait.
+2019-Mar-31 18:15:04 : 
+stats GET call
+2019-Mar-31 18:15:04 : readTableDB: Loaded agency, 1 records
+2019-Mar-31 18:15:04 : agency              : 1 entries
+2019-Mar-31 18:15:04 : calendar            : 2 entries
+2019-Mar-31 18:15:04 : stops               : 107 entries
+2019-Mar-31 18:15:04 : routes              : 3 entries
+2019-Mar-31 18:15:04 : trips               : 1,953 entries
+2019-Mar-31 18:15:04 : stop_times          : 22,785 entries
+2019-Mar-31 18:15:04 : calendar_dates      : 46 entries
+2019-Mar-31 18:15:04 : fare_attributes     : 1,122 entries
+2019-Mar-31 18:15:04 : fare_rules          : 1,122 entries
+2019-Mar-31 18:15:04 : shapes              : 0 entries
+2019-Mar-31 18:15:04 : frequencies         : 0 entries
+2019-Mar-31 18:15:04 : transfers           : 2 entries
+2019-Mar-31 18:15:04 : feed_info           : 1 entries
+2019-Mar-31 18:15:04 : translations        : 119 entries
+2019-Mar-31 18:15:04 : stats GET call took 0.19 seconds.
+2019-Mar-31 18:15:04 : 
+pastCommits GET call
+2019-Mar-31 18:15:04 : pastCommits GET call took 0.01 seconds.
+2019-Mar-31 18:15:14 : 
+gtfsImportZip GET call
+2019-Mar-31 18:15:14 : Saving filename: FukuokaCitySubway-20190316.zip to uploads/
+2019-Mar-31 18:15:14 : 
+backupDB: Creating backup of DB in export/2019-03-31-backup-1815/.
+2019-Mar-31 18:15:14 : Writing agency to disk and zipping...
+2019-Mar-31 18:15:14 : Added agency in 0.016 seconds.
+2019-Mar-31 18:15:14 : Writing calendar to disk and zipping...
+2019-Mar-31 18:15:14 : Added calendar in 0.016 seconds.
+2019-Mar-31 18:15:14 : Writing calendar_dates to disk and zipping...
+2019-Mar-31 18:15:14 : Added calendar_dates in 0.016 seconds.
+2019-Mar-31 18:15:14 : Writing fare_attributes to disk and zipping...
+2019-Mar-31 18:15:14 : Added fare_attributes in 0.016 seconds.
+2019-Mar-31 18:15:14 : Writing fare_rules to disk and zipping...
+2019-Mar-31 18:15:14 : Added fare_rules in 0.016 seconds.
+2019-Mar-31 18:15:14 : Writing feed_info to disk and zipping...
+2019-Mar-31 18:15:14 : Added feed_info in 0.016 seconds.
+2019-Mar-31 18:15:14 : Writing routes to disk and zipping...
+2019-Mar-31 18:15:14 : Added routes in 0.016 seconds.
+2019-Mar-31 18:15:14 : Writing stops to disk and zipping...
+2019-Mar-31 18:15:14 : Added stops in 0.016 seconds.
+2019-Mar-31 18:15:14 : Writing transfers to disk and zipping...
+2019-Mar-31 18:15:14 : Added transfers in 0.016 seconds.
+2019-Mar-31 18:15:14 : Writing translations to disk and zipping...
+2019-Mar-31 18:15:14 : Added translations in 0.016 seconds.
+2019-Mar-31 18:15:14 : Writing trips to disk and zipping...
+2019-Mar-31 18:15:14 : Added trips in 0.037 seconds.
+2019-Mar-31 18:15:14 : Columns for stop_times: ['trip_id', 'pickup_type', 'drop_off_type', 'stop_sequence', 'stop_id', 'departure_time', 'arrival_time', 'stop_headsign']
+2019-Mar-31 18:15:14 : Writing stop_times_1.h5 to csv
+2019-Mar-31 18:15:15 : CSV stop_times.txt created in 0.23 seconds, now zipping
+2019-Mar-31 18:15:15 : Added stop_times to zip in 0.043 seconds.
+2019-Mar-31 18:15:15 : Added stop_times in 0.274 seconds.
+2019-Mar-31 18:15:15 : Generated GTFS feed at export/2019-03-31-backup-1815/
+2019-Mar-31 18:15:15 : Backup created.
+
+2019-Mar-31 18:15:15 : Extracting uploaded zip to uploads/unzip-181515/
+2019-Mar-31 18:15:15 : Extracted files: ['agency.txt', 'calendar.txt', 'calendar_dates.txt', 'fare_attributes.txt', 'fare_rules.txt', 'feed_info.txt', 'routes.txt', 'stops.txt', 'stop_times.txt', 'transfers.txt', 'translations.txt', 'trips.txt']
+2019-Mar-31 18:15:15 : Removed .h5 files from db/
+2019-Mar-31 18:15:15 : Removed .json files from db/
+2019-Mar-31 18:15:15 : db/sequence.json purged.
+2019-Mar-31 18:15:15 : Commencing conversion of gtfs feed files into the DB's .h5 files
+2019-Mar-31 18:15:15 : agency.h5: 1 rows
+2019-Mar-31 18:15:15 : calendar.h5: 2 rows
+2019-Mar-31 18:15:15 : calendar_dates.h5: 46 rows
+2019-Mar-31 18:15:15 : fare_attributes.h5: 1122 rows
+2019-Mar-31 18:15:15 : fare_rules.h5: 1122 rows
+2019-Mar-31 18:15:15 : feed_info.h5: 1 rows
+2019-Mar-31 18:15:15 : routes.h5: 3 rows
+2019-Mar-31 18:15:15 : stops.h5: 107 rows
+2019-Mar-31 18:15:15 : Storing stop_times in chunks.
+2019-Mar-31 18:15:15 : stop_times_1.h5: 22769 rows
+2019-Mar-31 18:15:16 : Appending the 16 rows of last ID to last chunk stop_times_1.h5
+2019-Mar-31 18:15:16 : Lookup json: stop_times_lookup.json created for mapping ID trip_id to stop_times_n.h5 chunk files.
+2019-Mar-31 18:15:16 : transfers.h5: 2 rows
+2019-Mar-31 18:15:16 : translations.h5: 119 rows
+2019-Mar-31 18:15:16 : trips.h5: 1953 rows
+2019-Mar-31 18:15:16 : Finished importing GTFS feed. You can remove the feed zip FukuokaCitySubway-20190316.zip and folder uploads/unzip-181515/ from uploads/ if you want.
+2019-Mar-31 18:15:16 : gtfsImportZip POST call took 1.99 seconds.
+2019-Mar-31 18:15:16 : 
+stats GET call
+2019-Mar-31 18:15:16 : readTableDB: Loaded agency, 1 records
+2019-Mar-31 18:15:16 : agency              : 1 entries
+2019-Mar-31 18:15:16 : calendar            : 2 entries
+2019-Mar-31 18:15:16 : stops               : 107 entries
+2019-Mar-31 18:15:16 : routes              : 3 entries
+2019-Mar-31 18:15:17 : trips               : 1,953 entries
+2019-Mar-31 18:15:17 : stop_times          : 22,785 entries
+2019-Mar-31 18:15:17 : calendar_dates      : 46 entries
+2019-Mar-31 18:15:17 : fare_attributes     : 1,122 entries
+2019-Mar-31 18:15:17 : fare_rules          : 1,122 entries
+2019-Mar-31 18:15:17 : shapes              : 0 entries
+2019-Mar-31 18:15:17 : frequencies         : 0 entries
+2019-Mar-31 18:15:17 : transfers           : 2 entries
+2019-Mar-31 18:15:17 : feed_info           : 1 entries
+2019-Mar-31 18:15:17 : translations        : 119 entries
+2019-Mar-31 18:15:17 : stats GET call took 0.14 seconds.
+2019-Mar-31 18:15:17 : 
+pastCommits GET call
+2019-Mar-31 18:15:17 : pastCommits GET call took 0.0 seconds.
+2019-Mar-31 18:16:16 : 
+gtfsImportZip GET call
+2019-Mar-31 18:16:17 : Saving filename: FukuokaCitySubway-20190316.zip to uploads/
+2019-Mar-31 18:16:17 : 
+backupDB: Creating backup of DB in export/2019-03-31-backup-1816/.
+2019-Mar-31 18:16:17 : Writing agency to disk and zipping...
+2019-Mar-31 18:16:17 : Added agency in 0.016 seconds.
+2019-Mar-31 18:16:17 : Writing calendar to disk and zipping...
+2019-Mar-31 18:16:17 : Added calendar in 0.016 seconds.
+2019-Mar-31 18:16:17 : Writing calendar_dates to disk and zipping...
+2019-Mar-31 18:16:17 : Added calendar_dates in 0.016 seconds.
+2019-Mar-31 18:16:17 : Writing fare_attributes to disk and zipping...
+2019-Mar-31 18:16:17 : Added fare_attributes in 0.016 seconds.
+2019-Mar-31 18:16:17 : Writing fare_rules to disk and zipping...
+2019-Mar-31 18:16:17 : Added fare_rules in 0.016 seconds.
+2019-Mar-31 18:16:17 : Writing feed_info to disk and zipping...
+2019-Mar-31 18:16:17 : Added feed_info in 0.016 seconds.
+2019-Mar-31 18:16:17 : Writing routes to disk and zipping...
+2019-Mar-31 18:16:17 : Added routes in 0.016 seconds.
+2019-Mar-31 18:16:17 : Writing stops to disk and zipping...
+2019-Mar-31 18:16:17 : Added stops in 0.016 seconds.
+2019-Mar-31 18:16:17 : Writing transfers to disk and zipping...
+2019-Mar-31 18:16:17 : Added transfers in 0.016 seconds.
+2019-Mar-31 18:16:17 : Writing translations to disk and zipping...
+2019-Mar-31 18:16:17 : Added translations in 0.016 seconds.
+2019-Mar-31 18:16:17 : Writing trips to disk and zipping...
+2019-Mar-31 18:16:17 : Added trips in 0.035 seconds.
+2019-Mar-31 18:16:17 : Columns for stop_times: ['trip_id', 'pickup_type', 'drop_off_type', 'stop_sequence', 'stop_id', 'departure_time', 'arrival_time', 'stop_headsign']
+2019-Mar-31 18:16:17 : Writing stop_times_1.h5 to csv
+2019-Mar-31 18:16:17 : CSV stop_times.txt created in 0.232 seconds, now zipping
+2019-Mar-31 18:16:17 : Added stop_times to zip in 0.06 seconds.
+2019-Mar-31 18:16:17 : Added stop_times in 0.292 seconds.
+2019-Mar-31 18:16:17 : Generated GTFS feed at export/2019-03-31-backup-1816/
+2019-Mar-31 18:16:17 : Backup created.
+
+2019-Mar-31 18:16:17 : Extracting uploaded zip to uploads/unzip-181617/
+2019-Mar-31 18:16:17 : Extracted files: ['agency.txt', 'calendar.txt', 'calendar_dates.txt', 'fare_attributes.txt', 'fare_rules.txt', 'feed_info.txt', 'routes.txt', 'shapes.txt', 'stops.txt', 'stop_times.txt', 'transfers.txt', 'translations.txt', 'trips.txt']
+2019-Mar-31 18:16:17 : Removed .h5 files from db/
+2019-Mar-31 18:16:17 : Removed .json files from db/
+2019-Mar-31 18:16:17 : db/sequence.json purged.
+2019-Mar-31 18:16:17 : Commencing conversion of gtfs feed files into the DB's .h5 files
+2019-Mar-31 18:16:17 : agency.h5: 1 rows
+2019-Mar-31 18:16:17 : calendar.h5: 2 rows
+2019-Mar-31 18:16:18 : calendar_dates.h5: 46 rows
+2019-Mar-31 18:16:18 : fare_attributes.h5: 1122 rows
+2019-Mar-31 18:16:18 : fare_rules.h5: 1122 rows
+2019-Mar-31 18:16:18 : feed_info.h5: 1 rows
+2019-Mar-31 18:16:18 : routes.h5: 3 rows
+2019-Mar-31 18:16:18 : Storing shapes in chunks.
+2019-Mar-31 18:16:18 : shapes_1.h5: 517 rows
+2019-Mar-31 18:16:18 : Appending the 113 rows of last ID to last chunk shapes_1.h5
+2019-Mar-31 18:16:18 : Lookup json: shapes_lookup.json created for mapping ID shape_id to shapes_n.h5 chunk files.
+2019-Mar-31 18:16:18 : stops.h5: 107 rows
+2019-Mar-31 18:16:18 : Storing stop_times in chunks.
+2019-Mar-31 18:16:18 : stop_times_1.h5: 22769 rows
+2019-Mar-31 18:16:18 : Appending the 16 rows of last ID to last chunk stop_times_1.h5
+2019-Mar-31 18:16:18 : Lookup json: stop_times_lookup.json created for mapping ID trip_id to stop_times_n.h5 chunk files.
+2019-Mar-31 18:16:18 : transfers.h5: 2 rows
+2019-Mar-31 18:16:18 : translations.h5: 119 rows
+2019-Mar-31 18:16:18 : trips.h5: 1953 rows
+2019-Mar-31 18:16:18 : Finished importing GTFS feed. You can remove the feed zip FukuokaCitySubway-20190316.zip and folder uploads/unzip-181617/ from uploads/ if you want.
+2019-Mar-31 18:16:18 : gtfsImportZip POST call took 2.02 seconds.
+2019-Mar-31 18:16:19 : 
+stats GET call
+2019-Mar-31 18:16:19 : readTableDB: Loaded agency, 1 records
+2019-Mar-31 18:16:19 : agency              : 1 entries
+2019-Mar-31 18:16:19 : calendar            : 2 entries
+2019-Mar-31 18:16:19 : stops               : 107 entries
+2019-Mar-31 18:16:19 : routes              : 3 entries
+2019-Mar-31 18:16:19 : trips               : 1,953 entries
+2019-Mar-31 18:16:19 : stop_times          : 22,785 entries
+2019-Mar-31 18:16:19 : calendar_dates      : 46 entries
+2019-Mar-31 18:16:19 : fare_attributes     : 1,122 entries
+2019-Mar-31 18:16:19 : fare_rules          : 1,122 entries
+2019-Mar-31 18:16:19 : shapes              : 630 entries
+2019-Mar-31 18:16:19 : frequencies         : 0 entries
+2019-Mar-31 18:16:19 : transfers           : 2 entries
+2019-Mar-31 18:16:19 : feed_info           : 1 entries
+2019-Mar-31 18:16:19 : translations        : 119 entries
+2019-Mar-31 18:16:19 : stats GET call took 0.14 seconds.
+2019-Mar-31 18:16:20 : 
+pastCommits GET call
+2019-Mar-31 18:16:20 : pastCommits GET call took 0.01 seconds.
+2019-Mar-31 18:16:25 : 
+tableReadSave GET call for table=stops
+2019-Mar-31 18:16:25 : readTableDB: Loaded stops, 107 records
+2019-Mar-31 18:16:26 : tableReadSave GET call for table=stops took 0.02 seconds.
+2019-Mar-31 18:16:27 : 
+tableReadSave POST call for table=stops
+2019-Mar-31 18:16:27 : Replaced stops with new data, 107 entries inserted.
+2019-Mar-31 18:16:28 : tableReadSave POST call for table=stops took 0.22 seconds.
+2019-Mar-31 18:16:31 : 
+tableReadSave GET call for table=calendar
+2019-Mar-31 18:16:31 : readTableDB: Loaded calendar, 2 records
+2019-Mar-31 18:16:31 : tableReadSave GET call for table=calendar took 0.02 seconds.
+2019-Mar-31 18:16:31 : 
+tableReadSave GET call for table=calendar_dates
+2019-Mar-31 18:16:31 : readTableDB: Loaded calendar_dates, 46 records
+2019-Mar-31 18:16:32 : tableReadSave GET call for table=calendar_dates took 0.02 seconds.
+2019-Mar-31 18:16:33 : 
+tableReadSave GET call for table=routes
+2019-Mar-31 18:16:33 : readTableDB: Loaded routes, 3 records
+2019-Mar-31 18:16:33 : tableReadSave GET call for table=routes took 0.02 seconds.
+2019-Mar-31 18:16:33 : 
+agency GET call
+2019-Mar-31 18:16:33 : readTableDB: Loaded agency, 1 records
+2019-Mar-31 18:16:33 : agency GET call took 0.01 seconds.
+2019-Mar-31 18:16:35 : 
+tableReadSave POST call for table=routes
+2019-Mar-31 18:16:35 : Replaced routes with new data, 3 entries inserted.
+2019-Mar-31 18:16:35 : tableReadSave POST call for table=routes took 0.21 seconds.
+2019-Mar-31 18:16:35 : 
+tableReadSave GET call for table=routes
+2019-Mar-31 18:16:35 : readTableDB: Loaded routes, 3 records
+2019-Mar-31 18:16:36 : tableReadSave GET call for table=routes took 0.01 seconds.
+2019-Mar-31 18:16:37 : 
+tableReadSave GET call for table=routes
+2019-Mar-31 18:16:37 : readTableDB: Loaded routes, 3 records
+2019-Mar-31 18:16:38 : tableReadSave GET call for table=routes took 0.02 seconds.
+2019-Mar-31 18:16:38 : 
+calendar GET call
+2019-Mar-31 18:16:38 : readTableDB: Loaded calendar, 2 records
+2019-Mar-31 18:16:38 : 20190331.0
+2019-Mar-31 18:16:38 : calendar GET call took 0.02 seconds.
+2019-Mar-31 18:16:38 : 
+allShapesList GET call
+2019-Mar-31 18:16:38 : allShapesList GET call took 0.05 seconds.
+2019-Mar-31 18:16:38 : 
+allStopsKeyed GET call
+2019-Mar-31 18:16:38 : readTableDB: Loaded stops, 107 records
+2019-Mar-31 18:16:38 : allStopsKeyed GET call took 0.02 seconds.
+2019-Mar-31 18:16:38 : 
+tripIdList GET call
+2019-Mar-31 18:16:38 : readTableDB: Loaded trips, 1953 records
+2019-Mar-31 18:16:38 : tripIdList GET call took 0.04 seconds.
+2019-Mar-31 18:16:40 : 
+trips GET call
+2019-Mar-31 18:16:40 : readTableDB: table:trips, column:route_id, value:"空港線"
+2019-Mar-31 18:16:40 : readTableDB: Loaded trips, 871 records
+2019-Mar-31 18:16:40 : trips GET call took 0.05 seconds.
+2019-Mar-31 18:16:42 : 
+allStopsKeyed GET call
+2019-Mar-31 18:16:42 : readTableDB: Loaded stops, 107 records
+2019-Mar-31 18:16:42 : allStopsKeyed GET call took 0.02 seconds.
+2019-Mar-31 18:16:42 : 
+tableReadSave GET call for table=routes
+2019-Mar-31 18:16:42 : readTableDB: Loaded routes, 3 records
+2019-Mar-31 18:16:42 : tableReadSave GET call for table=routes took 0.02 seconds.
+2019-Mar-31 18:16:42 : 
+allShapesList GET call
+2019-Mar-31 18:16:42 : allShapesList GET call took 0.02 seconds.
+2019-Mar-31 18:16:49 : 
+sequence GET call
+2019-Mar-31 18:16:49 : sequence not found in sequence DB file, so extracting from gtfs tables instead.
+2019-Mar-31 18:16:49 : readTableDB: table:trips, column:route_id, value:"空港線"
+2019-Mar-31 18:16:49 : readTableDB: Loaded trips, 871 records
+2019-Mar-31 18:16:49 : readTableDB: table:stop_times, column:trip_id, value:"空港線平日空港線平日福岡空港4"
+2019-Mar-31 18:16:49 : readTableDB: Loaded stop_times, 13 records
+2019-Mar-31 18:16:49 : extractSequencefromGTFS: Loading sequence for route 空港線, onward direction from trip 空港線平日空港線平日福岡空港4:
+['1_1', '2_1', '3_1', '4_1', '5_1', '6_1', '7_1', '8_1', '9_3', '10_1', '11_1', '12_1', '13_1']
+2019-Mar-31 18:16:49 : readTableDB: table:stop_times, column:trip_id, value:"空港線平日空港線平日姪浜1"
+2019-Mar-31 18:16:49 : readTableDB: Loaded stop_times, 11 records
+2019-Mar-31 18:16:50 : extractSequencefromGTFS: Loading sequence for route 空港線, return direction from trip 空港線平日空港線平日姪浜1:
+['11_2', '10_2', '9_4', '8_2', '7_2', '6_2', '5_2', '4_2', '3_2', '2_2', '1_2']
+2019-Mar-31 18:16:50 : sequence GET call took 0.4 seconds.
+2019-Mar-31 18:16:50 : 
+shapesList GET call
+2019-Mar-31 18:16:50 : readTableDB: table:trips, column:route_id, value:"空港線"
+2019-Mar-31 18:16:50 : readTableDB: Loaded trips, 871 records
+2019-Mar-31 18:16:58 : 
+shape GET call
+2019-Mar-31 18:16:59 : readTableDB: table:shapes, column:shape_id, value:"空港線（福岡空港方面行き）"
+2019-Mar-31 18:16:59 : readTableDB: Loaded shapes, 162 records
+2019-Mar-31 18:16:59 : shape GET call took 0.03 seconds.
+2019-Mar-31 18:17:02 : 
+shape GET call
+2019-Mar-31 18:17:02 : readTableDB: table:shapes, column:shape_id, value:"空港線（姪浜方面行き）"
+2019-Mar-31 18:17:02 : readTableDB: Loaded shapes, 161 records
+2019-Mar-31 18:17:02 : shape GET call took 0.03 seconds.
+2019-Mar-31 18:17:04 : 
+sequence POST call
+2019-Mar-31 18:17:04 : API/sequence POST call took 0.25 seconds.
+2019-Mar-31 18:17:04 : 
+allShapesList GET call
+2019-Mar-31 18:17:05 : allShapesList GET call took 0.01 seconds.
+2019-Mar-31 18:17:05 : 
+shapesList GET call
+2019-Mar-31 18:17:05 : readTableDB: table:trips, column:route_id, value:"空港線"
+2019-Mar-31 18:17:05 : readTableDB: Loaded trips, 871 records
+2019-Mar-31 18:17:05 : 
+shape GET call
+2019-Mar-31 18:17:05 : readTableDB: table:shapes, column:shape_id, value:"空港線（福岡空港方面行き）"
+2019-Mar-31 18:17:05 : readTableDB: Loaded shapes, 162 records
+2019-Mar-31 18:17:05 : shape GET call took 0.02 seconds.
+2019-Mar-31 18:17:05 : 
+shape GET call
+2019-Mar-31 18:17:05 : readTableDB: table:shapes, column:shape_id, value:"空港線（姪浜方面行き）"
+2019-Mar-31 18:17:05 : readTableDB: Loaded shapes, 161 records
+2019-Mar-31 18:17:05 : shape GET call took 0.02 seconds.
+2019-Mar-31 18:17:08 : 
+sequence GET call
+2019-Mar-31 18:17:08 : sequence not found in sequence DB file, so extracting from gtfs tables instead.
+2019-Mar-31 18:17:08 : readTableDB: table:trips, column:route_id, value:"箱崎線"
+2019-Mar-31 18:17:08 : readTableDB: Loaded trips, 502 records
+2019-Mar-31 18:17:08 : readTableDB: table:stop_times, column:trip_id, value:"箱崎線平日箱崎線平日貝塚1"
+2019-Mar-31 18:17:08 : readTableDB: Loaded stop_times, 7 records
+2019-Mar-31 18:17:08 : extractSequencefromGTFS: Loading sequence for route 箱崎線, onward direction from trip 箱崎線平日箱崎線平日貝塚1:
+['9_1', '14_1', '15_1', '16_1', '17_1', '18_1', '19_1']
+2019-Mar-31 18:17:08 : readTableDB: table:stop_times, column:trip_id, value:"箱崎線平日箱崎線平日姪浜2"
+2019-Mar-31 18:17:08 : readTableDB: Loaded stop_times, 7 records
+2019-Mar-31 18:17:08 : extractSequencefromGTFS: Loading sequence for route 箱崎線, return direction from trip 箱崎線平日箱崎線平日姪浜2:
+['19_2', '18_2', '17_2', '16_2', '15_2', '14_2', '9_2']
+2019-Mar-31 18:17:08 : sequence GET call took 0.39 seconds.
+2019-Mar-31 18:17:08 : 
+shapesList GET call
+2019-Mar-31 18:17:08 : readTableDB: table:trips, column:route_id, value:"箱崎線"
+2019-Mar-31 18:17:08 : readTableDB: Loaded trips, 502 records
+2019-Mar-31 18:17:13 : 
+shape GET call
+2019-Mar-31 18:17:13 : readTableDB: table:shapes, column:shape_id, value:"箱崎線（貝塚方面行き）"
+2019-Mar-31 18:17:13 : readTableDB: Loaded shapes, 40 records
+2019-Mar-31 18:17:13 : shape GET call took 0.02 seconds.
+2019-Mar-31 18:17:18 : 
+shape GET call
+2019-Mar-31 18:17:18 : readTableDB: table:shapes, column:shape_id, value:"箱崎線（中洲川端方面行き）"
+2019-Mar-31 18:17:18 : readTableDB: Loaded shapes, 41 records
+2019-Mar-31 18:17:18 : shape GET call took 0.02 seconds.
+2019-Mar-31 18:17:19 : 
+sequence POST call
+2019-Mar-31 18:17:20 : API/sequence POST call took 0.23 seconds.
+2019-Mar-31 18:17:20 : 
+allShapesList GET call
+2019-Mar-31 18:17:20 : allShapesList GET call took 0.01 seconds.
+2019-Mar-31 18:17:20 : 
+shapesList GET call
+2019-Mar-31 18:17:20 : readTableDB: table:trips, column:route_id, value:"箱崎線"
+2019-Mar-31 18:17:20 : readTableDB: Loaded trips, 502 records
+2019-Mar-31 18:17:20 : 
+shape GET call
+2019-Mar-31 18:17:20 : readTableDB: table:shapes, column:shape_id, value:"箱崎線（貝塚方面行き）"
+2019-Mar-31 18:17:20 : readTableDB: Loaded shapes, 40 records
+2019-Mar-31 18:17:20 : shape GET call took 0.02 seconds.
+2019-Mar-31 18:17:20 : 
+shape GET call
+2019-Mar-31 18:17:20 : readTableDB: table:shapes, column:shape_id, value:"箱崎線（中洲川端方面行き）"
+2019-Mar-31 18:17:20 : readTableDB: Loaded shapes, 41 records
+2019-Mar-31 18:17:20 : shape GET call took 0.02 seconds.
+2019-Mar-31 18:17:23 : 
+sequence GET call
+2019-Mar-31 18:17:23 : sequence not found in sequence DB file, so extracting from gtfs tables instead.
+2019-Mar-31 18:17:23 : readTableDB: table:trips, column:route_id, value:"七隈線"
+2019-Mar-31 18:17:23 : readTableDB: Loaded trips, 580 records
+2019-Mar-31 18:17:23 : readTableDB: table:stop_times, column:trip_id, value:"七隈線平日七隈線平日天神南1"
+2019-Mar-31 18:17:23 : readTableDB: Loaded stop_times, 16 records
+2019-Mar-31 18:17:23 : extractSequencefromGTFS: Loading sequence for route 七隈線, onward direction from trip 七隈線平日七隈線平日天神南1:
+['20_1', '21_1', '22_1', '23_1', '24_1', '25_1', '26_1', '27_1', '28_1', '29_1', '30_1', '31_1', '32_1', '33_1', '34_1', '35_1']
+2019-Mar-31 18:17:23 : readTableDB: table:stop_times, column:trip_id, value:"七隈線平日七隈線平日橋本1"
+2019-Mar-31 18:17:23 : readTableDB: Loaded stop_times, 16 records
+2019-Mar-31 18:17:23 : extractSequencefromGTFS: Loading sequence for route 七隈線, return direction from trip 七隈線平日七隈線平日橋本1:
+['35_2', '34_2', '33_2', '32_2', '31_2', '30_2', '29_2', '28_2', '27_2', '26_2', '25_2', '24_2', '23_2', '22_2', '21_2', '20_2']
+2019-Mar-31 18:17:23 : sequence GET call took 0.39 seconds.
+2019-Mar-31 18:17:23 : 
+shapesList GET call
+2019-Mar-31 18:17:23 : readTableDB: table:trips, column:route_id, value:"七隈線"
+2019-Mar-31 18:17:23 : readTableDB: Loaded trips, 580 records
+2019-Mar-31 18:17:30 : 
+shape GET call
+2019-Mar-31 18:17:30 : readTableDB: table:shapes, column:shape_id, value:"七隈線（天神南方面行き）"
+2019-Mar-31 18:17:30 : readTableDB: Loaded shapes, 113 records
+2019-Mar-31 18:17:30 : shape GET call took 0.03 seconds.
+2019-Mar-31 18:17:33 : 
+shape GET call
+2019-Mar-31 18:17:33 : readTableDB: table:shapes, column:shape_id, value:"七隈線（橋本方面行き）"
+2019-Mar-31 18:17:33 : readTableDB: Loaded shapes, 113 records
+2019-Mar-31 18:17:33 : shape GET call took 0.02 seconds.
+2019-Mar-31 18:17:35 : 
+sequence POST call
+2019-Mar-31 18:17:35 : API/sequence POST call took 0.23 seconds.
+2019-Mar-31 18:17:35 : 
+allShapesList GET call
+2019-Mar-31 18:17:35 : allShapesList GET call took 0.01 seconds.
+2019-Mar-31 18:17:35 : 
+shapesList GET call
+2019-Mar-31 18:17:35 : readTableDB: table:trips, column:route_id, value:"七隈線"
+2019-Mar-31 18:17:35 : readTableDB: Loaded trips, 580 records
+2019-Mar-31 18:17:35 : 
+shape GET call
+2019-Mar-31 18:17:35 : readTableDB: table:shapes, column:shape_id, value:"七隈線（天神南方面行き）"
+2019-Mar-31 18:17:35 : readTableDB: Loaded shapes, 113 records
+2019-Mar-31 18:17:35 : shape GET call took 0.02 seconds.
+2019-Mar-31 18:17:35 : 
+shape GET call
+2019-Mar-31 18:17:35 : readTableDB: table:shapes, column:shape_id, value:"七隈線（橋本方面行き）"
+2019-Mar-31 18:17:35 : readTableDB: Loaded shapes, 113 records
+2019-Mar-31 18:17:35 : shape GET call took 0.02 seconds.
+2019-Mar-31 18:17:39 : 
+tableReadSave GET call for table=frequencies
+2019-Mar-31 18:17:39 : readTableDB: Loaded frequencies, 0 records
+2019-Mar-31 18:17:40 : tableReadSave GET call for table=frequencies took 0.01 seconds.
+2019-Mar-31 18:17:40 : 
+routeIdList GET call
+2019-Mar-31 18:17:40 : 
+tableColumn GET call for table=routes, column=route_id
+2019-Mar-31 18:17:40 : readTableDB: Loaded routes, 3 records
+2019-Mar-31 18:17:40 : tableColumn GET call took 0.03 seconds.
+2019-Mar-31 18:17:42 : 
+tableReadSave GET call for table=fare_attributes
+2019-Mar-31 18:17:42 : readTableDB: Loaded fare_attributes, 1122 records
+2019-Mar-31 18:17:42 : tableReadSave GET call for table=fare_attributes took 0.02 seconds.
+2019-Mar-31 18:17:42 : 
+zoneIdList GET call
+2019-Mar-31 18:17:42 : readTableDB: Loaded stops, 107 records
+2019-Mar-31 18:17:42 : zoneIdList GET call took 0.02 seconds.
+2019-Mar-31 18:17:42 : 
+routeIdList GET call
+2019-Mar-31 18:17:42 : readTableDB: Loaded routes, 3 records
+2019-Mar-31 18:17:42 : routeIdList GET call took 0.02 seconds.
+2019-Mar-31 18:17:42 : 
+tableReadSave GET call for table=fare_rules
+2019-Mar-31 18:17:42 : readTableDB: Loaded fare_rules, 1122 records
+2019-Mar-31 18:17:43 : tableReadSave GET call for table=fare_rules took 0.02 seconds.
+2019-Mar-31 18:17:43 : 
+fareRulesPivoted GET call
+2019-Mar-31 18:17:43 : readTableDB: Loaded fare_rules, 1122 records
+2019-Mar-31 18:17:43 : fareRulesPivoted GET call took 0.02 seconds.
+2019-Mar-31 18:17:51 : 
+tableReadSave GET call for table=translations
+2019-Mar-31 18:17:51 : readTableDB: Loaded translations, 119 records
+2019-Mar-31 18:17:52 : tableReadSave GET call for table=translations took 0.02 seconds.
+2019-Mar-31 18:17:58 : 
+allStopsKeyed GET call
+2019-Mar-31 18:17:58 : readTableDB: Loaded stops, 107 records
+2019-Mar-31 18:17:58 : allStopsKeyed GET call took 0.02 seconds.
+2019-Mar-31 18:17:58 : 
+tableReadSave GET call for table=routes
+2019-Mar-31 18:17:58 : readTableDB: Loaded routes, 3 records
+2019-Mar-31 18:17:59 : tableReadSave GET call for table=routes took 0.02 seconds.
+2019-Mar-31 18:17:59 : 
+allShapesList GET call
+2019-Mar-31 18:17:59 : allShapesList GET call took 0.01 seconds.
+2019-Mar-31 18:18:00 : 
+listAll GET call
+2019-Mar-31 18:18:00 : readTableDB: Loaded stops, 107 records
+2019-Mar-31 18:18:00 : readTableDB: Loaded stops, 107 records
+2019-Mar-31 18:18:00 : readTableDB: Loaded routes, 3 records
+2019-Mar-31 18:18:00 : readTableDB: Loaded trips, 1953 records
+2019-Mar-31 18:18:00 : readTableDB: Loaded fare_rules, 1122 records
+2019-Mar-31 18:18:00 : readTableDB: Loaded fare_rules, 1122 records
+2019-Mar-31 18:18:00 : readTableDB: Loaded fare_attributes, 1122 records
+2019-Mar-31 18:18:00 : readTableDB: Loaded agency, 1 records
+2019-Mar-31 18:18:01 : readTableDB: Loaded calendar, 2 records
+2019-Mar-31 18:18:01 : readTableDB: Loaded calendar_dates, 46 records
+2019-Mar-31 18:18:01 : listAll GET call took 0.22 seconds.
+2019-Mar-31 18:18:03 : 
+listAll GET call
+2019-Mar-31 18:18:03 : readTableDB: Loaded stops, 107 records
+2019-Mar-31 18:18:03 : readTableDB: Loaded stops, 107 records
+2019-Mar-31 18:18:03 : readTableDB: Loaded routes, 3 records
+2019-Mar-31 18:18:03 : readTableDB: Loaded trips, 1953 records
+2019-Mar-31 18:18:03 : readTableDB: Loaded fare_rules, 1122 records
+2019-Mar-31 18:18:03 : readTableDB: Loaded fare_rules, 1122 records
+2019-Mar-31 18:18:03 : readTableDB: Loaded fare_attributes, 1122 records
+2019-Mar-31 18:18:03 : readTableDB: Loaded agency, 1 records
+2019-Mar-31 18:18:03 : readTableDB: Loaded calendar, 2 records
+2019-Mar-31 18:18:03 : readTableDB: Loaded calendar_dates, 46 records
+2019-Mar-31 18:18:03 : listAll GET call took 0.22 seconds.
+2019-Mar-31 18:18:06 : 
+stats GET call
+2019-Mar-31 18:18:06 : readTableDB: Loaded agency, 1 records
+2019-Mar-31 18:18:06 : agency              : 1 entries
+2019-Mar-31 18:18:06 : calendar            : 2 entries
+2019-Mar-31 18:18:06 : stops               : 107 entries
+2019-Mar-31 18:18:06 : routes              : 3 entries
+2019-Mar-31 18:18:06 : trips               : 1,953 entries
+2019-Mar-31 18:18:06 : stop_times          : 22,785 entries
+2019-Mar-31 18:18:06 : calendar_dates      : 46 entries
+2019-Mar-31 18:18:06 : fare_attributes     : 1,122 entries
+2019-Mar-31 18:18:06 : fare_rules          : 1,122 entries
+2019-Mar-31 18:18:06 : shapes              : 630 entries
+2019-Mar-31 18:18:06 : frequencies         : 0 entries
+2019-Mar-31 18:18:06 : transfers           : 2 entries
+2019-Mar-31 18:18:06 : feed_info           : 1 entries
+2019-Mar-31 18:18:06 : translations        : 119 entries
+2019-Mar-31 18:18:06 : stats GET call took 0.16 seconds.
+2019-Mar-31 18:18:07 : 
+pastCommits GET call
+2019-Mar-31 18:18:07 : pastCommits GET call took 0.01 seconds.

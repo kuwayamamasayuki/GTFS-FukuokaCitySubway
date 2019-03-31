@@ -1,0 +1,312 @@
+/* General Styles */
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #333333;
+  background-color: #ffffff;
+}
+
+h1 {
+  margin-bottom: 10px;
+  font-size: 32px;
+}
+
+h2 {
+  font-size: 22px;
+}
+
+h3 {
+  font-size: 16px;
+}
+
+@media screen and (max-width: 767px) {
+  h1 {
+    font-size: 24px;
+  }
+
+  h2 {
+    font-size: 16px;
+  }
+
+  h3 {
+    font-size: 15px;
+  }
+}
+
+/* Timetable Styles */
+
+.timetable-page {
+  padding-top: 10px;
+}
+
+.timetable-page-label {
+  margin-bottom: 0;
+}
+
+.effective-date {
+  margin-bottom: 10px;
+}
+
+.row-menu {
+  padding-bottom: 15px;
+}
+
+.btn-jump-menu {
+  margin-top: 5px;
+  white-space: normal;
+  margin-left: 8px;
+}
+
+.timetable {
+  margin-bottom: 35px;
+}
+
+.menu-type-radio .timetable {
+  display: none;
+}
+
+.notes .note {
+  display: inline-block;
+  margin-right: 15px;
+}
+
+.route-name {
+  width: 350px;
+  display: inline-block;
+  font-weight: bold;
+  line-height: 28px;
+}
+
+.timetable .stop-header {
+  text-align: center;
+}
+
+.timetable .run-header {
+  text-align: center;
+}
+
+.timetable .run-footer {
+  text-align: center;
+}
+
+.timetable .run-footer .continues-as-route {
+  font-weight: bold;
+}
+
+.timetable .stop-code {
+  font-weight: normal;
+}
+
+.timetable .stop-time {
+  text-align: center;
+}
+
+.timetable .stop-time.pm {
+  font-weight: bold;
+}
+
+.timetable .symbol {
+  padding-left: 4px;
+}
+
+.timetable .trip-frequency {
+  text-align: center;
+  font-weight: bold;
+}
+
+.city-row {
+  font-size: 1.5em;
+  color: #415d86;
+}
+
+.timetable .table-container {
+  overflow-x: scroll;
+  margin-bottom: 1rem;
+}
+
+.timetable .table-container .table {
+  margin-bottom: 0;
+}
+
+.timetable .table-container::-webkit-scrollbar {
+  -webkit-appearance: none;
+  height: 8px;
+}
+
+.timetable .table-container::-webkit-scrollbar-track {
+  background-color: rgba(57, 57, 57, .2);
+  border-radius: 4px;
+}
+.timetable .table-container::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(156, 156, 156, 0.8);
+}
+
+.timetable thead tr {
+  background: #72b1e6;
+}
+
+.timetable thead tr a {
+  color: #333333;
+}
+
+.timetable th {
+  text-align: left;
+}
+
+.timetable td,
+.timetable th {
+  padding: 0;
+}
+
+.timetable table > thead > tr > th,
+.timetable table > tbody > tr > th,
+.timetable table > tfoot > tr > th,
+.timetable table > thead > tr > td,
+.timetable table > tbody > tr > td,
+.timetable table > tfoot > tr > td {
+  padding: 8px;
+  line-height: 1.42857143;
+  vertical-align: top;
+  border: 1px solid #dddddd;
+}
+
+.timetable table > thead > tr > th {
+  vertical-align: top;
+  border-bottom: 2px solid #dddddd;
+}
+
+.timetable table > caption + thead > tr:first-child > th,
+.timetable table > colgroup + thead > tr:first-child > th,
+.timetable table > thead:first-child > tr:first-child > th,
+.timetable table > caption + thead > tr:first-child > td,
+.timetable table > colgroup + thead > tr:first-child > td,
+.timetable table > thead:first-child > tr:first-child > td {
+  border-top: 0;
+}
+
+.timetable table > tbody + tbody {
+  border-top: 2px solid #dddddd;
+}
+
+.timetable table > thead > tr > th,
+.timetable table > thead > tr > td {
+  border-bottom-width: 2px;
+}
+
+.timetable table > tbody > tr:nth-of-type(odd) {
+  background-color: #f9f9f9;
+}
+
+.table-responsive {
+  min-height: .01%;
+  overflow-x: auto;
+}
+
+.table-horizontal tbody tr th.stop-name-container {
+  min-width: 250px;
+}
+
+.table-hourly {
+  width: auto;
+}
+
+.route-color-swatch {
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  margin-right: 6px;
+  display: inline-block;
+}
+
+.route-color-swatch-large {
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  margin-right: 8px;
+  display: inline-block;
+}
+
+.overview-list {
+  overflow-y: scroll;
+  margin-bottom: 0;
+}
+
+@media screen and (max-width: 767px) {
+  .table-responsive {
+    width: 100%;
+    margin-bottom: 15px;
+    overflow-y: hidden;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    border: 1px solid #ddd;
+  }
+  .table-responsive > table {
+    margin-bottom: 0;
+  }
+  .table-responsive > table > thead > tr > th,
+  .table-responsive > table > tbody > tr > th,
+  .table-responsive > table > tfoot > tr > th,
+  .table-responsive > table > thead > tr > td,
+  .table-responsive > table > tbody > tr > td,
+  .table-responsive > table > tfoot > tr > td {
+    white-space: nowrap;
+  }
+  .table-responsive > .table-bordered {
+    border: 0;
+  }
+  .table-responsive > .table-bordered > thead > tr > th:first-child,
+  .table-responsive > .table-bordered > tbody > tr > th:first-child,
+  .table-responsive > .table-bordered > tfoot > tr > th:first-child,
+  .table-responsive > .table-bordered > thead > tr > td:first-child,
+  .table-responsive > .table-bordered > tbody > tr > td:first-child,
+  .table-responsive > .table-bordered > tfoot > tr > td:first-child {
+    border-left: 0;
+  }
+  .table-responsive > .table-bordered > thead > tr > th:last-child,
+  .table-responsive > .table-bordered > tbody > tr > th:last-child,
+  .table-responsive > .table-bordered > tfoot > tr > th:last-child,
+  .table-responsive > .table-bordered > thead > tr > td:last-child,
+  .table-responsive > .table-bordered > tbody > tr > td:last-child,
+  .table-responsive > .table-bordered > tfoot > tr > td:last-child {
+    border-right: 0;
+  }
+  .table-responsive > .table-bordered > tbody > tr:last-child > th,
+  .table-responsive > .table-bordered > tfoot > tr:last-child > th,
+  .table-responsive > .table-bordered > tbody > tr:last-child > td,
+  .table-responsive > .table-bordered > tfoot > tr:last-child > td {
+    border-bottom: 0;
+  }
+
+  .table-horizontal tbody tr th.stop-name-container {
+    min-width: 175px;
+  }
+}
+
+/* Map Styles */
+
+.map {
+  width: 100%;
+  height: 300px;
+}
+
+.map .marker {
+  width: 15px;
+  height: 15px;
+  border: 1px solid #111;
+  border-radius: 16px;
+  background: #4171ff;
+  cursor: pointer;
+  opacity: 0.9;
+}
+
+.map .mapboxgl-popup-content h4 {
+  margin: 0 20px 0 0;
+}
+
+@media screen and (max-width: 767px) {
+  .map {
+    height: 300px;
+  }
+}

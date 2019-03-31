@@ -1,0 +1,55 @@
+<html><head><title>Graph report for .Graph.obj</title>
+	<meta charset="utf-8">
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<script src='http://code.jquery.com/jquery-1.11.1.js'></script>
+<link rel='stylesheet' href='http://yui.yahooapis.com/pure/0.5.0/pure-min.css'>
+		<style>
+
+			button.pure-button {
+				margin:5px;
+			}
+
+			span.pure-button {
+				cursor:default;
+			}
+
+			.button-graphwide,
+			.button-parkandrideunlinked,
+			.button-graphconnectivity,
+			.button-turnrestrictionbad	{
+				color:white;
+				text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+			}
+
+			.button-graphwide {
+				background: rgb(28, 184, 65); /* this is a green */
+			}
+
+			.button-parkandrideunlinked {
+				background: rgb(202, 60, 60); /* this is a maroon */
+			}
+
+			.button-graphconnectivity{
+				background: rgb(223, 117, 20); /* this is an orange */
+			}
+
+			.button-turnrestrictionbad {
+				background: rgb(66, 184, 221); /* this is a light blue */
+			}
+
+		</style>
+
+</head><body>
+<h1>OpenTripPlanner annotations log for Graphwide1</h1>
+<h2>Graph report for .Graph.obj</h2>
+<p>
+<a class='pure-button button-turnrestrictionexception' href="TurnRestrictionException1.html">TurnRestrictionException1</a>
+<a class='pure-button button-graphconnectivity' href="GraphConnectivity1.html">GraphConnectivity1</a>
+<a class='pure-button button-turnrestrictionbad' href="TurnRestrictionBad1.html">TurnRestrictionBad1</a>
+<a class='pure-button button-parkandrideunlinked' href="ParkAndRideUnlinked1.html">ParkAndRideUnlinked1</a>
+<a class='pure-button button-stoplinkedtoofar' href="StopLinkedTooFar1.html">StopLinkedTooFar1</a>
+<button class='pure-button pure-button-disabled button-graphwide'>Graphwide1</button>
+</p>
+<ul id="log">
+<li>graph-wide: Multiplying all bike safety values by 1.6666666</li></ul>
+</body></html>

@@ -1,0 +1,9 @@
+{
+    "htmlAnnotations": true,
+    "useTransfersTxt": true,
+    "parentStopLinking": true,
+    "stationTransfers": true,
+    "stopClusterMode": "parentStation",
+    "maxInterlineDistance": 700,
+    "maxTransferDistance": 2000
+}

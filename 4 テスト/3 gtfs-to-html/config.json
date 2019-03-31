@@ -1,0 +1,28 @@
+{
+  "agencies": [
+    {
+      "agency_key": "福岡市地下鉄",
+      "path": "./FukuokaCitySubway/"
+    }
+  ],
+  "bearutify": true,
+  "coordinatePrecision": 5,
+  "effectivedate": "2019/3/16",
+  "linkStopUrls": true,
+  "mapboxAccessToken": "YOUR-KEY",
+  "menuType": "simple",
+  "mongoUrl": "mongodb://localhost:27017/gtfs",
+  "noHead": false,
+  "noServiceSymbol": "—",
+  "requestPickupSymbol": "***",
+  "noPickupSymbol": "**",
+  "requestDropoffSymbol": "†",
+  "noDropoffSymbol": "‡",
+  "interpolatedStopSymbol": "•",
+  "showMap": true,
+  "showOnlyTimepoint": true,
+  "showRouteTitle": true,
+  "showStopCity": false,
+  "verbose": true,
+  "zipOutput": false
+}

@@ -1,0 +1,9 @@
+Feed Version: undefined
+Date Generated: Sun Mar 31 2019 08:57:17 GMT+0000 (UTC)
+Timetable Page Count 3
+Timetable Count: 12
+Calendar Service ID Count: 6
+Route Count: 3
+Trip Count: 1952
+Stop Count: 144
+Source: ./FukuokaCitySubway/

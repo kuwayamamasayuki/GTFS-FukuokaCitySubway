@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>Stops Management</title>
+<link href="lib/leaflet.css" orig="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" rel="stylesheet">
+<link href="lib/jquery-ui.min.css" rel="stylesheet">
+<link href="lib/tabulator.min.css" rel="stylesheet">
+<link href="lib/bootstrap.v4.0.0.min.css" crossorigin="anonymous" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+<link rel="stylesheet" href="lib/easy-button.css" alt="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+<link href="lib/L.Control.ZoomBox.css" rel="stylesheet">
+<link href="js/commonstyle.css" rel="stylesheet">
+<!-- Put the CSSs first and JSs next -->
+
+<script src="lib/jquery-3.3.1.min.js" type="text/javascript"></script>
+<script src="lib/jquery-ui.min.js" type="text/javascript"></script>
+<script src="lib/leaflet.js"></script>
+<script src="lib/easy-button.js" alt="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+<script src="lib/tabulator.js" type="text/javascript"></script>
+<script src="lib/popper.v1.12.9.min.js" crossorigin="anonymous" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" alt="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="lib/bootstrap.v4.0.0.min.js" crossorigin="anonymous" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="lib/papaparse.min.js" type="text/javascript"></script>
+<script src="lib/L.Control.ZoomBox.min.js" type="text/javascript"></script>
+<style>
+#allcontainer {
+width: 100%;
+}
+#leftcontainer {
+float:left; width:60%;
+}
+
+#rightcontainer {
+float:right; width: 40%;
+}
+
+#map, #stops-table {
+width: 98%;
+}
+#map {
+height: 500px;
+}
+#stops-table {
+height: 400px;
+}
+
+/* leaflet stop markers */
+.stop-divicon {
+	border-radius: 50%;
+	color: white;
+	padding-top: 1px;
+	position: absolute;
+	text-align: center;
+	overflow: hidden;
+	box-shadow:0px 0px 5px black; /*looks 3D! no need of a border*/
+	background-color: rgba(0, 0, 150, 0.7);
+	font-size: 10px;
+	font-weight: 600;
+}
+
+</style>
+
+</head>
+<body>
+<div id="navBar"></div>
+<div class="container-fluid"><h2>Stops</h2>
+
+<div id="instructions" class="container">
+<h3>Instructions</h3>
+<div>
+<b>List tab:</b>
+<ul>
+<li>Click on a stop id or name for a quick edit.</li>
+<li>To select a stop in the table, click on the left side handlebar. The stop will get highlighted on the map as well.</li>
+<li>You can also click on a stop on the map to higlight its row in the table.</li>
+<li>Looking for a particular stop? You can filter the stops table by typing into the filter inputs on the column headers and pressing [Enter] key.</li>
+<li>Apply the table's filters on the map view also, by clicking the filter button on map (funnel icon).</li>
+<li>Revert the map to showing all stops by clicking the Home icon.</li>
+</ul>
+
+<b>Add/Edit tab:</b>
+<ul>
+<li>Go to the Add/Edit tab to edit the stops data.</li>
+<li>Click a stop on the map, and then the fields should auto-populate with the existing values.</li>
+<li>To change the stop's location, you can click at the new location on the map. You should see a red dot, and the lat-long values will change by themselves.</li>
+<li>Press "Click to Add/Update" to update the stops table with updated data.</li>
+<li>Similarly you can add a new stop by typing in a unique stop_id that has not already been used and following the same process.</li>
+
+<li><b>zone_id</b> field is used in <a href="fares.html">Fares Section</a>. In the station pairs model, this is typically same as stop_id.</li>
+</ul>
+
+<p>More info: <a href="https://developers.google.com/transit/gtfs/reference/#stopstxt" target="_blank">GTFS stops specs</a></p>
+</div></div><!-- Accordion over -->
+<br>
+</div>
+
+<div id="allcontainer">
+<div class="container" id="leftcontainer">
+
+<!-- Tabs Menu -->
+<div id="tabs">
+<ul>
+<li><a href="#home">List</a></li>
+<li><a href="#addeditstop">Add / Edit</a></li>
+</ul>
+
+
+<!-- MAIN LIST -->
+<div id="home">
+
+<div id="stops-table"></div>
+<br>
+<p><button id="copytable">Copy Table</button></p>
+<p align="center" id="undoredo" style="display:none"><br>
+
+Changes: <button class="btn-warning btn-sm" id="history-undo" type="button">Undo</button> | 
+<button class="btn-info btn-sm" id="history-redo" type="button">Redo</button></p>
+
+</div>
+
+
+<!-- ADD/EDIT -->
+<div id="addeditstop">
+<!-- stop_id,stop_name,stop_lat,stop_lon,zone_id,wheelchair_boarding -->
+<h3>Add a new stop, or edit an existing one</h3>
+<p>Pick a stop_id: <input autocapitalize="characters" class="autocomplete" id='targetStopid' placeholder='stop id'></p>
+<p><small>You can click a stop on the map to select it. Or you can type in the stop_id.<br>The existing stop_id's will appear as you are typing. If you are adding a new stop, make sure you type an id that is not already existing. Also, see your agency's standardization for stops. Typical is all-caps, 4~6 letters.</small></p>
+<p>Stop name: <input id='stop_name' placeholder="full name" type="text"></p>
+
+<p><label for="wheelchair">Wheelchair boarding:</label> <select id="wheelchair" name="wheelchair">
+<option selected value="0">No</option>
+<option selected value="1">Yes</option>
+</select></p>
+<p>Location: <input id="newlatlng" placeholder="Lat,Long" size="10" type="text"> <small>click on the map to set a new location (you'll see a red dot)</small></p>
+<p>Zone_id: <input id='zone_id' placeholder="usually same as stop_id" title="used for fare rules; usually same as stop_id" type="text"> <small>used for fare rules; usually same as stop_id</small></p>
+<p><button class="btn-primary btn-lg" onclick="updateTable()" type="button">Click to add/update</button></p>
+</div>
+
+</div>
+</div>
+
+<div id="rightcontainer">
+<div id="map"></div>
+<br>
+<p>Once all edits are done, <button class="btn btn-success" id="savetable" name="savetable">Save Stops to DB</button></p>
+<p><small id="stopSaveStatus"></small></p>
+</div>
+
+
+<div style="clear:both"></div>
+<div id="logaccordion" class="container" style="visibility: hidden;">
+<h3>Changes Log</h3>
+<div>
+<p><textarea id="trackChanges" rows=10></textarea>
+</p>
+
+</div></div><!-- Accordion over -->
+
+<br><br>
+</div>
+
+<script src="config/settings.js" type="text/javascript"></script>
+<script src="js/commonfuncs.js" type="text/javascript"></script>
+<script src="js/stops.js" type="text/javascript"></script>
+
+</body>
+</html>
