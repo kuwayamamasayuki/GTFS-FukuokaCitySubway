@@ -79,6 +79,7 @@ src/fukuoka_gtfs/
   downloader / cli / config / model
 scripts/seed_reference.py  参照データのシード（2019 年版から）
 scripts/verify_fares.py    運賃を公式運賃表 PDF の三角表から抽出・全ペア検証（--write で再生成）
+scripts/fetch_jorudan_fares.py  ジョルダン運賃を取得し突合フィクスチャを更新（Issue #10）
 ```
 
 ### 設計のポイント
@@ -116,9 +117,13 @@ scripts/verify_fares.py    運賃を公式運賃表 PDF の三角表から抽出
    - **駅が増えた場合のみ** … `reference_gtfs/stops.txt`（親駅＋子ホーム）と
      `config/stations.yaml`、`reference_gtfs/translations.txt`
 3. `python -m fukuoka_gtfs.cli all --download-tools` で再生成・検証する。
-4. 時刻表確認テスト（ジョルダン突合）の基準データを更新する:
-   - `python scripts/fetch_jorudan_fixtures.py` … ジョルダンの最新ダイヤを再取得（`tests/fixtures/jorudan/`）。
-   - `python scripts/gen_expected_diffs.py` … 既知差分の許容リストを作り直す（`build/gtfs` が必要）。
+4. 確認テストの基準データを更新する:
+   - 時刻表（ジョルダン突合）: `python scripts/fetch_jorudan_fixtures.py` …
+     ジョルダンの最新ダイヤを再取得（`tests/fixtures/jorudan/`）。続けて
+     `python scripts/gen_expected_diffs.py` … 既知差分の許容リストを作り直す（`build/gtfs` が必要）。
+   - 運賃（ジョルダン突合・Issue #10）: 運賃改定時のみ
+     `python scripts/fetch_jorudan_fares.py` でジョルダン運賃を再取得し
+     `tests/fixtures/jorudan_fares.json` を更新する。
 
 ## 検証（GTFS Validators）
 
@@ -179,3 +184,19 @@ python -m pytest -q
 - 索引に無い 天神南→博多（七隈線 dir0）は対象外。
 
 詳細な設計は `docs/superpowers/specs/2026-05-30-timetable-verification-design.md`。
+
+### 運賃の確認テスト（ジョルダン突合・Issue #10）
+
+生成 GTFS の **全 630 駅ペア** の運賃（`fare_attributes.txt` / `fare_rules.txt`）を、
+ジョルダンの[発着・料金検索](https://fukuoka-city-subway.jorudan.biz/pc/route)が示す
+**普通料金**と突合する。公式運賃表 PDF（`scripts/verify_fares.py`）とは独立した第 2 の検証。
+
+- 料金検索のトップは JS 駆動の SPA だが、結果ページ(`/pc/nsresult`)はサーバ描画なので、
+  `scripts/fetch_jorudan_fares.py` が結果 URL を直接 GET して普通料金を一度だけ取得し
+  （ブラウザ不要・既存の `requests` のみ）、`tests/fixtures/jorudan_fares.json` に保存する。
+  **テストはこの JSON を読むだけでネットワークに依存しない**。
+- 既知の相違は `config/jorudan_fare_verify.yaml` の `allow` に登録して許容し、
+  **それ以外の不一致が出たら失敗**する（回帰検知）。原則 0 件。
+- フィクスチャ未取得の環境では skip する（同梱済みなら常に実行）。
+
+詳細な設計は `docs/superpowers/specs/2026-05-30-fare-verification-design.md`。
