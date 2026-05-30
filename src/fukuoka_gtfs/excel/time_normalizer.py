@@ -43,11 +43,14 @@ def normalize_sequence(
     """1 便の時刻割合列 → 00:00 起点の経過秒列（24 時超は 86400 以上）。
 
     規則:
-      0. 各時刻を分単位に丸める（秒の誤差を吸収）。
+      0. 各時刻を分単位へ切り捨てる（秒は公式公開時刻に倣い切り捨て）。
+         七隈線 .xlsx の深夜便は実秒付き（例 00:31:42）で格納されるが、公開時刻は
+         分単位（秒切り捨て）。四捨五入すると秒>=30 の便が +1 分ずれる（Issue #7）。
+         float 誤差で正分が 1 分早まらないよう、一旦秒へ丸めてから分へ切り捨てる。
       (a) 先頭が threshold 未満なら前日ダイヤの続きとみなし全体に +24h。
       (b) 便内で前停車より小さい時刻が出たら、それ以降に +24h（運行中の 0 時跨ぎ）。
     """
-    secs = [round(f * 1440) * 60 for f in fractions]  # 分丸め
+    secs = [(round(f * DAY_SEC) // 60) * 60 for f in fractions]  # 秒へ正規化→分へ切り捨て
     if secs and secs[0] < threshold_sec:
         secs = [s + DAY_SEC for s in secs]
     for i in range(1, len(secs)):
