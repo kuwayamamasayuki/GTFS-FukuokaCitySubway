@@ -47,6 +47,17 @@ python -m fukuoka_gtfs.cli all --download-tools
 | **Excel から毎回生成** | `trips.txt` `stop_times.txt` `calendar.txt` `calendar_dates.txt` `feed_info.txt` |
 | **参照データ（`reference_gtfs/`）** | `agency.txt` `agency_jp.txt` `routes.txt` `routes_jp.txt` `stops.txt` `translations.txt` `transfers.txt` `shapes.txt` `fare_attributes.txt` `fare_rules.txt` |
 
+## 配布物（`dist/`）
+
+最新ダイヤで生成済みの GTFS-JP フィードを `dist/` に同梱しています。パイプラインを
+動かさなくても、そのまま利用・ダウンロードできます。
+
+- `dist/*.txt` — フィード本体（GitHub 上で差分も追える）
+- `dist/FukuokaCitySubway.zip` — 配信・各種ツール取り込み用の zip
+
+更新は `make publish`（`build` 実行後に `build/gtfs/` を `dist/` へ反映）で行います。
+（`build/` 自体は一時生成物として `.gitignore` 済み。`dist/` が公開スナップショット。）
+
 ## アーキテクチャ
 
 ```
