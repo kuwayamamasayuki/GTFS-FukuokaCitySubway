@@ -9,6 +9,7 @@
 | 運行マップ | `map.html` | **運行アニメーション**（A）。一日の全便が 3 色の路線を実ダイヤで走行。時刻・速度・区分・走行本数。deck.gl 製 |
 | 発車標 | `board.html` | **発車標・時刻表ビューア**（B）。駅選択・平日/土曜/休日・日本語/English・基準時刻スライダー |
 | HTML 時刻表 | `gtfs-to-html/html/index.html` | **既製ツール [GTFS-to-HTML](https://gtfstohtml.com/) 連携**（Issue #17）。フィードから路線別の印刷向け時刻表 HTML を自動生成。詳細は [`gtfs-to-html/README.md`](gtfs-to-html/README.md) |
+| 運行アニメーション（Processing） | `transitland-animation/` | **既製ツール [TransitFlow](https://github.com/transitland/transitland-processing-animation) 連携**（Issue #18）。フィードから Processing 用の運行アニメーション入力を生成。詳細は [`transitland-animation/README.md`](transitland-animation/README.md) |
 
 ## 動かし方
 
@@ -47,6 +48,9 @@ demo/
     config.json       gtfs-to-html 設定（入力=dist の feed.zip、出力=html/）
     package.json      gtfs-to-html をローカル導入する定義（要 Node.js 20+）
     html/             生成済み HTML 時刻表（index + 路線別ページ）
+  transitland-animation/  既製ツール TransitFlow で運行アニメーションを作る例（Issue #18）
+    gtfs_to_transitflow.py  GTFS → TransitFlow 入力（output.csv / vehicle_counts）変換器
+    data/             生成済み入力データ（Processing スケッチがそのまま読める）
 ```
 
 ## スクリーンショット撮影
@@ -88,6 +92,21 @@ make demo-html            # = cd demo/gtfs-to-html && npm install && npm run bui
 ```
 
 詳細・設定の説明は [`gtfs-to-html/README.md`](gtfs-to-html/README.md) を参照してください。
+
+## 運行アニメーション（TransitFlow / Processing）
+
+[TransitFlow](https://github.com/transitland/transitland-processing-animation) は一日の運行を
+地図上で動く点として描く Processing 製ツールです。本家は廃止済みの Transitland API v1 に
+依存するため、本リポジトリでは **ローカル GTFS から Processing 用入力を直接生成する変換器**と、
+**生成済みの入力データ**を `transitland-animation/` に同梱しています。
+
+```bash
+# 入力データ（output.csv / vehicle_counts）を再生成する（標準ライブラリのみ）
+make demo-animation       # = python demo/transitland-animation/gtfs_to_transitflow.py ...
+```
+
+実際の動画描画は Processing(GUI) 上で行います。手順は
+[`transitland-animation/README.md`](transitland-animation/README.md) を参照してください。
 
 ## 技術メモ
 
