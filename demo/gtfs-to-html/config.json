@@ -1,0 +1,17 @@
+{
+  "agencies": [
+    {
+      "agencyKey": "fukuoka-city-subway",
+      "path": "../../dist/FukuokaCitySubway.zip"
+    }
+  ],
+  "outputPath": "html",
+  "outputFormat": "html",
+  "menuType": "jump",
+  "noHead": false,
+  "linkStopUrls": true,
+  "showMap": false,
+  "showOnlyTimepoint": false,
+  "useParentStation": true,
+  "verbose": true
+}

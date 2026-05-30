@@ -1,0 +1,781 @@
+@page {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+/* Base styles */
+body {
+  color: #666;
+  font-family: ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  font-feature-settings: normal;
+  line-height: inherit;
+  margin: 0;
+}
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: #e5e7eb;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: inherit;
+  font-weight: inherit;
+  color: #333;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Timetable Styles */
+
+.timetable-page {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .timetable-page {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .timetable-page {
+    max-width: 768px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (min-width: 1024px) {
+  .timetable-page {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .timetable-page {
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .timetable-page {
+    max-width: 1536px;
+  }
+}
+
+.timetable-page h1 {
+  font-size: 1.5rem;
+  line-height: 1.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  gap: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .timetable-page h1 {
+    font-size: 2rem;
+    line-height: 2rem;
+  }
+}
+
+.timetable-page h2 {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+@media (min-width: 768px) {
+  .timetable-page h2 {
+    font-size: 1.5rem;
+  }
+}
+
+.timetable-page h3 {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.timetable-page .effective-date {
+  margin-top: 0.5rem;
+  color: rgb(75 85 99);
+}
+
+.timetable-page .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.timetable-page .hidden {
+  display: none;
+}
+
+.timetable-page .timetable .timetable-label {
+  margin-bottom: 0.5rem;
+}
+
+.timetable-page .timetable .timetable-footer {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 0.25rem;
+}
+
+@media (min-width: 768px) {
+  .timetable-page .timetable .timetable-footer {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+}
+
+/* Menu Styles */
+
+.timetable-page .timetable-simple-menu {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.timetable-page .timetable-jump-menu {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .timetable-page .timetable-jump-menu {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.timetable-page .timetable-jump-menu a {
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.timetable-page .timetable-radio-menu {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .timetable-page .timetable-radio-menu {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.timetable-page .timetable-radio-menu label {
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.timetable-page .menu-type-radio .timetable {
+  display: none;
+}
+
+.timetable-page .btn-blue {
+  color: rgb(255 255 255);
+  padding: 0.75rem 1.5rem;
+  background-color: rgb(37 99 235);
+  border-radius: 0.375rem;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.timetable-page .btn-blue:hover {
+  background-color: rgb(29 78 216);
+  text-decoration: none;
+}
+
+.timetable-page .btn-gray {
+  color: rgb(75 85 99);
+  padding: 0.75rem 1.5rem;
+  background-color: rgb(209 213 219);
+  border-radius: 0.375rem;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.timetable-page .btn-gray:hover {
+  background-color: rgb(201, 206, 213);
+  text-decoration: none;
+}
+
+.timetable-page .btn-sm {
+  padding: 0.25rem 1rem;
+  border-radius: 0.25rem;
+}
+
+.timetable-page .timetable {
+  margin-bottom: 2.5rem;
+}
+
+.timetable-page .timetable .table-vertical .stop-header {
+  text-align: center;
+  line-height: 1.15;
+  font-size: 0.875rem;
+}
+
+.timetable-page .timetable .table-horizontal th {
+  line-height: 1.15;
+}
+
+.timetable-page .timetable .trip-header {
+  text-align: center;
+}
+
+.timetable-page .timetable .trip-name {
+  display: inline-block;
+}
+
+.timetable-page .timetable .run-footer {
+  text-align: center;
+}
+
+.timetable-page .timetable .run-footer .continues-from-route,
+.timetable-page .timetable .run-footer .continues-as-route {
+  font-weight: bold;
+}
+
+.timetable-page .timetable .stop-code {
+  font-weight: normal;
+  padding-top: 0.25rem;
+}
+
+.timetable-page .timetable .stop-time {
+  text-align: center;
+}
+
+.timetable-page .timetable .stop-time.pm {
+  font-weight: bold;
+}
+
+.timetable-page .timetable a.symbol {
+  padding-left: 4px;
+  color: #212529;
+  text-decoration: none;
+}
+
+.timetable-page .timetable .trip-frequency {
+  text-align: center;
+  font-weight: bold;
+}
+
+.timetable-page .timetable .city-row {
+  font-size: 1.5rem;
+  color: #415d86;
+}
+
+.timetable-page .timetable th.city-column {
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.timetable-page .timetable .table-container {
+  overflow-x: scroll;
+  margin: 20px 0;
+}
+
+.timetable-page .timetable .table-container::-webkit-scrollbar {
+  -webkit-appearance: none;
+  height: 8px;
+}
+
+.timetable-page .timetable .table-container::-webkit-scrollbar-track {
+  background-color: rgba(57, 57, 57, 0.2);
+  border-radius: 4px;
+}
+
+.timetable-page .timetable .table-container::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(156, 156, 156, 0.8);
+}
+
+.timetable-page .timetable .table-container table {
+  text-indent: 0;
+  border-color: inherit;
+  border-collapse: collapse;
+}
+
+.timetable-page .timetable thead tr {
+  background-color: rgb(224, 230, 245);
+}
+
+.timetable-page .timetable thead tr,
+.timetable-page .timetable thead tr a {
+  color: #222222;
+}
+
+.timetable-page .timetable th {
+  text-align: left;
+  font-size: 0.8rem;
+}
+
+.timetable-page .timetable td,
+.timetable-page .timetable th {
+  padding: 0;
+}
+
+.timetable-page .timetable table > thead > tr > th,
+.timetable-page .timetable table > tbody > tr > th,
+.timetable-page .timetable table > tfoot > tr > th,
+.timetable-page .timetable table > thead > tr > td,
+.timetable-page .timetable table > tbody > tr > td,
+.timetable-page .timetable table > tfoot > tr > td {
+  padding: 8px;
+  line-height: 1.4;
+  vertical-align: top;
+  border: 1px solid #dddddd;
+}
+
+.timetable-page .timetable table > thead > tr > th {
+  vertical-align: top;
+  border-bottom: 2px solid #dddddd;
+}
+
+.timetable-page .timetable table > caption + thead > tr:first-child > th,
+.timetable-page .timetable table > colgroup + thead > tr:first-child > th,
+.timetable-page .timetable table > thead:first-child > tr:first-child > th,
+.timetable-page .timetable table > caption + thead > tr:first-child > td,
+.timetable-page .timetable table > colgroup + thead > tr:first-child > td,
+.timetable-page .timetable table > thead:first-child > tr:first-child > td {
+  border-top: 0;
+}
+
+.timetable-page .timetable table > tbody + tbody {
+  border-top: 2px solid #dddddd;
+}
+
+.timetable-page .timetable table > thead > tr > th,
+.timetable-page .timetable table > thead > tr > td {
+  border-bottom-width: 2px;
+}
+
+.timetable-page .timetable table > tbody > tr:nth-of-type(odd) {
+  background-color: #f9f9f9;
+}
+
+.timetable-page .timetable table > tbody > tr.highlighted,
+.timetable-page .timetable table > tbody > tr.highlighted > th,
+.timetable-page .timetable table > tbody .stop-time.highlighted,
+.timetable-page .timetable table > thead .stop-header.highlighted {
+  background-color: #f8f8b9;
+}
+
+.timetable-page .table-horizontal tbody tr th.stop-name-container {
+  min-width: 175px;
+}
+
+@media screen and (min-width: 768px) {
+  .timetable-page .table-horizontal tbody tr th.stop-name-container {
+    min-width: 250px;
+  }
+}
+
+.timetable-page .table-hourly {
+  width: auto;
+}
+
+.timetable-page .timetable .table-vertical .trip-row .trip-notes {
+  text-wrap: nowrap;
+}
+
+.timetable-page .route-color-swatch {
+  min-width: 29px;
+  height: 29px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  letter-spacing: -0.5px;
+  padding: 0 2px;
+  flex-shrink: 0;
+  font-weight: bold;
+  color: white;
+}
+
+.timetable-page .route-color-swatch-large {
+  min-width: 46px;
+  height: 46px;
+  border-radius: 23px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: bold;
+  letter-spacing: -1px;
+  padding: 0 6px;
+  flex-shrink: 0;
+  font-weight: bold;
+  color: white;
+}
+
+/* Map Styles */
+
+.timetable-page .map-container {
+  position: relative;
+}
+
+.timetable-page .map {
+  min-height: 350px;
+}
+
+@media screen and (min-width: 768px) {
+  .timetable-page .map {
+    min-height: 450px;
+  }
+}
+
+.timetable-page .map .maplibregl-popup-content .popup-title {
+  margin: 0 20px 5px 0;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.timetable-page .map .maplibregl-popup-content .popup-label {
+  border-bottom: 1px solid #e0e0e0;
+  padding-top: 0.5rem;
+}
+
+.timetable-page .map .maplibregl-popup-content .route-list {
+  margin-bottom: 1rem;
+  margin-top: 0.25rem;
+}
+
+.timetable-page .map .maplibregl-popup-content .map-route-item {
+  display: flex;
+  align-items: center;
+  font-size: 0.75rem;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+  gap: 0.5rem;
+}
+
+.timetable-page .map .maplibregl-popup-content .map-route-item:hover {
+  text-decoration: none;
+}
+
+.timetable-page
+  .map
+  .maplibregl-popup-content
+  a.map-route-item
+  .underline-hover:hover {
+  text-decoration: underline;
+}
+
+.timetable-page .map .maplibregl-popup-content .maplibregl-popup-close-button {
+  padding: 0 5px;
+}
+
+.timetable-page .map .maplibregl-popup-content .upcoming-stops {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem;
+  line-height: 1;
+  padding-top: 5px;
+}
+
+.timetable-page
+  .map
+  .maplibregl-popup-content
+  .upcoming-stops div:nth-child(1) {
+  font-weight: bold;
+  border-bottom: 1px solid #dddddd;
+  padding-bottom: 3px;
+  margin-bottom: -3px;
+}
+
+.timetable-page
+  .map
+  .maplibregl-popup-content
+  .upcoming-stops div:nth-child(2) {
+  font-weight: bold;
+  border-bottom: 1px solid #dddddd;
+  padding-bottom: 3px;
+  margin-bottom: -3px;
+}
+
+.timetable-page
+  .map
+  .maplibregl-popup-content
+  .upcoming-stops
+  div:nth-child(2n-1) {
+  text-align: right;
+  font-weight: bold;
+}
+
+.timetable-page .map .maplibregl-popup-content .vehicle-updated {
+  padding-top: 5px;
+  font-size: 10px;
+  text-align: right;
+}
+
+.timetable-page .map .vehicle-popup .maplibregl-popup-content {
+  padding-bottom: 5px;
+}
+
+.timetable-page .map-legend {
+  padding: 0 10px;
+}
+
+@media screen and (min-width: 768px) {
+  .timetable-page .map-legend {
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 3px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    left: 10px;
+    bottom: 35px;
+    z-index: 1;
+  }
+}
+
+.timetable-page .map-legend .legend-item {
+  padding: 4px 0;
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  gap: 4px;
+}
+
+.timetable-page .map-legend .legend-item .legend-icon {
+  width: 22px;
+  padding-top: 3px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.timetable-page .map-legend .legend-item .legend-text {
+  font-size: 12px;
+}
+
+.timetable-page .stop-marker {
+  background: #ffffff;
+  border: 2px solid #3f4a5c;
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+}
+
+.timetable-page .vehicle-marker {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #d52f3e;
+  border: 1px solid #50161c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.timetable-page .vehicle-marker .vehicle-marker-arrow {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 384 512'%3E%3Cpath d='M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2 160 448c0 17.7 14.3 32 32 32s32-14.3 32-32l0-306.7L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 14px;
+  height: 14px;
+}
+
+.timetable-page .vehicle-marker .vehicle-marker-arrow.no-bearing {
+  background-image: url('data:image/svg+xml,<%3Fxml version="1.0" encoding="utf-8"%3F><svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M7.8 10a2.2 2.2 0 0 0 4.4 0 2.2 2.2 0 0 0-4.4 0z"/></svg>');
+  width: 20px;
+  height: 20px;
+}
+
+.timetable-page .timetable-alerts {
+  margin-bottom: 1.5rem;
+}
+
+.timetable-page .timetable-alerts .timetable-alerts-list {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 0.25rem;
+}
+
+@media screen and (min-width: 1024px) {
+  .timetable-page .timetable-alerts .timetable-alerts-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.timetable-page .timetable-alert {
+  background-color: rgb(224, 230, 245);
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+}
+
+.timetable-page .timetable-alerts .alert-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+}
+
+.timetable-page .timetable-alerts .alert-header .route-list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+}
+
+.timetable-page .timetable-alerts .route-color-swatch {
+  min-width: 29px;
+  height: 29px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  letter-spacing: -0.5px;
+  padding: 0 2px;
+  flex-shrink: 0;
+  font-weight: bold;
+  color: white;
+}
+
+.timetable-page .timetable-alerts .alert-header .alert-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.timetable-page .timetable-alerts .alert-body {
+  margin-top: 0.5rem;
+}
+
+.timetable-page .timetable-alerts .alert-more-info {
+  margin-top: 0.75rem;
+}
+
+.timetable-page .timetable-alert-empty {
+  display: none;
+  background-color: rgb(224, 230, 245);
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 16px;
+}
+
+@media print {
+  body {
+    -webkit-print-color-adjust: exact;
+    width: 100%;
+    margin: 0 auto;
+    font-size: 0.8rem;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  p {
+    page-break-inside: avoid;
+    orphans: 3;
+    widows: 3;
+  }
+
+  img,
+  table {
+    max-width: 100%;
+  }
+
+  .timetable-page h1 {
+    padding-top: 0;
+    font-size: 1.5rem;
+  }
+
+  .timetable-page .timetable:not(:first-of-type) {
+    page-break-before: always;
+  }
+
+  .timetable-page .timetable .table-container {
+    overflow: auto;
+    margin-bottom: 0;
+  }
+
+  .timetable-page .timetable table > thead > tr > th,
+  .timetable-page .timetable table > tbody > tr > th,
+  .timetable-page .timetable table > tfoot > tr > th {
+    padding: 3px 5px;
+    line-height: 1.3;
+  }
+
+  .timetable-page .timetable table > thead > tr > td,
+  .timetable-page .timetable table > tbody > tr > td,
+  .timetable-page .timetable table > tfoot > tr > td {
+    padding: 3px 5px;
+    line-height: 1;
+  }
+
+  .timetable .table-container {
+    overflow: hidden;
+  }
+
+  .timetable table {
+    page-break-after: auto;
+  }
+
+  .timetable tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+
+  .timetable td {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+
+  .timetable thead {
+    display: table-header-group;
+  }
+
+  .timetable tfoot {
+    display: table-footer-group;
+  }
+
+  .timetable-page .map-legend {
+    display: none;
+  }
+}

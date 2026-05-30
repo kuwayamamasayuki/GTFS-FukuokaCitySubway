@@ -6,6 +6,10 @@
 /data/sources.sha256
 /tools/
 
+# GTFS-to-HTML デモ（生成 HTML は html/ にコミット。依存と生成日時ログのみ無視）
+/demo/gtfs-to-html/node_modules/
+/demo/gtfs-to-html/html/log.txt
+
 # Python
 .venv/
 __pycache__/

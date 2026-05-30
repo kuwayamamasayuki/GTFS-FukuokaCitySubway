@@ -1,4 +1,4 @@
-.PHONY: setup seed fares verify-fares fetch-jorudan-fares download build validate all publish test clean
+.PHONY: setup seed fares verify-fares fetch-jorudan-fares download build validate all publish demo-html test clean
 
 PY ?= python
 
@@ -33,6 +33,9 @@ publish: build    ## 生成した GTFS を dist/ に公開スナップショッ�
 	rm -rf dist && mkdir -p dist
 	cp build/gtfs/*.txt dist/
 	cp build/feed.zip dist/FukuokaCitySubway.zip
+
+demo-html:        ## GTFS-to-HTML で dist/ フィードから HTML 時刻表を生成（要 Node.js 20+）
+	cd demo/gtfs-to-html && npm install && npm run build
 
 test:             ## テスト
 	$(PY) -m pytest -q
