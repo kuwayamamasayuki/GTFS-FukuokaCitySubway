@@ -138,3 +138,53 @@ tests/fixtures/jorudan/*.html ─parse_diagram─▶ jorudan Departures ┘─ c
 - 自動単体テストはすべてネットワーク無しで完結するため、追加の人手確認は不要。
 - `scripts/fetch_jorudan_fixtures.py` のライブ取得が将来も正しく動くこと（サイト構造変化の検知）は、
   ダイヤ改正時の fixture 再取得の中で確認される。
+
+## 実装結果と設計変更（2026-05-30）
+
+実装中に、当初設計の前提と異なる以下のデータ実態が判明したため設計を更新した。
+
+### 1. 行先は「厳密一致」できない → 時刻のみで判定（行先は参考）
+
+ジョルダンは地下鉄の枠で行先を表示し、JR 筑肥線直通便を多くの駅で「姪浜ゆき」と表示する一方、
+GTFS は実際の直通先（筑前前原・西唐津 等）を `trip_headsign` に持つ。この語彙体系の差は構造的で、
+全 207 ページの突合で `姪浜→筑前前原` 1090 件、`福岡空港→博多` 27 件などの行先差が生じた。
+よって **合否判定は発車時刻（時:分）の集合一致**とし、行先は判定に用いない（`comparator` は廃し
+`verify/timetable_check.py` に集約）。凡例の解析は行先の参考情報として残す:
+無印＝既定行先、素の駅名記号＝上書き、注記記号（●印/前●印 等）＝既定のまま、
+七隈線（凡例 dd 無し）＝(路線,方面) の終端（`config` の `line_defaults`）。
+
+### 2. 終着の到着を発車から除外（直通便は残す）
+
+GTFS は各 trip の終着駅にも `departure_time` を持つが、発車時刻表には載らない。
+そこで `gtfs_timetable.departures` は **「最終停車 かつ 行先＝当駅名」** の停車を除外する。
+行先が当駅と異なる便（フィード境界の先へ継続する JR 直通等）は最終停車でも発車として残す。
+
+### 3. 既知差分の許容リスト（回帰検知）
+
+`build/gtfs` とジョルダン fixture の現存差分を `tests/fixtures/jorudan/expected_diffs.json`
+（`scripts/gen_expected_diffs.py` で生成）に記録し、それを差し引いた**新規差分のみ失敗**とする。
+2026-05 時点の既知差分（要調査）:
+  * **七隈線 44 ページ**: 各 2 件程度、**正確に 1 分差**（計 60 便 / 七隈総便数 15774 の約 0.38%）。
+    GTFS 生成側の中間駅時刻の扱いに起因する可能性。
+  * **境界/接続駅 6 ページ**: 姪浜 dir1（×3）と中洲川端 dir0（×3）。JR 直通・箱崎⇄空港直通の
+    GTFS 表現（block 分割・境界終着）とジョルダンの単一駅発車表示の差。
+  * 残り 157 ページは時刻が完全一致。
+
+### 4. GTFS スナップショットは同梱しない
+
+trips/stop_times/calendar は毎回 Excel から生成する設計に合わせ、突合テストは `build/gtfs` を
+読み、無ければ skip する（`FUKUOKA_GTFS_DIR` で上書き可）。
+
+### 5. カバレッジの限界
+
+公式索引が `天神南→博多`（七隈線 dir0）のページを提供しないため、当該方面のみ突合対象外。
+それ以外の全駅×全方面×全曜日区分（69 駅×方面 × 3 = 207 ページ）を網羅する。
+
+### モジュール構成（最終）
+
+`verify/jorudan_parser.py`（HTML 解析）, `verify/gtfs_timetable.py`（GTFS 抽出）,
+`verify/mapping.py`（対応付け）, `verify/timetable_check.py`（時刻突合＋許容リスト）。
+スクリプト: `scripts/fetch_jorudan_fixtures.py`（fixture 取得）,
+`scripts/gen_expected_diffs.py`（許容リスト生成）。
+テスト: `tests/test_jorudan_parser.py` / `test_jorudan_mapping.py` / `test_gtfs_timetable.py` /
+`test_timetable_check.py`（単体）, `tests/test_timetable_comparison.py`（Issue 本体）。

@@ -111,6 +111,9 @@ scripts/verify_fares.py    運賃を公式運賃表 PDF の三角表から抽出
    - **駅が増えた場合のみ** … `reference_gtfs/stops.txt`（親駅＋子ホーム）と
      `config/stations.yaml`、`reference_gtfs/translations.txt`
 3. `python -m fukuoka_gtfs.cli all --download-tools` で再生成・検証する。
+4. 時刻表確認テスト（ジョルダン突合）の基準データを更新する:
+   - `python scripts/fetch_jorudan_fixtures.py` … ジョルダンの最新ダイヤを再取得（`tests/fixtures/jorudan/`）。
+   - `python scripts/gen_expected_diffs.py` … 既知差分の許容リストを作り直す（`build/gtfs` が必要）。
 
 ## 検証（GTFS Validators）
 
@@ -152,3 +155,22 @@ python -m pytest -q
 
 `tests/` は合成データによる単体テスト（時刻正規化・バンド検出・駅対応付け・直通分割）と、
 `data/` に Excel がある場合の既知便回帰テストから成る。
+
+### 時刻表の確認テスト（ジョルダン突合・Issue #5）
+
+生成 GTFS の **全駅・全方面・全曜日区分** の発車時刻を、外部の権威ある時刻表
+（[ジョルダンの福岡市地下鉄ダイヤ詳細](https://subway.city.fukuoka.lg.jp/schedule/index.php)）
+と突合する。ジョルダンの各ページ HTML は `tests/fixtures/jorudan/` に整形済みで同梱（207 件）、
+対応関係は `config/jorudan_verify.yaml`。
+
+- **判定は発車時刻（時:分）の集合一致**で行う。行先はジョルダン（地下鉄表示。直通便を
+  「姪浜ゆき」等と表示）と GTFS（実際の直通先＝筑前前原等）で表記体系が異なり厳密一致
+  できないため、判定には用いない（参考情報）。
+- 既知の差分（七隈線の一部便の 1 分差、姪浜・中洲川端の直通便の数え方）は
+  `tests/fixtures/jorudan/expected_diffs.json` に記録して許容し、**それ以外の新規差分が
+  出たら失敗**する（回帰検知）。既知差分は要調査事項として残している。
+- `build/gtfs`（生成物）を読む。無い場合は skip するので、`make build` 後に実行する。
+  別ディレクトリは環境変数 `FUKUOKA_GTFS_DIR` で指定できる。
+- 索引に無い 天神南→博多（七隈線 dir0）は対象外。
+
+詳細な設計は `docs/superpowers/specs/2026-05-30-timetable-verification-design.md`。
