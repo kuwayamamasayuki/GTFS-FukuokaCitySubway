@@ -1,4 +1,4 @@
-.PHONY: setup seed fares verify-fares download build validate all publish test clean
+.PHONY: setup seed fares verify-fares fetch-jorudan-fares download build validate all publish test clean
 
 PY ?= python
 
@@ -13,6 +13,9 @@ fares:            ## 運賃(fare_*)を公式運賃表(PDF)から抽出して再�
 
 verify-fares:     ## 現行運賃を公式運賃表(PDF)と全ペア突き合わせ(読み取りのみ)
 	$(PY) scripts/verify_fares.py
+
+fetch-jorudan-fares: ## ジョルダン運賃を取得し突合用フィクスチャを更新(Issue #10)
+	$(PY) scripts/fetch_jorudan_fares.py
 
 download:         ## 時刻表 Excel を取得
 	$(PY) -m fukuoka_gtfs.cli download

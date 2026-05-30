@@ -1,0 +1,1538 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    
+<title>検索結果 | 発着・料金検索トップ | 福岡市地下鉄</title>
+
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    
+    <link rel="shortcut icon" href="https://fukuoka-city-subway.jorudan.biz/pc//static/images/fabcon.ico"  type="image/x-icon" media="all" >
+    <link href="./static/images/touch-icon-ipad.png" rel="apple-touch-icon-precomposed">
+    <link href="./static/images/touch-icon-ipad.png" rel="apple-touch-icon-precomposed" sizes="76x76">
+    <link href="./static/images/touch-icon-ipad-retina.png" rel="apple-touch-icon-precomposed" sizes="120x120">
+    <link href="./static/images/touch-icon-iphone-retina.png" rel="apple-touch-icon-precomposed" sizes="152x152">
+    
+    <link rel="stylesheet" href="./static/css/libs/jquery-ui.min.css?ver=20260530200501">
+    
+
+
+    
+    
+<link rel="stylesheet" href="./static/css/b_result.css?ver=20260530200501">
+
+
+
+
+
+    <script src="./static/js/libs/jquery-1.10.2.min.js?ver=20260530200501"></script>
+    <script src="./static/js/libs/jquery-ui.min.js?ver=20260530200501"></script>
+    <script src="./static/js/libs/jtruncsubstr-1.0rc.js?ver=20260530200501"></script>
+    <script src="./static/js/libs/slick.min.js?ver=20260530200501"></script>
+    <script src="./static/js/libs/jquery.balloon.js?ver=20260530200501"></script>
+    <script src="./static/js/libs/jquery.ui.touch-punch.min.js?ver=20260530200501"></script>
+    <script src="./static/js/libs/moment.js?ver=20260530200501"></script>
+    
+<script src="./static/js/b_result.js?ver=20260530200501"></script>
+<script src="./static/js/libs/jquery.easing.1.3.js?ver=20260530200501"></script>
+
+
+
+</head>
+<body id="index" class="searchresult">
+    
+
+    <div id="mov-wrap">
+
+        
+    
+<!-- ==================== mov-header ==================== -->
+<header class="mov-header noprint">
+    <div class="mov-inner">
+        <h1 class="logoArea"><a href="https://subway.city.fukuoka.lg.jp/" target=""><img src="./static/images/logo.png" class="logoImg " alt=""></a></h1>
+
+        <div class="mov-gnav">
+            <nav id="menuList">
+                <ul class="hideMenu">
+                    <li class="gnavHead">会社別メニュー</li>
+
+                    
+
+                    <li class="menuObjPc ">
+                        
+                        <a href="https://subway.city.fukuoka.lg.jp/" target="" class="menuObj hideMenuList">福岡市地下鉄ホーム</a>
+                        
+
+
+                    </li>
+
+                    
+
+                </ul>
+            </nav><!-- /#menuList -->
+
+        </div>
+    </div>
+</header>
+
+<!-- ==================== locHeader ==================== -->
+<div class="locHeader noprint">
+    <div class="mov-inner">
+
+        <ul class="mov-locnav">
+            
+            <li class="mov-locnav-first locnavObjPc haschild">
+                <a href="#locMenu1" class="locnavObj">検索メニュー</a>
+                <div id="locMenu1" class="locMenu" style="display:none;">
+                    
+                    <p><a href="./diagram" target="_self">時刻表検索</a></p>
+                    
+                    <p><a href="./route" target="_self">発着・料金検索</a></p>
+                    
+                    <p><a href="./fare" target="_self">料金検索</a></p>
+                    
+                </div>
+            </li>
+            
+            <li id="locLangHeader" class="mov-locnav-first locnavObjPc haschild">
+                <a href="#locMenu2" class="locnavObj">Language<span class="langArea">日本語</span></a>
+                <div id="locMenu2" class="locMenu" style="display:none;">
+                    <p class="locNavHead"><span>Language</span></p>
+                    
+                    <p><a href="./chglng?page=nsresult&mode=0&amp;skbn=1&amp;fr=%E5%A7%AA%E6%B5%9C&amp;frkbn=4&amp;frsk=R&amp;to=%E5%AE%A4%E8%A6%8B&amp;tokbn=4&amp;tosk=R&amp;dt=202606011030&amp;p=1%2C2" target="_self">日本語</a></p>
+                    
+                    <p><a href="./en/chglng?page=nsresult&mode=0&amp;skbn=1&amp;fr=%E5%A7%AA%E6%B5%9C&amp;frkbn=4&amp;frsk=R&amp;to=%E5%AE%A4%E8%A6%8B&amp;tokbn=4&amp;tosk=R&amp;dt=202606011030&amp;p=1%2C2" target="_self">ENGLISH</a></p>
+                    
+                </div>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+<!-- ==================== mov-contents ==================== -->
+
+
+        
+
+
+        <!--<div id="contentsArea">-->
+        <div class="mov-contents">
+            
+
+<ul class="pc breadcrumb noprint">
+    
+    <li class="mouseon">
+<a href="./route">発着・料金検索トップ
+</a>
+</li>
+
+    
+    <li class="breadcrumbNow">
+発着・料金検索結果
+</li>
+
+    
+</ul>
+
+            <div class="mov-inner">
+                
+
+<input type="hidden" value="開く" id="l_teikiopen" />
+<input type="hidden" value="閉じる" id="l_teikiclose" />
+<input type="hidden" value="目的地周辺の地図を開く" id="l_mapopen" />
+<input type="hidden" value="目的地周辺の地図を閉じる" id="l_mapclose" />
+
+
+<form action="./nsresult" method="POST" name="frm">
+    <input id="params" name="params" type="hidden" value="mode=0&amp;skbn=1&amp;fr=%E5%A7%AA%E6%B5%9C&amp;frkbn=4&amp;frsk=R&amp;to=%E5%AE%A4%E8%A6%8B&amp;tokbn=4&amp;tosk=R&amp;dt=202606011030&amp;p=1%2C2">
+<input id="mode" name="mode" type="hidden" value="0">
+<input id="kkbn" name="kkbn" type="hidden" value="">
+<input id="kkbnint" name="kkbnint" type="hidden" value="">
+<input id="lng" name="lng" type="hidden" value="0">
+<input id="showstcode" name="showstcode" type="hidden" value="True">
+
+
+<input id="navparams" name="navparams" type="hidden" value="">
+<input id="usemore" name="usemore" type="hidden" value="0">
+<input id="mode_c" name="mode_c" type="hidden" value="[{&quot;setfrto&quot;: &quot;1&quot;, &quot;mode&quot;: 5, &quot;page&quot;: &quot;./fare&quot;}]">
+<input id="infospdef" name="infospdef" type="hidden" value="1">
+
+
+
+
+    <input id="sroute" name="sroute" type="hidden" value="1">
+    <input id="rs" name="rs" type="hidden" value="!2668-SU5GTwAAABABNSb5A#6-CA#7-TU9ZTwAAAugA#3de-BNT1lPAAAC6AABA#3dc-E5PREUAAAAUAAIAAE4tA#4-YclTi0ACwABiGVQVEUyAAAAqA#4-EA#6-GIZQAMAAsAAAXcAAIA#8c-LQA#4-CUgAjKAAANDkzMTIvMQA#16-wAAAFBURTIAAACoAAEAAQAABAAAAYhlAAwACwAABdwAAgA#8c-tA#5-JSACMoAAAxMDc4ODM2LzEA#13-BAAAAUFRFMgAAAKgAAgABAAAIAAABiGUADAALAAAF3AACA#8c-C0A#5-lIAIygAADEwNzg5NjIvMQA#13-EAAABSUUUyAAAG2A#4-EA#9-sqhsqzDz7K8xbS29bnBwP4A#49-MzFyc0A#a4-vLy4qwA#aa-EEWe8qhsqzDz7K8xbS29bnBwP4A#49-MqhsqzDz7K8xbS29bnBwP4oyqGyrLb1ucG51CkA#84-yeHEzA#a5-0OTMxMi8xA#a0-DQ5MzEyLzEA#1f7-BABAAAAfqAAYAAQAKAB4AAAfqAAYAAQAKACA#4-BAAIABi0A#158-LQA#162-FJRRTIAAAbYAAEAAQA#8-CyqGyrMPPsrzFtLb1ucHA/gA#49-zMXJzQA#a3-C8vLirA#aa-GexZ7yqGyrMPPsrzFtLb1ucHA/gA#49-yqGyrMPPsrzFtLb1ucHA/iizrcTNudQpA#89-DJ4cTMA#a4-DEwNzg4MzYvMQA#9d-MTA3ODgzNi8xA#1f5-EAEAAAB+oABgABAAoAIQAAB+oABgABAAoAIwAAAAEAAgAGLQA#158-tA#163-UlFFMgAABtgAAgABA#9-LKobKsw8+yvMW0tvW5wcD+A#49-DMxcnNA#a4-Ly8uKsA#aa-c3FnvKobKsw8+yvMW0tvW5wcD+A#49-DKobKsw8+yvMW0tvW5wcD+KMqhsqy29bnBudQpA#84-MnhxMwA#a4-MTA3ODk2Mi8xA#9e-xMDc4OTYyLzEA#1f5-QAQAAAH6gAGAAEACgAmAAAH6gAGAAEACgAoA#4-QACAAYtA#158-C0A#162-BFTkREA#5-==">
+    <input id="sbmit" name="sbmit" type="hidden" value="">
+    <input id="printwin" name="printwin" type="hidden" value="1">
+    <input id="isFirst" name="isFirst" type="hidden" value="1">
+    <input id="norikaeresult" name="norikaeresult" type="hidden" value="{&quot;NorikaeBizApiResult&quot;: {&quot;body&quot;: {&quot;&quot;: &quot;&quot;, &quot;storeData&quot;: &quot;!2668-SU5GTwAAABABNSb5A#6-CA#7-TU9ZTwAAAugA#3de-BNT1lPAAAC6AABA#3dc-E5PREUAAAAUAAIAAE4tA#4-YclTi0ACwABiGVQVEUyAAAAqA#4-EA#6-GIZQAMAAsAAAXcAAIA#8c-LQA#4-CUgAjKAAANDkzMTIvMQA#16-wAAAFBURTIAAACoAAEAAQAABAAAAYhlAAwACwAABdwAAgA#8c-tA#5-JSACMoAAAxMDc4ODM2LzEA#13-BAAAAUFRFMgAAAKgAAgABAAAIAAABiGUADAALAAAF3AACA#8c-C0A#5-lIAIygAADEwNzg5NjIvMQA#13-EAAABSUUUyAAAG2A#4-EA#9-sqhsqzDz7K8xbS29bnBwP4A#49-MzFyc0A#a4-vLy4qwA#aa-EEWe8qhsqzDz7K8xbS29bnBwP4A#49-MqhsqzDz7K8xbS29bnBwP4oyqGyrLb1ucG51CkA#84-yeHEzA#a5-0OTMxMi8xA#a0-DQ5MzEyLzEA#1f7-BABAAAAfqAAYAAQAKAB4AAAfqAAYAAQAKACA#4-BAAIABi0A#158-LQA#162-FJRRTIAAAbYAAEAAQA#8-CyqGyrMPPsrzFtLb1ucHA/gA#49-zMXJzQA#a3-C8vLirA#aa-GexZ7yqGyrMPPsrzFtLb1ucHA/gA#49-yqGyrMPPsrzFtLb1ucHA/iizrcTNudQpA#89-DJ4cTMA#a4-DEwNzg4MzYvMQA#9d-MTA3ODgzNi8xA#1f5-EAEAAAB+oABgABAAoAIQAAB+oABgABAAoAIwAAAAEAAgAGLQA#158-tA#163-UlFFMgAABtgAAgABA#9-LKobKsw8+yvMW0tvW5wcD+A#49-DMxcnNA#a4-Ly8uKsA#aa-c3FnvKobKsw8+yvMW0tvW5wcD+A#49-DKobKsw8+yvMW0tvW5wcD+KMqhsqy29bnBudQpA#84-MnhxMwA#a4-MTA3ODk2Mi8xA#9e-xMDc4OTYyLzEA#1f5-QAQAAAH6gAGAAEACgAmAAAH6gAGAAEACgAoA#4-QACAAYtA#158-C0A#162-BFTkREA#5-==&quot;, &quot;num&quot;: &quot;3&quot;, &quot;route&quot;: [{&quot;path&quot;: [{&quot;&quot;: &quot;&quot;, &quot;toX&quot;: &quot;130,20,33,0&quot;, &quot;lineName&quot;: &quot;\u798f\u5ca1\u5730\u4e0b\u9244\u7a7a\u6e2f\u7dda(\u798f\u5ca1\u7a7a\u6e2f\u884c)&quot;, &quot;haveDiagram&quot;: &quot;1&quot;, &quot;selectLine&quot;: &quot;49312/1&quot;, &quot;fromPlatform&quot;: &quot;&quot;, &quot;fromTimeType&quot;: &quot;0&quot;, &quot;seatCode&quot;: &quot;&quot;, &quot;untinGakusei&quot;: &quot;0&quot;, &quot;norikae&quot;: &quot;0&quot;, &quot;seatName&quot;: &quot;&quot;, &quot;icTokkyuTuusan&quot;: &quot;0&quot;, &quot;tokkyu&quot;: &quot;0&quot;, &quot;id&quot;: &quot;1&quot;, &quot;tokkyuWaribiki&quot;: &quot;0&quot;, &quot;lineIndex&quot;: &quot;4265595&quot;, &quot;from&quot;: &quot;\u59ea\u6d5c&quot;, &quot;josyaText&quot;: &quot;&quot;, &quot;idou&quot;: &quot;0&quot;, &quot;icUntinGakusei&quot;: &quot;0&quot;, &quot;icUntin&quot;: &quot;210&quot;, &quot;rosen&quot;: &quot;\u798f\u5ca1\u5730\u4e0b\u9244\u7a7a\u6e2f\u7dda&quot;, &quot;to&quot;: &quot;\u5ba4\u898b&quot;, &quot;tokurei&quot;: &quot;&quot;, &quot;co2&quot;: &quot;26&quot;, &quot;fromExt&quot;: &quot;&quot;, &quot;busCorp&quot;: &quot;&quot;, &quot;fromTime&quot;: &quot;1030&quot;, &quot;lineType&quot;: &quot;\u666e\u901a&quot;, &quot;fromX&quot;: &quot;130,19,38,200&quot;, &quot;tokkyuKisetu&quot;: &quot;-1&quot;, &quot;untin&quot;: &quot;210&quot;, &quot;direction&quot;: &quot;0&quot;, &quot;tokkyuTuusan&quot;: &quot;0&quot;, &quot;toTime&quot;: &quot;1032&quot;, &quot;icExist&quot;: &quot;0&quot;, &quot;rosenCorp&quot;: &quot;\u798f\u5ca1&quot;, &quot;toPlatform&quot;: &quot;&quot;, &quot;untinTuusan&quot;: &quot;1&quot;, &quot;seatKubun&quot;: {&quot;num&quot;: &quot;0&quot;}, &quot;airLine&quot;: &quot;&quot;, &quot;kyori&quot;: &quot;15&quot;, &quot;untinOufuku&quot;: &quot;0&quot;, &quot;toDate&quot;: &quot;20260601&quot;, &quot;toTimeType&quot;: &quot;0&quot;, &quot;icTokurei&quot;: &quot;&quot;, &quot;rosenSyubetu&quot;: &quot;2&quot;, &quot;fromY&quot;: &quot;33,34,49,400&quot;, &quot;jikan&quot;: &quot;2&quot;, &quot;tokkyuGreen&quot;: &quot;0&quot;, &quot;lineColor&quot;: {&quot;rgb&quot;: [&quot;ee5511&quot;], &quot;num&quot;: &quot;1&quot;, &quot;type&quot;: &quot;0&quot;}, &quot;icUntinTuusan&quot;: &quot;1&quot;, &quot;toExt&quot;: &quot;&quot;, &quot;tokkyuShindai&quot;: &quot;0&quot;, &quot;icTokkyuGreen&quot;: &quot;0&quot;, &quot;toY&quot;: &quot;33,34,39,400&quot;, &quot;fromDate&quot;: &quot;20260601&quot;, &quot;mati&quot;: &quot;0&quot;, &quot;useDiagram&quot;: &quot;1&quot;, &quot;icTokkyu&quot;: &quot;0&quot;}], &quot;id&quot;: &quot;1&quot;, &quot;hyouka&quot;: {&quot;status&quot;: {&quot;syubetu&quot;: &quot;8&quot;, &quot;co2&quot;: &quot;1&quot;, &quot;hayai&quot;: &quot;1&quot;, &quot;value&quot;: &quot;1,1,1,0,0,0,0,1,1,8,1&quot;, &quot;kuuro&quot;: &quot;0&quot;, &quot;icCard&quot;: &quot;0&quot;, &quot;shindai&quot;: &quot;0&quot;, &quot;norikae&quot;: &quot;1&quot;, &quot;yasui&quot;: &quot;1&quot;, &quot;raku&quot;: &quot;1&quot;, &quot;kousoku&quot;: &quot;0&quot;}, &quot;hiyou&quot;: &quot;210&quot;, &quot;pathCnt&quot;: &quot;1&quot;, &quot;kubun&quot;: {&quot;value&quot;: &quot;0,0,0,0,0,0,0,0,0,0,0,0,0&quot;, &quot;renraku&quot;: &quot;0&quot;, &quot;bus&quot;: &quot;0&quot;, &quot;yuryou&quot;: &quot;0&quot;, &quot;shinya&quot;: &quot;0&quot;, &quot;shinkansen&quot;: &quot;0&quot;, &quot;kuuro&quot;: &quot;0&quot;, &quot;toho&quot;: &quot;0&quot;, &quot;jr&quot;: &quot;0&quot;, &quot;shindai&quot;: &quot;0&quot;, &quot;nozomi&quot;: &quot;0&quot;, &quot;tokkyu&quot;: &quot;0&quot;, &quot;kousoku&quot;: &quot;0&quot;, &quot;ferry&quot;: &quot;0&quot;}, &quot;icHiyou&quot;: &quot;210&quot;, &quot;jikan&quot;: &quot;2&quot;, &quot;norikaeCnt&quot;: &quot;0&quot;, &quot;kyori&quot;: &quot;15&quot;, &quot;icExist&quot;: &quot;0&quot;}}, {&quot;path&quot;: [{&quot;&quot;: &quot;&quot;, &quot;toX&quot;: &quot;130,20,33,0&quot;, &quot;lineName&quot;: &quot;\u798f\u5ca1\u5730\u4e0b\u9244\u7a7a\u6e2f\u7dda(\u8c9d\u585a\u884c)&quot;, &quot;haveDiagram&quot;: &quot;1&quot;, &quot;selectLine&quot;: &quot;1078836/1&quot;, &quot;fromPlatform&quot;: &quot;&quot;, &quot;fromTimeType&quot;: &quot;0&quot;, &quot;seatCode&quot;: &quot;&quot;, &quot;untinGakusei&quot;: &quot;0&quot;, &quot;norikae&quot;: &quot;0&quot;, &quot;seatName&quot;: &quot;&quot;, &quot;icTokkyuTuusan&quot;: &quot;0&quot;, &quot;tokkyu&quot;: &quot;0&quot;, &quot;id&quot;: &quot;1&quot;, &quot;tokkyuWaribiki&quot;: &quot;0&quot;, &quot;lineIndex&quot;: &quot;108729979&quot;, &quot;from&quot;: &quot;\u59ea\u6d5c&quot;, &quot;josyaText&quot;: &quot;&quot;, &quot;idou&quot;: &quot;0&quot;, &quot;icUntinGakusei&quot;: &quot;0&quot;, &quot;icUntin&quot;: &quot;210&quot;, &quot;rosen&quot;: &quot;\u798f\u5ca1\u5730\u4e0b\u9244\u7a7a\u6e2f\u7dda&quot;, &quot;to&quot;: &quot;\u5ba4\u898b&quot;, &quot;tokurei&quot;: &quot;&quot;, &quot;co2&quot;: &quot;26&quot;, &quot;fromExt&quot;: &quot;&quot;, &quot;busCorp&quot;: &quot;&quot;, &quot;fromTime&quot;: &quot;1033&quot;, &quot;lineType&quot;: &quot;\u666e\u901a&quot;, &quot;fromX&quot;: &quot;130,19,38,200&quot;, &quot;tokkyuKisetu&quot;: &quot;-1&quot;, &quot;untin&quot;: &quot;210&quot;, &quot;direction&quot;: &quot;0&quot;, &quot;tokkyuTuusan&quot;: &quot;0&quot;, &quot;toTime&quot;: &quot;1035&quot;, &quot;icExist&quot;: &quot;0&quot;, &quot;rosenCorp&quot;: &quot;\u798f\u5ca1&quot;, &quot;toPlatform&quot;: &quot;&quot;, &quot;untinTuusan&quot;: &quot;1&quot;, &quot;seatKubun&quot;: {&quot;num&quot;: &quot;0&quot;}, &quot;airLine&quot;: &quot;&quot;, &quot;kyori&quot;: &quot;15&quot;, &quot;untinOufuku&quot;: &quot;0&quot;, &quot;toDate&quot;: &quot;20260601&quot;, &quot;toTimeType&quot;: &quot;0&quot;, &quot;icTokurei&quot;: &quot;&quot;, &quot;rosenSyubetu&quot;: &quot;2&quot;, &quot;fromY&quot;: &quot;33,34,49,400&quot;, &quot;jikan&quot;: &quot;2&quot;, &quot;tokkyuGreen&quot;: &quot;0&quot;, &quot;lineColor&quot;: {&quot;rgb&quot;: [&quot;ee5511&quot;], &quot;num&quot;: &quot;1&quot;, &quot;type&quot;: &quot;0&quot;}, &quot;icUntinTuusan&quot;: &quot;1&quot;, &quot;toExt&quot;: &quot;&quot;, &quot;tokkyuShindai&quot;: &quot;0&quot;, &quot;icTokkyuGreen&quot;: &quot;0&quot;, &quot;toY&quot;: &quot;33,34,39,400&quot;, &quot;fromDate&quot;: &quot;20260601&quot;, &quot;mati&quot;: &quot;0&quot;, &quot;useDiagram&quot;: &quot;1&quot;, &quot;icTokkyu&quot;: &quot;0&quot;}], &quot;id&quot;: &quot;2&quot;, &quot;hyouka&quot;: {&quot;status&quot;: {&quot;syubetu&quot;: &quot;19&quot;, &quot;co2&quot;: &quot;1&quot;, &quot;hayai&quot;: &quot;1&quot;, &quot;value&quot;: &quot;1,1,1,0,0,0,0,1,1,19,1&quot;, &quot;kuuro&quot;: &quot;0&quot;, &quot;icCard&quot;: &quot;0&quot;, &quot;shindai&quot;: &quot;0&quot;, &quot;norikae&quot;: &quot;1&quot;, &quot;yasui&quot;: &quot;1&quot;, &quot;raku&quot;: &quot;1&quot;, &quot;kousoku&quot;: &quot;0&quot;}, &quot;hiyou&quot;: &quot;210&quot;, &quot;pathCnt&quot;: &quot;1&quot;, &quot;kubun&quot;: {&quot;value&quot;: &quot;0,0,0,0,0,0,0,0,0,0,0,0,0&quot;, &quot;renraku&quot;: &quot;0&quot;, &quot;bus&quot;: &quot;0&quot;, &quot;yuryou&quot;: &quot;0&quot;, &quot;shinya&quot;: &quot;0&quot;, &quot;shinkansen&quot;: &quot;0&quot;, &quot;kuuro&quot;: &quot;0&quot;, &quot;toho&quot;: &quot;0&quot;, &quot;jr&quot;: &quot;0&quot;, &quot;shindai&quot;: &quot;0&quot;, &quot;nozomi&quot;: &quot;0&quot;, &quot;tokkyu&quot;: &quot;0&quot;, &quot;kousoku&quot;: &quot;0&quot;, &quot;ferry&quot;: &quot;0&quot;}, &quot;icHiyou&quot;: &quot;210&quot;, &quot;jikan&quot;: &quot;2&quot;, &quot;norikaeCnt&quot;: &quot;0&quot;, &quot;kyori&quot;: &quot;15&quot;, &quot;icExist&quot;: &quot;0&quot;}}, {&quot;path&quot;: [{&quot;&quot;: &quot;&quot;, &quot;toX&quot;: &quot;130,20,33,0&quot;, &quot;lineName&quot;: &quot;\u798f\u5ca1\u5730\u4e0b\u9244\u7a7a\u6e2f\u7dda(\u798f\u5ca1\u7a7a\u6e2f\u884c)&quot;, &quot;haveDiagram&quot;: &quot;1&quot;, &quot;selectLine&quot;: &quot;1078962/1&quot;, &quot;fromPlatform&quot;: &quot;&quot;, &quot;fromTimeType&quot;: &quot;0&quot;, &quot;seatCode&quot;: &quot;&quot;, &quot;untinGakusei&quot;: &quot;0&quot;, &quot;norikae&quot;: &quot;0&quot;, &quot;seatName&quot;: &quot;&quot;, &quot;icTokkyuTuusan&quot;: &quot;0&quot;, &quot;tokkyu&quot;: &quot;0&quot;, &quot;id&quot;: &quot;1&quot;, &quot;tokkyuWaribiki&quot;: &quot;0&quot;, &quot;lineIndex&quot;: &quot;121050747&quot;, &quot;from&quot;: &quot;\u59ea\u6d5c&quot;, &quot;josyaText&quot;: &quot;&quot;, &quot;idou&quot;: &quot;0&quot;, &quot;icUntinGakusei&quot;: &quot;0&quot;, &quot;icUntin&quot;: &quot;210&quot;, &quot;rosen&quot;: &quot;\u798f\u5ca1\u5730\u4e0b\u9244\u7a7a\u6e2f\u7dda&quot;, &quot;to&quot;: &quot;\u5ba4\u898b&quot;, &quot;tokurei&quot;: &quot;&quot;, &quot;co2&quot;: &quot;26&quot;, &quot;fromExt&quot;: &quot;&quot;, &quot;busCorp&quot;: &quot;&quot;, &quot;fromTime&quot;: &quot;1038&quot;, &quot;lineType&quot;: &quot;\u666e\u901a&quot;, &quot;fromX&quot;: &quot;130,19,38,200&quot;, &quot;tokkyuKisetu&quot;: &quot;-1&quot;, &quot;untin&quot;: &quot;210&quot;, &quot;direction&quot;: &quot;0&quot;, &quot;tokkyuTuusan&quot;: &quot;0&quot;, &quot;toTime&quot;: &quot;1040&quot;, &quot;icExist&quot;: &quot;0&quot;, &quot;rosenCorp&quot;: &quot;\u798f\u5ca1&quot;, &quot;toPlatform&quot;: &quot;&quot;, &quot;untinTuusan&quot;: &quot;1&quot;, &quot;seatKubun&quot;: {&quot;num&quot;: &quot;0&quot;}, &quot;airLine&quot;: &quot;&quot;, &quot;kyori&quot;: &quot;15&quot;, &quot;untinOufuku&quot;: &quot;0&quot;, &quot;toDate&quot;: &quot;20260601&quot;, &quot;toTimeType&quot;: &quot;0&quot;, &quot;icTokurei&quot;: &quot;&quot;, &quot;rosenSyubetu&quot;: &quot;2&quot;, &quot;fromY&quot;: &quot;33,34,49,400&quot;, &quot;jikan&quot;: &quot;2&quot;, &quot;tokkyuGreen&quot;: &quot;0&quot;, &quot;lineColor&quot;: {&quot;rgb&quot;: [&quot;ee5511&quot;], &quot;num&quot;: &quot;1&quot;, &quot;type&quot;: &quot;0&quot;}, &quot;icUntinTuusan&quot;: &quot;1&quot;, &quot;toExt&quot;: &quot;&quot;, &quot;tokkyuShindai&quot;: &quot;0&quot;, &quot;icTokkyuGreen&quot;: &quot;0&quot;, &quot;toY&quot;: &quot;33,34,39,400&quot;, &quot;fromDate&quot;: &quot;20260601&quot;, &quot;mati&quot;: &quot;0&quot;, &quot;useDiagram&quot;: &quot;1&quot;, &quot;icTokkyu&quot;: &quot;0&quot;}], &quot;id&quot;: &quot;3&quot;, &quot;hyouka&quot;: {&quot;status&quot;: {&quot;syubetu&quot;: &quot;19&quot;, &quot;co2&quot;: &quot;1&quot;, &quot;hayai&quot;: &quot;1&quot;, &quot;value&quot;: &quot;1,1,1,0,0,0,0,1,1,19,1&quot;, &quot;kuuro&quot;: &quot;0&quot;, &quot;icCard&quot;: &quot;0&quot;, &quot;shindai&quot;: &quot;0&quot;, &quot;norikae&quot;: &quot;1&quot;, &quot;yasui&quot;: &quot;1&quot;, &quot;raku&quot;: &quot;1&quot;, &quot;kousoku&quot;: &quot;0&quot;}, &quot;hiyou&quot;: &quot;210&quot;, &quot;pathCnt&quot;: &quot;1&quot;, &quot;kubun&quot;: {&quot;value&quot;: &quot;0,0,0,0,0,0,0,0,0,0,0,0,0&quot;, &quot;renraku&quot;: &quot;0&quot;, &quot;bus&quot;: &quot;0&quot;, &quot;yuryou&quot;: &quot;0&quot;, &quot;shinya&quot;: &quot;0&quot;, &quot;shinkansen&quot;: &quot;0&quot;, &quot;kuuro&quot;: &quot;0&quot;, &quot;toho&quot;: &quot;0&quot;, &quot;jr&quot;: &quot;0&quot;, &quot;shindai&quot;: &quot;0&quot;, &quot;nozomi&quot;: &quot;0&quot;, &quot;tokkyu&quot;: &quot;0&quot;, &quot;kousoku&quot;: &quot;0&quot;, &quot;ferry&quot;: &quot;0&quot;}, &quot;icHiyou&quot;: &quot;210&quot;, &quot;jikan&quot;: &quot;2&quot;, &quot;norikaeCnt&quot;: &quot;0&quot;, &quot;kyori&quot;: &quot;15&quot;, &quot;icExist&quot;: &quot;0&quot;}}]}, &quot;head&quot;: {&quot;errorCode&quot;: &quot;0&quot;, &quot;functionCode&quot;: &quot;srm&quot;, &quot;rq&quot;: &quot;0&quot;}}}">
+    <input id="history" name="history" type="hidden" value="4:姪浜::R;4:室見::R">
+    <input id="msgmap" name="msgmap" type="hidden" value="目的地周辺の地図を開く:目的地周辺の地図を閉じる">
+    <input id="maptype" name="maptype" type="hidden" value="1">
+    <input id="basequery" name="basequery" type="hidden" value="./nsresult?mode=0&amp;skbn=1&amp;fr=%E5%A7%AA%E6%B5%9C&amp;frkbn=4&amp;frsk=R&amp;to=%E5%AE%A4%E8%A6%8B&amp;tokbn=4&amp;tosk=R&amp;dt=202606011030&amp;p=1%2C2">
+    <input id="langpath" name="langpath" type="hidden" value="">
+    <input id="tohonomi" name="tohonomi" type="hidden" value="">
+    <input id="myroutelabels" name="myroutelabels" type="hidden" value="searchnow=%E7%8F%BE%E5%9C%A8%E6%99%82%E5%88%BB%E3%81%A7%E6%A4%9C%E7%B4%A2&amp;nodata=%E7%99%BB%E9%8C%B2%E3%81%AF%E3%81%82%E3%82%8A%E3%81%BE%E3%81%9B%E3%82%93&amp;fromtitle=%E5%87%BA%E7%99%BA%E5%9C%B0&amp;totitle=%E5%88%B0%E7%9D%80%E5%9C%B0&amp;error_nosave=My%E3%83%AB%E3%83%BC%E3%83%88%E7%99%BB%E9%8C%B2%E3%81%AB%E5%A4%B1%E6%95%97%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F%E3%80%82&amp;success=My%E3%83%AB%E3%83%BC%E3%83%88%E3%81%AE%E7%99%BB%E9%8C%B2%E3%81%8C%E5%AE%8C%E4%BA%86%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F%E3%80%82&amp;closebutton=%E9%96%89%E3%81%98%E3%82%8B&amp;deletebutton=%E5%89%8A%E9%99%A4&amp;error_max=My%E3%83%AB%E3%83%BC%E3%83%88%E3%81%AB%E7%99%BB%E9%8C%B2%E3%81%A7%E3%81%8D%E3%82%8B%E4%B8%8A%E9%99%90%E3%81%AB%E9%81%94%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F%E3%80%82TOP%E7%94%BB%E9%9D%A2%E3%82%88%E3%82%8A%E5%89%8A%E9%99%A4%E3%82%92%E8%A1%8C%E3%81%A3%E3%81%A6%E3%81%8F%E3%81%A0%E3%81%95%E3%81%84%E3%80%82&amp;savebutton=%E7%99%BB%E9%8C%B2&amp;save=My%E3%83%AB%E3%83%BC%E3%83%88%E7%99%BB%E9%8C%B2&amp;delete=%E5%89%8A%E9%99%A4">
+
+
+    <h2 class="pageTtl">発着・料金検索結果</h2>
+
+    
+
+    <div class="tabContsIn cf">
+        <div class="resultArea cf">
+            <dl>
+                <dt>出発地</dt>
+                <dd>
+                    
+                    K01/JK01&nbsp;&nbsp;
+                    
+                    姪浜
+                </dd>
+            </dl>
+            <dl>
+                <dt>到着地</dt>
+                <dd>
+                    
+                    K02&nbsp;&nbsp;
+                    
+                    室見
+                </dd>
+            </dl>
+            <dl>
+                <dt>時刻</dt>
+                <dd>2026年06月01日(月) 10:30 出発
+                    
+                </dd>
+            </dl>
+            
+        </div>
+        
+        
+    </div><!-- /tabContsIn -->
+
+    <div class="ns_fare_button">
+        <ul class="infoButton">
+            <li>
+                <a href="./faresult?mode=5&amp;skbn=1&amp;fr=%E5%A7%AA%E6%B5%9C&amp;frkbn=4&amp;frsk=R&amp;to=%E5%AE%A4%E8%A6%8B&amp;tokbn=4&amp;tosk=R&amp;dt=202606011030&amp;p=1%2C2" target="_self">
+                    定期券料金
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="sp pager">
+        
+        <ul>
+            <li>
+                <a class="mouseon" href="javascript:void(0);" onclick="return submitResult('1:-1:1:20260601:1032', 1); ">
+                    一本前
+                </a>
+            </li>
+            <li>
+                <a class="mouseon" href="./nsresult?mode=0&amp;skbn=1&amp;fr=%E5%A7%AA%E6%B5%9C&amp;frkbn=4&amp;frsk=R&amp;to=%E5%AE%A4%E8%A6%8B&amp;tokbn=4&amp;tosk=R&amp;dt=202606011030&amp;p=1%2C2">
+                    初期の結果に戻る
+                </a>
+            </li>
+            <li>
+                <a class="mouseon" href="javascript:void(0);" onclick="return submitResult('1:1:1:20260601:1030' , 2 ); ">
+                    一本後
+                </a>
+            </li>
+        </ul>
+        
+
+    </div>
+    <!-- ==================== 安 早 楽タブ ==================== -->
+    
+    <div class="tabBox">
+        
+
+        <!-- ==================== タブ切り替え1 ==================== -->
+        <div class="tabConts mainTabOpen">
+            <!--<ul class="pc routeTab">
+                
+                
+                <li class="mouseon" style="width:120px;">
+                
+                    <a class="routeCurrent " href="javascript:void(0);">
+                        1
+                        <span style="font-size:12px">
+                            <br />
+                            10:30
+                            ->
+                            10:32
+                        </span>
+                    </a>
+                </li>
+                
+                
+                <li class="mouseon" style="width:120px;">
+                
+                    <a class=" " href="javascript:void(0);">
+                        2
+                        <span style="font-size:12px">
+                            <br />
+                            10:33
+                            ->
+                            10:35
+                        </span>
+                    </a>
+                </li>
+                
+                
+                <li class="mouseon" style="width:120px;">
+                
+                    <a class=" " href="javascript:void(0);">
+                        3
+                        <span style="font-size:12px">
+                            <br />
+                            10:38
+                            ->
+                            10:40
+                        </span>
+                    </a>
+                </li>
+                
+            </ul>-->
+            
+            
+            
+<div class="tabContsIn01 toggleBox cf  routeTabOpen">
+    <ul class="pc routeTab">
+        <li class="mouseon" style="width: 100%; text-align: left; text-indent: 10px;">
+            <a class="routeCurrent" href="javascript:void(0);" style="color: white; background: #2a8cf4;">
+                <!--経路-->
+                1
+            </a>
+        </li>
+    </ul>
+
+    <!-- ==================== SP経路ボタン　PC左コンテンツ ==================== -->
+    <div class="routeBtn cf routeBtnPC  " data-routeindex="1">
+        <p class="sp routeBtnTtl"><span>1</span></p>
+        <div class="routeBtnTx">
+            <ul class="routeBtnImg">
+            </ul>
+            <p class="time">10:30 発</p>
+            <p class="time">10:32 着</p>
+            <div class="routeBtnTxIn">
+                <dl>
+                    <dt>所要時間</dt>
+                    <dd><span class="nump" >&nbsp;2&nbsp;</span>分</dd>
+                </dl>
+                <dl>
+                    <dt>乗換回数</dt>
+                    <dd><span class="nump" >&nbsp;0&nbsp;</span></dd>
+                </dl>
+                <dl>
+                    <dt>普通料金</dt>
+                    <dd><span class="nump" >&nbsp;210&nbsp;</span>円</dd>
+                </dl>
+                
+                <dl>
+                    <dt>小児料金</dt>
+                    <dd><span class="nump" >&nbsp;110&nbsp;</span>円</dd>
+                </dl>
+                
+                    
+                
+                <dl>
+                    <dt>距離</dt>
+                    <dd><span class="nump" >&nbsp;1.5&nbsp;</span>km</dd>
+                </dl>
+                
+            </div>
+        </div>
+        <!--<div class="pc logoArea">
+            <img src="./static/images/logo_poweredorudan.png" alt="Mov Easy Powered By Jorudan">
+        </div>-->
+    </div><!-- /routeBtn -->
+    <!-- ==================== SP経路ボタンで開閉　PC右コンテンツ ==================== -->
+    <!-- ==================== 結果詳細エリア ==================== -->
+
+    <div class="toggleBoxR toggle routeBtnPC spToggleOpen">
+        <div class="toggleBoxRIn">
+            <div class="detailWrap">
+                <!-- ==================== ページャー ==================== -->
+                <div class="pager">
+                    
+                </div>
+                <!-- ==================== 地図 ==================== -->
+                <input type="hidden" id="RouteMap_1" value="" />
+                
+                
+
+                <!-- ==================== 乗り換え表 ==================== -->
+                <div class="detailBox">
+                    
+                        
+                            <div class="busColor01">
+    
+    <div class="stand stand01">
+        <ul class="detailIn">
+            <li class="date" id="lcol1_1_1">
+                
+                <span>10:30 発</span>
+
+                <input type="hidden" value="#ee5511" class="colhidden" />
+            </li>
+            <li class="line ">
+                <div class="cearcle01" id="lcol2_1_1"></div>
+            </li>
+            <li class="busStop">
+                <div class="busStopTop cf">
+                    <p class="busStopName">
+                        
+                        <span>K01/JK01&nbsp;&nbsp;姪浜</span>
+                        
+                        
+                    </p>
+                    <ul class="busStopIcon cf">
+                        
+                        <li class="mouseon">
+                            <a href="./map?mode=0&amp;skbn=1&amp;fr=%E5%A7%AA%E6%B5%9C&amp;frkbn=4&amp;frsk=R&amp;to=%E5%AE%A4%E8%A6%8B&amp;tokbn=4&amp;tosk=R&amp;dt=202606011030&amp;p=1%2C2&amp;mape=%E5%A7%AA%E6%B5%9C&amp;mapxy=130.324949036%3A33.5836752019&amp;mapmode=0" target="_self" onclick="return onLinkClick(this);">
+                                地図
+                            </a>
+                        </li>
+                        
+
+                        
+                        
+                        
+                        <li class="mouseon">
+                            <a href="./diagramhomen?mode=1&amp;skbn=1&amp;fr=%E5%A7%AA%E6%B5%9C&amp;frkbn=4&amp;frsk=R&amp;to=%E5%AE%A4%E8%A6%8B&amp;tokbn=4&amp;tosk=R&amp;dt=202606011030&amp;dgm=%E5%A7%AA%E6%B5%9C%3A%E7%A6%8F%E5%B2%A1%E5%9C%B0%E4%B8%8B%E9%89%84%E7%A9%BA%E6%B8%AF%E7%B7%9A&amp;knext=0&amp;p=1%2C2&amp;fromroute=1" target="_self" onclick="return onLinkClick(this);">
+                                時刻表
+                            </a>
+                        </li>
+                        
+                        
+
+                        
+
+                        
+                        <li class="sp passingBusStopIcon mouseon station_eki">
+                            <a href="https://subway.city.fukuoka.lg.jp/eki/stations/meinohama.php" target="_blank">
+                                駅情報
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </div>
+                <!--<div class="busStopBottom cf">
+                    <ul class="toiletIcon">
+                        <li><img src="assets/images/searchresult/ic_toilet.png" alt=""></li>
+                        <li><img src="assets/images/searchresult/ic_multi.png" alt=""></li>
+                    </ul>
+                </div>-->
+            </li>
+        </ul>
+
+        
+        <div class="pc station_eki">
+            <ul class="busStopIcon cf">
+                <li class="passingBusStopIcon mouseon">
+                    <a href="https://subway.city.fukuoka.lg.jp/eki/stations/meinohama.php" target="_blank">
+                        駅情報
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+    </div><!-- /stand -->
+    
+    <div class="passing TransferTimes">
+        <input type="hidden" class="hdnline" id="LineIndex_1_1" value="4265595,姪浜,10:30,10:32,室見,20260601" />
+        <ul class="detailIn">
+            <li class="date passage" id="lcol3_1_1">
+                <p class="dataTx mouseon borderTeisyaekiSt" style="display:none;">
+                    <a href="javascript:void(0);">
+                        
+                        停車駅
+                        
+
+                    </a>
+                </p>
+
+                <input type="hidden" value="#ee5511" class="colhidden" />
+            </li>
+            <li class="busStop">
+                <div class="routeBtnTxIn">
+                    <!--div class="bus nr2"  style="" -->
+                    <div class="bus nr_kk"  style="" >
+                        
+                        <p>福岡市地下鉄</p>
+                        
+                        <p>
+                            空港線(福岡空港行)
+                        </p>
+                    </div>
+                    
+
+                    
+
+                    
+
+                    
+
+                </!--div>
+
+                <ul class="busStopIcon cf">
+                    
+                    <!-- =====modified by hang 2018-12-26 start===== -->
+                    <li class="passingBusStopIcon mouseon">
+                        <a href="./linediagram?mode=0&amp;skbn=1&amp;fr=%E5%A7%AA%E6%B5%9C&amp;frkbn=4&amp;frsk=R&amp;to=%E5%AE%A4%E8%A6%8B&amp;tokbn=4&amp;tosk=R&amp;dt=202606011030&amp;dgm=%E5%A7%AA%E6%B5%9C&amp;kj=%E5%A7%AA%E6%B5%9C%3A%E5%AE%A4%E8%A6%8B%3A%E7%A6%8F%E5%B2%A1%E5%9C%B0%E4%B8%8B%E9%89%84%E7%A9%BA%E6%B8%AF%E7%B7%9A%3A20260601%3A1030%3A4265595&amp;lidx=4265595;10:30;10:32&amp;p=1%2C2" target="_self">
+                            通過時刻表
+                        </a>
+                    </li>
+                    <!-- =====modified by hang 2018-12-26 end===== -->
+                    
+
+                    
+
+                </ul>
+            </li>
+        </ul>
+    </div><!-- /passing -->
+
+    <div class="passing togglePassing" style="display:none;">
+    </div>
+
+
+    <div class="stand stand02">
+        <ul class="detailIn">
+            
+            <li class="date " id="lcol4_1_1">
+                <span>10:32 着</span>
+                
+            </li>
+            
+
+            <li class="line">
+                <div class="cearcle01" id="lcol5_1_1"></div>
+            </li>
+            <li class="busStop ">
+                <p class="busStopName">
+                    
+                    <span>K02&nbsp;&nbsp;室見</span>
+                    
+                    
+                </p>
+                <div class="busStopIconArea cf">
+                    <ul class="busStopIcon cf">
+                        
+                        
+                        <li class="mouseon">
+                            <a href="./map?mode=0&amp;skbn=1&amp;fr=%E5%A7%AA%E6%B5%9C&amp;frkbn=4&amp;frsk=R&amp;to=%E5%AE%A4%E8%A6%8B&amp;tokbn=4&amp;tosk=R&amp;dt=202606011030&amp;p=1%2C2&amp;mape=%E5%AE%A4%E8%A6%8B&amp;mapxy=130.340170122%3A33.580897987&amp;mapmode=0" target="_self" onclick="return onLinkClick(this);">
+                                地図
+                            </a>
+                        </li>
+                        
+
+                        
+                        
+                        
+                        
+                        
+                        
+
+                        
+
+                        
+                        <li class="sp passingBusStopIcon mouseon station_eki">
+                            <a href="https://subway.city.fukuoka.lg.jp/eki/stations/muromi.php" target="_blank">
+                                駅情報
+                            </a>
+                        </li>
+                        
+                    </ul>
+                    <!--<ul class="toiletIcon">
+                        <li><img src="assets/images/searchresult/ic_toilet.png" alt=""></li>
+                        <li><img src="assets/images/searchresult/ic_multi.png" alt=""></li>
+                    </ul>-->
+                </div>
+            </li>
+        </ul>
+        
+        <div class="pc station_eki">
+            <ul class="busStopIcon cf">
+                <li class="passingBusStopIcon mouseon">
+                    <a href="https://subway.city.fukuoka.lg.jp/eki/stations/muromi.php" target="_blank">
+                        駅情報
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+    </div><!-- /stand -->
+</div><!-- /busColor01 -->
+                        
+
+                        
+
+                    
+                    </div>
+
+                    <!-- ==================== ページャー ==================== -->
+                    <div class="pager">
+                        
+                    </div>
+                </div><!-- /detailWrap -->
+            <!-- ==================== 定期代 ==================== -->
+            <div class="detailWrap02">
+                
+                
+                <ul class="iconArea">
+                    
+                    
+                    <li class="mouseon pc">
+                        <a href="javascript:void(0);" class="nsprint" onclick="return submitResult('1:0:1:20260601:1030' , 5 ); ">印刷</a>
+                    </li>
+                    
+                  
+
+                    <!--<li class="mouseon"><a href=""><img src="assets/images/ic_line.png" alt="LINE"></a></li>-->
+                </ul>
+            </div><!-- /detailWrap02 -->
+        </div><!-- /toggleBoxRIn -->
+    </div><!-- /toggle toggleBoxR-->
+</div><!-- /tabContsIn01 toggleBox）-->
+
+
+            
+            <div class="pc pager">
+                
+                <ul>
+                    <li>
+                        <a class="mouseon" href="javascript:void(0);" onclick="return submitResult('1:-1:1:20260601:1032', 1); ">
+                            一本前
+                        </a>
+                    </li>
+                    <li>
+                        <a class="mouseon" href="./nsresult?mode=0&amp;skbn=1&amp;fr=%E5%A7%AA%E6%B5%9C&amp;frkbn=4&amp;frsk=R&amp;to=%E5%AE%A4%E8%A6%8B&amp;tokbn=4&amp;tosk=R&amp;dt=202606011030&amp;p=1%2C2">
+                            初期の結果に戻る
+                        </a>
+                    </li>
+                    <li>
+                        <a class="mouseon" href="javascript:void(0);" onclick="return submitResult('1:1:1:20260601:1030' , 2 ); ">
+                            一本後
+                        </a>
+                    </li>
+                </ul>
+                
+
+            </div>
+            
+            
+            
+<div class="tabContsIn02 toggleBox cf  ">
+    <ul class="pc routeTab">
+        <li class="mouseon" style="width: 100%; text-align: left; text-indent: 10px;">
+            <a class="routeCurrent" href="javascript:void(0);" style="color: white; background: #2a8cf4;">
+                <!--経路-->
+                2
+            </a>
+        </li>
+    </ul>
+
+    <!-- ==================== SP経路ボタン　PC左コンテンツ ==================== -->
+    <div class="routeBtn cf routeBtnPC  " data-routeindex="2">
+        <p class="sp routeBtnTtl"><span>2</span></p>
+        <div class="routeBtnTx">
+            <ul class="routeBtnImg">
+            </ul>
+            <p class="time">10:33 発</p>
+            <p class="time">10:35 着</p>
+            <div class="routeBtnTxIn">
+                <dl>
+                    <dt>所要時間</dt>
+                    <dd><span class="nump" >&nbsp;2&nbsp;</span>分</dd>
+                </dl>
+                <dl>
+                    <dt>乗換回数</dt>
+                    <dd><span class="nump" >&nbsp;0&nbsp;</span></dd>
+                </dl>
+                <dl>
+                    <dt>普通料金</dt>
+                    <dd><span class="nump" >&nbsp;210&nbsp;</span>円</dd>
+                </dl>
+                
+                <dl>
+                    <dt>小児料金</dt>
+                    <dd><span class="nump" >&nbsp;110&nbsp;</span>円</dd>
+                </dl>
+                
+                    
+                
+                <dl>
+                    <dt>距離</dt>
+                    <dd><span class="nump" >&nbsp;1.5&nbsp;</span>km</dd>
+                </dl>
+                
+            </div>
+        </div>
+        <!--<div class="pc logoArea">
+            <img src="./static/images/logo_poweredorudan.png" alt="Mov Easy Powered By Jorudan">
+        </div>-->
+    </div><!-- /routeBtn -->
+    <!-- ==================== SP経路ボタンで開閉　PC右コンテンツ ==================== -->
+    <!-- ==================== 結果詳細エリア ==================== -->
+
+    <div class="toggleBoxR toggle routeBtnPC ">
+        <div class="toggleBoxRIn">
+            <div class="detailWrap">
+                <!-- ==================== ページャー ==================== -->
+                <div class="pager">
+                    
+                </div>
+                <!-- ==================== 地図 ==================== -->
+                <input type="hidden" id="RouteMap_2" value="" />
+                
+                
+
+                <!-- ==================== 乗り換え表 ==================== -->
+                <div class="detailBox">
+                    
+                        
+                            <div class="busColor01">
+    
+    <div class="stand stand01">
+        <ul class="detailIn">
+            <li class="date" id="lcol1_2_1">
+                
+                <span>10:33 発</span>
+
+                <input type="hidden" value="#ee5511" class="colhidden" />
+            </li>
+            <li class="line ">
+                <div class="cearcle01" id="lcol2_2_1"></div>
+            </li>
+            <li class="busStop">
+                <div class="busStopTop cf">
+                    <p class="busStopName">
+                        
+                        <span>K01/JK01&nbsp;&nbsp;姪浜</span>
+                        
+                        
+                    </p>
+                    <ul class="busStopIcon cf">
+                        
+                        <li class="mouseon">
+                            <a href="./map?mode=0&amp;skbn=1&amp;fr=%E5%A7%AA%E6%B5%9C&amp;frkbn=4&amp;frsk=R&amp;to=%E5%AE%A4%E8%A6%8B&amp;tokbn=4&amp;tosk=R&amp;dt=202606011030&amp;dgm=%E5%A7%AA%E6%B5%9C&amp;kj=%E5%A7%AA%E6%B5%9C%3A%E5%AE%A4%E8%A6%8B%3A%E7%A6%8F%E5%B2%A1%E5%9C%B0%E4%B8%8B%E9%89%84%E7%A9%BA%E6%B8%AF%E7%B7%9A%3A20260601%3A1030%3A4265595&amp;lidx=4265595;10:30;10:32&amp;p=1%2C2&amp;mape=%E5%A7%AA%E6%B5%9C&amp;mapxy=130.324949036%3A33.5836752019&amp;mapmode=0" target="_self" onclick="return onLinkClick(this);">
+                                地図
+                            </a>
+                        </li>
+                        
+
+                        
+                        
+                        
+                        <li class="mouseon">
+                            <a href="./diagramhomen?mode=1&amp;skbn=1&amp;fr=%E5%A7%AA%E6%B5%9C&amp;frkbn=4&amp;frsk=R&amp;to=%E5%AE%A4%E8%A6%8B&amp;tokbn=4&amp;tosk=R&amp;dt=202606011030&amp;dgm=%E5%A7%AA%E6%B5%9C%3A%E7%A6%8F%E5%B2%A1%E5%9C%B0%E4%B8%8B%E9%89%84%E7%A9%BA%E6%B8%AF%E7%B7%9A&amp;knext=0&amp;p=1%2C2&amp;fromroute=1" target="_self" onclick="return onLinkClick(this);">
+                                時刻表
+                            </a>
+                        </li>
+                        
+                        
+
+                        
+
+                        
+                        <li class="sp passingBusStopIcon mouseon station_eki">
+                            <a href="https://subway.city.fukuoka.lg.jp/eki/stations/meinohama.php" target="_blank">
+                                駅情報
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </div>
+                <!--<div class="busStopBottom cf">
+                    <ul class="toiletIcon">
+                        <li><img src="assets/images/searchresult/ic_toilet.png" alt=""></li>
+                        <li><img src="assets/images/searchresult/ic_multi.png" alt=""></li>
+                    </ul>
+                </div>-->
+            </li>
+        </ul>
+
+        
+        <div class="pc station_eki">
+            <ul class="busStopIcon cf">
+                <li class="passingBusStopIcon mouseon">
+                    <a href="https://subway.city.fukuoka.lg.jp/eki/stations/meinohama.php" target="_blank">
+                        駅情報
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+    </div><!-- /stand -->
+    
+    <div class="passing TransferTimes">
+        <input type="hidden" class="hdnline" id="LineIndex_2_1" value="108729979,姪浜,10:33,10:35,室見,20260601" />
+        <ul class="detailIn">
+            <li class="date passage" id="lcol3_2_1">
+                <p class="dataTx mouseon borderTeisyaekiSt" style="display:none;">
+                    <a href="javascript:void(0);">
+                        
+                        停車駅
+                        
+
+                    </a>
+                </p>
+
+                <input type="hidden" value="#ee5511" class="colhidden" />
+            </li>
+            <li class="busStop">
+                <div class="routeBtnTxIn">
+                    <!--div class="bus nr2"  style="" -->
+                    <div class="bus nr_kk"  style="" >
+                        
+                        <p>福岡市地下鉄</p>
+                        
+                        <p>
+                            空港線(貝塚行)
+                        </p>
+                    </div>
+                    
+
+                    
+
+                    
+
+                    
+
+                </!--div>
+
+                <ul class="busStopIcon cf">
+                    
+                    <!-- =====modified by hang 2018-12-26 start===== -->
+                    <li class="passingBusStopIcon mouseon">
+                        <a href="./linediagram?mode=0&amp;skbn=1&amp;fr=%E5%A7%AA%E6%B5%9C&amp;frkbn=4&amp;frsk=R&amp;to=%E5%AE%A4%E8%A6%8B&amp;tokbn=4&amp;tosk=R&amp;dt=202606011030&amp;dgm=%E5%A7%AA%E6%B5%9C&amp;kj=%E5%A7%AA%E6%B5%9C%3A%E5%AE%A4%E8%A6%8B%3A%E7%A6%8F%E5%B2%A1%E5%9C%B0%E4%B8%8B%E9%89%84%E7%A9%BA%E6%B8%AF%E7%B7%9A%3A20260601%3A1033%3A108729979&amp;lidx=108729979;10:33;10:35&amp;p=1%2C2" target="_self">
+                            通過時刻表
+                        </a>
+                    </li>
+                    <!-- =====modified by hang 2018-12-26 end===== -->
+                    
+
+                    
+
+                </ul>
+            </li>
+        </ul>
+    </div><!-- /passing -->
+
+    <div class="passing togglePassing" style="display:none;">
+    </div>
+
+
+    <div class="stand stand02">
+        <ul class="detailIn">
+            
+            <li class="date " id="lcol4_2_1">
+                <span>10:35 着</span>
+                
+            </li>
+            
+
+            <li class="line">
+                <div class="cearcle01" id="lcol5_2_1"></div>
+            </li>
+            <li class="busStop ">
+                <p class="busStopName">
+                    
+                    <span>K02&nbsp;&nbsp;室見</span>
+                    
+                    
+                </p>
+                <div class="busStopIconArea cf">
+                    <ul class="busStopIcon cf">
+                        
+                        
+                        <li class="mouseon">
+                            <a href="./map?mode=0&amp;skbn=1&amp;fr=%E5%A7%AA%E6%B5%9C&amp;frkbn=4&amp;frsk=R&amp;to=%E5%AE%A4%E8%A6%8B&amp;tokbn=4&amp;tosk=R&amp;dt=202606011030&amp;dgm=%E5%A7%AA%E6%B5%9C&amp;kj=%E5%A7%AA%E6%B5%9C%3A%E5%AE%A4%E8%A6%8B%3A%E7%A6%8F%E5%B2%A1%E5%9C%B0%E4%B8%8B%E9%89%84%E7%A9%BA%E6%B8%AF%E7%B7%9A%3A20260601%3A1030%3A4265595&amp;lidx=4265595;10:30;10:32&amp;p=1%2C2&amp;mape=%E5%AE%A4%E8%A6%8B&amp;mapxy=130.340170122%3A33.580897987&amp;mapmode=0" target="_self" onclick="return onLinkClick(this);">
+                                地図
+                            </a>
+                        </li>
+                        
+
+                        
+                        
+                        
+                        
+                        
+                        
+
+                        
+
+                        
+                        <li class="sp passingBusStopIcon mouseon station_eki">
+                            <a href="https://subway.city.fukuoka.lg.jp/eki/stations/muromi.php" target="_blank">
+                                駅情報
+                            </a>
+                        </li>
+                        
+                    </ul>
+                    <!--<ul class="toiletIcon">
+                        <li><img src="assets/images/searchresult/ic_toilet.png" alt=""></li>
+                        <li><img src="assets/images/searchresult/ic_multi.png" alt=""></li>
+                    </ul>-->
+                </div>
+            </li>
+        </ul>
+        
+        <div class="pc station_eki">
+            <ul class="busStopIcon cf">
+                <li class="passingBusStopIcon mouseon">
+                    <a href="https://subway.city.fukuoka.lg.jp/eki/stations/muromi.php" target="_blank">
+                        駅情報
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+    </div><!-- /stand -->
+</div><!-- /busColor01 -->
+                        
+
+                        
+
+                    
+                    </div>
+
+                    <!-- ==================== ページャー ==================== -->
+                    <div class="pager">
+                        
+                    </div>
+                </div><!-- /detailWrap -->
+            <!-- ==================== 定期代 ==================== -->
+            <div class="detailWrap02">
+                
+                
+                <ul class="iconArea">
+                    
+                    
+                    <li class="mouseon pc">
+                        <a href="javascript:void(0);" class="nsprint" onclick="return submitResult('2:0:1:20260601:1033' , 5 ); ">印刷</a>
+                    </li>
+                    
+                  
+
+                    <!--<li class="mouseon"><a href=""><img src="assets/images/ic_line.png" alt="LINE"></a></li>-->
+                </ul>
+            </div><!-- /detailWrap02 -->
+        </div><!-- /toggleBoxRIn -->
+    </div><!-- /toggle toggleBoxR-->
+</div><!-- /tabContsIn01 toggleBox）-->
+
+
+            
+            <div class="pc pager">
+                
+                <ul>
+                    <li>
+                        <a class="mouseon" href="javascript:void(0);" onclick="return submitResult('1:-1:1:20260601:1032', 1); ">
+                            一本前
+                        </a>
+                    </li>
+                    <li>
+                        <a class="mouseon" href="./nsresult?mode=0&amp;skbn=1&amp;fr=%E5%A7%AA%E6%B5%9C&amp;frkbn=4&amp;frsk=R&amp;to=%E5%AE%A4%E8%A6%8B&amp;tokbn=4&amp;tosk=R&amp;dt=202606011030&amp;p=1%2C2">
+                            初期の結果に戻る
+                        </a>
+                    </li>
+                    <li>
+                        <a class="mouseon" href="javascript:void(0);" onclick="return submitResult('1:1:1:20260601:1030' , 2 ); ">
+                            一本後
+                        </a>
+                    </li>
+                </ul>
+                
+
+            </div>
+            
+            
+            
+<div class="tabContsIn03 toggleBox cf  ">
+    <ul class="pc routeTab">
+        <li class="mouseon" style="width: 100%; text-align: left; text-indent: 10px;">
+            <a class="routeCurrent" href="javascript:void(0);" style="color: white; background: #2a8cf4;">
+                <!--経路-->
+                3
+            </a>
+        </li>
+    </ul>
+
+    <!-- ==================== SP経路ボタン　PC左コンテンツ ==================== -->
+    <div class="routeBtn cf routeBtnPC  " data-routeindex="3">
+        <p class="sp routeBtnTtl"><span>3</span></p>
+        <div class="routeBtnTx">
+            <ul class="routeBtnImg">
+            </ul>
+            <p class="time">10:38 発</p>
+            <p class="time">10:40 着</p>
+            <div class="routeBtnTxIn">
+                <dl>
+                    <dt>所要時間</dt>
+                    <dd><span class="nump" >&nbsp;2&nbsp;</span>分</dd>
+                </dl>
+                <dl>
+                    <dt>乗換回数</dt>
+                    <dd><span class="nump" >&nbsp;0&nbsp;</span></dd>
+                </dl>
+                <dl>
+                    <dt>普通料金</dt>
+                    <dd><span class="nump" >&nbsp;210&nbsp;</span>円</dd>
+                </dl>
+                
+                <dl>
+                    <dt>小児料金</dt>
+                    <dd><span class="nump" >&nbsp;110&nbsp;</span>円</dd>
+                </dl>
+                
+                    
+                
+                <dl>
+                    <dt>距離</dt>
+                    <dd><span class="nump" >&nbsp;1.5&nbsp;</span>km</dd>
+                </dl>
+                
+            </div>
+        </div>
+        <!--<div class="pc logoArea">
+            <img src="./static/images/logo_poweredorudan.png" alt="Mov Easy Powered By Jorudan">
+        </div>-->
+    </div><!-- /routeBtn -->
+    <!-- ==================== SP経路ボタンで開閉　PC右コンテンツ ==================== -->
+    <!-- ==================== 結果詳細エリア ==================== -->
+
+    <div class="toggleBoxR toggle routeBtnPC ">
+        <div class="toggleBoxRIn">
+            <div class="detailWrap">
+                <!-- ==================== ページャー ==================== -->
+                <div class="pager">
+                    
+                </div>
+                <!-- ==================== 地図 ==================== -->
+                <input type="hidden" id="RouteMap_3" value="" />
+                
+                
+
+                <!-- ==================== 乗り換え表 ==================== -->
+                <div class="detailBox">
+                    
+                        
+                            <div class="busColor01">
+    
+    <div class="stand stand01">
+        <ul class="detailIn">
+            <li class="date" id="lcol1_3_1">
+                
+                <span>10:38 発</span>
+
+                <input type="hidden" value="#ee5511" class="colhidden" />
+            </li>
+            <li class="line ">
+                <div class="cearcle01" id="lcol2_3_1"></div>
+            </li>
+            <li class="busStop">
+                <div class="busStopTop cf">
+                    <p class="busStopName">
+                        
+                        <span>K01/JK01&nbsp;&nbsp;姪浜</span>
+                        
+                        
+                    </p>
+                    <ul class="busStopIcon cf">
+                        
+                        <li class="mouseon">
+                            <a href="./map?mode=0&amp;skbn=1&amp;fr=%E5%A7%AA%E6%B5%9C&amp;frkbn=4&amp;frsk=R&amp;to=%E5%AE%A4%E8%A6%8B&amp;tokbn=4&amp;tosk=R&amp;dt=202606011030&amp;dgm=%E5%A7%AA%E6%B5%9C&amp;kj=%E5%A7%AA%E6%B5%9C%3A%E5%AE%A4%E8%A6%8B%3A%E7%A6%8F%E5%B2%A1%E5%9C%B0%E4%B8%8B%E9%89%84%E7%A9%BA%E6%B8%AF%E7%B7%9A%3A20260601%3A1033%3A108729979&amp;lidx=108729979;10:33;10:35&amp;p=1%2C2&amp;mape=%E5%A7%AA%E6%B5%9C&amp;mapxy=130.324949036%3A33.5836752019&amp;mapmode=0" target="_self" onclick="return onLinkClick(this);">
+                                地図
+                            </a>
+                        </li>
+                        
+
+                        
+                        
+                        
+                        <li class="mouseon">
+                            <a href="./diagramhomen?mode=1&amp;skbn=1&amp;fr=%E5%A7%AA%E6%B5%9C&amp;frkbn=4&amp;frsk=R&amp;to=%E5%AE%A4%E8%A6%8B&amp;tokbn=4&amp;tosk=R&amp;dt=202606011030&amp;dgm=%E5%A7%AA%E6%B5%9C%3A%E7%A6%8F%E5%B2%A1%E5%9C%B0%E4%B8%8B%E9%89%84%E7%A9%BA%E6%B8%AF%E7%B7%9A&amp;knext=0&amp;p=1%2C2&amp;fromroute=1" target="_self" onclick="return onLinkClick(this);">
+                                時刻表
+                            </a>
+                        </li>
+                        
+                        
+
+                        
+
+                        
+                        <li class="sp passingBusStopIcon mouseon station_eki">
+                            <a href="https://subway.city.fukuoka.lg.jp/eki/stations/meinohama.php" target="_blank">
+                                駅情報
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </div>
+                <!--<div class="busStopBottom cf">
+                    <ul class="toiletIcon">
+                        <li><img src="assets/images/searchresult/ic_toilet.png" alt=""></li>
+                        <li><img src="assets/images/searchresult/ic_multi.png" alt=""></li>
+                    </ul>
+                </div>-->
+            </li>
+        </ul>
+
+        
+        <div class="pc station_eki">
+            <ul class="busStopIcon cf">
+                <li class="passingBusStopIcon mouseon">
+                    <a href="https://subway.city.fukuoka.lg.jp/eki/stations/meinohama.php" target="_blank">
+                        駅情報
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+    </div><!-- /stand -->
+    
+    <div class="passing TransferTimes">
+        <input type="hidden" class="hdnline" id="LineIndex_3_1" value="121050747,姪浜,10:38,10:40,室見,20260601" />
+        <ul class="detailIn">
+            <li class="date passage" id="lcol3_3_1">
+                <p class="dataTx mouseon borderTeisyaekiSt" style="display:none;">
+                    <a href="javascript:void(0);">
+                        
+                        停車駅
+                        
+
+                    </a>
+                </p>
+
+                <input type="hidden" value="#ee5511" class="colhidden" />
+            </li>
+            <li class="busStop">
+                <div class="routeBtnTxIn">
+                    <!--div class="bus nr2"  style="" -->
+                    <div class="bus nr_kk"  style="" >
+                        
+                        <p>福岡市地下鉄</p>
+                        
+                        <p>
+                            空港線(福岡空港行)
+                        </p>
+                    </div>
+                    
+
+                    
+
+                    
+
+                    
+
+                </!--div>
+
+                <ul class="busStopIcon cf">
+                    
+                    <!-- =====modified by hang 2018-12-26 start===== -->
+                    <li class="passingBusStopIcon mouseon">
+                        <a href="./linediagram?mode=0&amp;skbn=1&amp;fr=%E5%A7%AA%E6%B5%9C&amp;frkbn=4&amp;frsk=R&amp;to=%E5%AE%A4%E8%A6%8B&amp;tokbn=4&amp;tosk=R&amp;dt=202606011030&amp;dgm=%E5%A7%AA%E6%B5%9C&amp;kj=%E5%A7%AA%E6%B5%9C%3A%E5%AE%A4%E8%A6%8B%3A%E7%A6%8F%E5%B2%A1%E5%9C%B0%E4%B8%8B%E9%89%84%E7%A9%BA%E6%B8%AF%E7%B7%9A%3A20260601%3A1038%3A121050747&amp;lidx=121050747;10:38;10:40&amp;p=1%2C2" target="_self">
+                            通過時刻表
+                        </a>
+                    </li>
+                    <!-- =====modified by hang 2018-12-26 end===== -->
+                    
+
+                    
+
+                </ul>
+            </li>
+        </ul>
+    </div><!-- /passing -->
+
+    <div class="passing togglePassing" style="display:none;">
+    </div>
+
+
+    <div class="stand stand02">
+        <ul class="detailIn">
+            
+            <li class="date " id="lcol4_3_1">
+                <span>10:40 着</span>
+                
+            </li>
+            
+
+            <li class="line">
+                <div class="cearcle01" id="lcol5_3_1"></div>
+            </li>
+            <li class="busStop ">
+                <p class="busStopName">
+                    
+                    <span>K02&nbsp;&nbsp;室見</span>
+                    
+                    
+                </p>
+                <div class="busStopIconArea cf">
+                    <ul class="busStopIcon cf">
+                        
+                        
+                        <li class="mouseon">
+                            <a href="./map?mode=0&amp;skbn=1&amp;fr=%E5%A7%AA%E6%B5%9C&amp;frkbn=4&amp;frsk=R&amp;to=%E5%AE%A4%E8%A6%8B&amp;tokbn=4&amp;tosk=R&amp;dt=202606011030&amp;dgm=%E5%A7%AA%E6%B5%9C&amp;kj=%E5%A7%AA%E6%B5%9C%3A%E5%AE%A4%E8%A6%8B%3A%E7%A6%8F%E5%B2%A1%E5%9C%B0%E4%B8%8B%E9%89%84%E7%A9%BA%E6%B8%AF%E7%B7%9A%3A20260601%3A1033%3A108729979&amp;lidx=108729979;10:33;10:35&amp;p=1%2C2&amp;mape=%E5%AE%A4%E8%A6%8B&amp;mapxy=130.340170122%3A33.580897987&amp;mapmode=0" target="_self" onclick="return onLinkClick(this);">
+                                地図
+                            </a>
+                        </li>
+                        
+
+                        
+                        
+                        
+                        
+                        
+                        
+
+                        
+
+                        
+                        <li class="sp passingBusStopIcon mouseon station_eki">
+                            <a href="https://subway.city.fukuoka.lg.jp/eki/stations/muromi.php" target="_blank">
+                                駅情報
+                            </a>
+                        </li>
+                        
+                    </ul>
+                    <!--<ul class="toiletIcon">
+                        <li><img src="assets/images/searchresult/ic_toilet.png" alt=""></li>
+                        <li><img src="assets/images/searchresult/ic_multi.png" alt=""></li>
+                    </ul>-->
+                </div>
+            </li>
+        </ul>
+        
+        <div class="pc station_eki">
+            <ul class="busStopIcon cf">
+                <li class="passingBusStopIcon mouseon">
+                    <a href="https://subway.city.fukuoka.lg.jp/eki/stations/muromi.php" target="_blank">
+                        駅情報
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+    </div><!-- /stand -->
+</div><!-- /busColor01 -->
+                        
+
+                        
+
+                    
+                    </div>
+
+                    <!-- ==================== ページャー ==================== -->
+                    <div class="pager">
+                        
+                    </div>
+                </div><!-- /detailWrap -->
+            <!-- ==================== 定期代 ==================== -->
+            <div class="detailWrap02">
+                
+                
+                <ul class="iconArea">
+                    
+                    
+                    <li class="mouseon pc">
+                        <a href="javascript:void(0);" class="nsprint" onclick="return submitResult('3:0:1:20260601:1038' , 5 ); ">印刷</a>
+                    </li>
+                    
+                  
+
+                    <!--<li class="mouseon"><a href=""><img src="assets/images/ic_line.png" alt="LINE"></a></li>-->
+                </ul>
+            </div><!-- /detailWrap02 -->
+        </div><!-- /toggleBoxRIn -->
+    </div><!-- /toggle toggleBoxR-->
+</div><!-- /tabContsIn01 toggleBox）-->
+
+
+            
+            <div class="pc pager">
+                
+                <ul>
+                    <li>
+                        <a class="mouseon" href="javascript:void(0);" onclick="return submitResult('1:-1:1:20260601:1032', 1); ">
+                            一本前
+                        </a>
+                    </li>
+                    <li>
+                        <a class="mouseon" href="./nsresult?mode=0&amp;skbn=1&amp;fr=%E5%A7%AA%E6%B5%9C&amp;frkbn=4&amp;frsk=R&amp;to=%E5%AE%A4%E8%A6%8B&amp;tokbn=4&amp;tosk=R&amp;dt=202606011030&amp;p=1%2C2">
+                            初期の結果に戻る
+                        </a>
+                    </li>
+                    <li>
+                        <a class="mouseon" href="javascript:void(0);" onclick="return submitResult('1:1:1:20260601:1030' , 2 ); ">
+                            一本後
+                        </a>
+                    </li>
+                </ul>
+                
+
+            </div>
+            
+        </div>
+    </div>
+
+
+    <!-- ==================== ページャー ==================== -->
+    <div class="sp pager pagerLast">
+        
+        <ul>
+            <li>
+                <a class="mouseon" href="javascript:void(0);" onclick="return submitResult('1:-1:1:20260601:1032', 1); ">
+                    一本前
+                </a>
+            </li>
+            <li>
+                <a class="mouseon" href="./nsresult?mode=0&amp;skbn=1&amp;fr=%E5%A7%AA%E6%B5%9C&amp;frkbn=4&amp;frsk=R&amp;to=%E5%AE%A4%E8%A6%8B&amp;tokbn=4&amp;tosk=R&amp;dt=202606011030&amp;p=1%2C2">
+                    初期の結果に戻る
+                </a>
+            </li>
+            <li>
+                <a class="mouseon" href="javascript:void(0);" onclick="return submitResult('1:1:1:20260601:1030' , 2 ); ">
+                    一本後
+                </a>
+            </li>
+        </ul>
+        
+    </div>
+
+
+    <!-- ==================== 条件検索 ==================== -->
+
+    <div class="searchArea">
+        
+        <ul>
+            <li class="mouseon"><a href="javascript:void(0);" onclick="return submitResult('' , 3 ); ">復路を検索</a></li>
+            <li class="mouseon"><a href="javascript:void(0);" onclick="return submitResult('' , 4 ); ">条件変更</a></li>
+            <li class="mouseon"><a href="javascript:void(0);" onclick="return submitResult('' , 9 ); ">現在時刻で検索</a></li>
+        </ul>
+        
+    </div>
+
+
+
+</form>
+
+
+            </div>
+        </div>
+        <div id="pagetop" class="noprint"><a class="pagetopBtn" href="">PAGE TOP</a></div>
+
+        <footer class="mov-footer noprint">
+            <div class="mov-footer-inner cf">
+                <nav class="mov-footer-menu">
+                    <ul>
+                        <li><a href="./termsofuse">利用規約</a></li>
+                    </ul>
+                </nav>
+                <p class="copyright">Copyright© Fukuoka City Transportation Bureau. All rights reserved.</p>
+            </div>
+        </footer>
+
+    </div><!-- / #wrap -->
+
+    
+    
+    
+
+    <!--<script src="./static/js/tracking.js"></script>-->
+
+
+    <style type="text/css">
+        
+
+    
+        
+        @media only screen and (min-width: 768px){
+    #lcol1_1_1{
+        border-right:2px solid #ee5511;
+    }
+    #lcol2_1_1{
+        border:2px solid #ee5511;
+    }
+    #lcol2_1_1:after{
+        background:#ee5511;
+    }
+    #lcol3_1_1{
+        border-right: 2px solid #ee5511;
+    }
+    #lcol4_1_1:after{
+        background:#ee5511;
+    }
+    #lcol5_1_1{
+        border:2px solid #ee5511;
+    }
+    #lcol5_1_1:after{
+        background:#ee5511;
+    }
+    .busStopLine_1_1:after {
+        background: rgba(13, 185, 222,1)
+    }
+}
+@media only screen and (max-width: 767px) {
+    #lcol1_1_1{
+        border-right:1px solid #ee5511;
+    }
+    #lcol2_1_1{
+        border:2px solid #ee5511;
+    }
+    #lcol2_1_1:after{
+        background:#ee5511;
+    }
+    #lcol3_1_1{
+        border-right: 1px solid #ee5511;
+    }
+    #lcol4_1_1:after{
+        background:#ee5511;
+    }
+    #lcol5_1_1{
+        border:2px solid #ee5511;
+    }
+    #lcol5_1_1:after{
+        background:#ee5511;
+    }
+    .busStopLine_1_1:after {
+        background: rgba(13, 185, 222,1)
+    }
+
+
+}
+        
+    
+
+    
+        
+        @media only screen and (min-width: 768px){
+    #lcol1_2_1{
+        border-right:2px solid #ee5511;
+    }
+    #lcol2_2_1{
+        border:2px solid #ee5511;
+    }
+    #lcol2_2_1:after{
+        background:#ee5511;
+    }
+    #lcol3_2_1{
+        border-right: 2px solid #ee5511;
+    }
+    #lcol4_2_1:after{
+        background:#ee5511;
+    }
+    #lcol5_2_1{
+        border:2px solid #ee5511;
+    }
+    #lcol5_2_1:after{
+        background:#ee5511;
+    }
+    .busStopLine_2_1:after {
+        background: rgba(13, 185, 222,1)
+    }
+}
+@media only screen and (max-width: 767px) {
+    #lcol1_2_1{
+        border-right:1px solid #ee5511;
+    }
+    #lcol2_2_1{
+        border:2px solid #ee5511;
+    }
+    #lcol2_2_1:after{
+        background:#ee5511;
+    }
+    #lcol3_2_1{
+        border-right: 1px solid #ee5511;
+    }
+    #lcol4_2_1:after{
+        background:#ee5511;
+    }
+    #lcol5_2_1{
+        border:2px solid #ee5511;
+    }
+    #lcol5_2_1:after{
+        background:#ee5511;
+    }
+    .busStopLine_2_1:after {
+        background: rgba(13, 185, 222,1)
+    }
+
+
+}
+        
+    
+
+    
+        
+        @media only screen and (min-width: 768px){
+    #lcol1_3_1{
+        border-right:2px solid #ee5511;
+    }
+    #lcol2_3_1{
+        border:2px solid #ee5511;
+    }
+    #lcol2_3_1:after{
+        background:#ee5511;
+    }
+    #lcol3_3_1{
+        border-right: 2px solid #ee5511;
+    }
+    #lcol4_3_1:after{
+        background:#ee5511;
+    }
+    #lcol5_3_1{
+        border:2px solid #ee5511;
+    }
+    #lcol5_3_1:after{
+        background:#ee5511;
+    }
+    .busStopLine_3_1:after {
+        background: rgba(13, 185, 222,1)
+    }
+}
+@media only screen and (max-width: 767px) {
+    #lcol1_3_1{
+        border-right:1px solid #ee5511;
+    }
+    #lcol2_3_1{
+        border:2px solid #ee5511;
+    }
+    #lcol2_3_1:after{
+        background:#ee5511;
+    }
+    #lcol3_3_1{
+        border-right: 1px solid #ee5511;
+    }
+    #lcol4_3_1:after{
+        background:#ee5511;
+    }
+    #lcol5_3_1{
+        border:2px solid #ee5511;
+    }
+    #lcol5_3_1:after{
+        background:#ee5511;
+    }
+    .busStopLine_3_1:after {
+        background: rgba(13, 185, 222,1)
+    }
+
+
+}
+        
+    
+
+
+
+    </style>
+
+</body>
+</html>
