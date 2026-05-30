@@ -1,0 +1,16 @@
+# Excel パーサの語彙としきい値。
+header_labels:
+  origin: 始発
+  destination: 行先
+  through: 乗り入れ
+stop_kinds:
+  departure: 発
+  arrival: 着
+first_data_col: 2            # 0:駅名, 1:発着, 2 以降:各列車
+
+overnight_threshold_hour: 4  # この時刻より前に始発する便は前日ダイヤの続き（+24h）
+
+# 健全性チェック（外れると警告/エラー）。ダイヤ改正で大きく変わるなら調整。
+expected_sheets_per_file: 6
+min_trips_per_sheet: 30
+max_trips_per_sheet: 700

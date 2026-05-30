@@ -1,0 +1,4 @@
+route_id,route_update_date,origin_stop,via_stop,destination_stop
+空港線,,姪浜,天神,福岡空港
+箱崎線,,中洲川端,,貝塚
+七隈線,,橋本,天神南,博多

@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>福岡市地下鉄 GTFS — オープンデータ デモ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  main { position: relative; z-index: 1; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 44px); }
+
+  /* HERO */
+  .hero { padding: clamp(48px, 9vw, 110px) 0 40px; position: relative; }
+  .hero .kicker {
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: .5em;
+    color: var(--muted); margin: 0 0 18px;
+    opacity: 0; animation: rise .8s .05s forwards;
+  }
+  .hero h1 {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: clamp(38px, 7vw, 86px); line-height: 1.02; margin: 0;
+    letter-spacing: .01em;
+  }
+  .hero h1 .ja { display: block; }
+  .hero h1 .en {
+    display: block; font-family: var(--font-mono); font-weight: 400;
+    font-size: clamp(13px, 1.6vw, 18px); letter-spacing: .34em; color: var(--muted);
+    margin-top: 18px;
+  }
+  .hero h1 span.w { display: inline-block; opacity: 0; transform: translateY(22px); animation: rise .9s forwards; }
+  .hero p.lead {
+    max-width: 620px; color: var(--muted); font-size: clamp(14px,1.5vw,16px); line-height: 1.85;
+    margin: 26px 0 0; opacity: 0; animation: rise .9s .5s forwards;
+  }
+  .signal { display: flex; gap: 10px; margin: 30px 0 0; opacity: 0; animation: rise .9s .65s forwards; }
+  .signal i { height: 5px; border-radius: 3px; flex: 1; max-width: 130px; box-shadow: var(--glow) currentColor; }
+
+  @keyframes rise { to { opacity: 1; transform: none; } }
+
+  /* セクション見出し */
+  .sec { padding: 46px 0; }
+  .sec > h2 {
+    font-family: var(--font-display); font-weight: 600; font-size: clamp(22px,3vw,30px);
+    margin: 0 0 4px; display: flex; align-items: baseline; gap: 14px;
+  }
+  .sec > h2 .no { font-family: var(--font-mono); font-size: 13px; color: var(--kuko); letter-spacing: .2em; }
+  .sec > .sub { color: var(--muted); font-size: 13.5px; margin: 0 0 26px; }
+
+  /* 路線図 */
+  .map-card {
+    background: linear-gradient(180deg, var(--panel), var(--panel-2));
+    border: 1px solid var(--line); border-radius: 18px; padding: 8px;
+    box-shadow: 0 30px 80px -40px rgba(0,0,0,.9);
+  }
+  #netmap { width: 100%; height: auto; display: block; }
+  #netmap text { font-family: var(--font-ui); fill: var(--ink); }
+  #netmap .lbl-en { font-family: var(--font-mono); fill: var(--muted); }
+
+  /* 統計 */
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px,1fr)); gap: 16px; }
+  .lcard {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 22px;
+    position: relative; overflow: hidden;
+  }
+  .lcard::before { content:""; position:absolute; left:0; top:0; bottom:0; width:4px; background: var(--c); box-shadow: var(--glow) var(--c); }
+  .lcard h3 { margin: 0 0 2px; font-family: var(--font-display); font-size: 21px; }
+  .lcard .en { font-family: var(--font-mono); font-size: 11px; letter-spacing: .2em; color: var(--muted); }
+  .lcard .big { font-family: var(--font-mono); font-size: 40px; margin: 16px 0 0; color: var(--c); }
+  .lcard .big small { font-size: 14px; color: var(--muted); margin-left: 4px; }
+  .lcard dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; margin: 16px 0 0; font-size: 13px; }
+  .lcard dt { color: var(--muted); } .lcard dd { margin: 0; text-align: right; font-family: var(--font-mono); }
+  .totstrip {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap: 1px;
+    background: var(--line); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; margin-bottom: 22px;
+  }
+  .totstrip div { background: var(--panel); padding: 20px 22px; }
+  .totstrip .n { font-family: var(--font-mono); font-size: 34px; }
+  .totstrip .l { color: var(--muted); font-size: 12px; letter-spacing: .1em; margin-top: 4px; }
+
+  /* ナビカード */
+  .nav-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 18px; }
+  .ncard {
+    display: block; background: var(--panel); border: 1px solid var(--line); border-radius: 18px;
+    padding: 26px; transition: .22s; position: relative; overflow: hidden; min-height: 188px;
+  }
+  .ncard:hover { transform: translateY(-3px); border-color: #2c3a4d; }
+  .ncard .tag { font-family: var(--font-mono); font-size: 11px; letter-spacing: .3em; color: var(--muted); }
+  .ncard h3 { font-family: var(--font-display); font-size: 27px; margin: 12px 0 8px; }
+  .ncard p { color: var(--muted); font-size: 13.5px; line-height: 1.8; margin: 0; max-width: 90%; }
+  .ncard .go { position: absolute; right: 24px; bottom: 22px; font-family: var(--font-mono); color: var(--kuko); }
+  .ncard .glow { position:absolute; inset:0; opacity:.5; background: radial-gradient(280px 160px at 110% 120%, var(--c), transparent 70%); pointer-events:none; }
+
+  /* ツール */
+  .tools { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .tools .panel { background: var(--panel); border:1px solid var(--line); border-radius:16px; padding: 22px; }
+  .tools h4 { margin: 0 0 12px; font-size: 15px; }
+  .tools .row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .tools p { color: var(--muted); font-size: 13px; line-height: 1.8; }
+  pre.code {
+    background: #060910; border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px;
+    font-family: var(--font-mono); font-size: 12px; color: #b9c6d6; overflow-x: auto; line-height: 1.7;
+  }
+  footer { border-top: 1px solid var(--line); margin-top: 40px; padding: 28px 0 60px; color: var(--muted); font-size: 12.5px; line-height: 1.9; }
+  @media (max-width: 720px) { .tools { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">福岡市地下鉄 <small>FUKUOKA SUBWAY · GTFS</small></div>
+  <nav>
+    <a href="index.html" class="active">概要</a>
+    <a href="map.html">運行マップ</a>
+    <a href="board.html">発車標</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <p class="kicker">OPEN DATA · GTFS-JP · 2026</p>
+    <h1>
+      <span class="ja" id="title"></span>
+      <span class="en">FUKUOKA CITY SUBWAY — TIMETABLE AS DATA</span>
+    </h1>
+    <p class="lead">福岡市交通局が公開する時刻表 Excel から生成した GTFS-JP 静的データを、
+      そのまま可視化したデモです。空港線・箱崎線・七隈線の全 <b id="t-trips">—</b> 便が、
+      実際のダイヤ通りに動きます。</p>
+    <div class="signal">
+      <i class="line-kuko" style="color:var(--kuko)"></i>
+      <i class="line-hako" style="color:var(--hako)"></i>
+      <i class="line-nana" style="color:var(--nana)"></i>
+    </div>
+  </section>
+
+  <section class="sec wrap">
+    <h2><span class="no">01</span> 路線ネットワーク</h2>
+    <p class="sub">stops.txt の座標と路線色から描画。○ は駅、太線は路線。</p>
+    <div class="map-card"><svg id="netmap" viewBox="0 0 1000 560" role="img" aria-label="福岡市地下鉄 路線図"></svg></div>
+  </section>
+
+  <section class="sec wrap">
+    <h2><span class="no">02</span> データの規模</h2>
+    <p class="sub">生成された GTFS フィードの統計。</p>
+    <div class="totstrip" id="totstrip"></div>
+    <div class="stat-grid" id="statgrid"></div>
+  </section>
+
+  <section class="sec wrap">
+    <h2><span class="no">03</span> インタラクティブ デモ</h2>
+    <p class="sub">2 つのビューでフィードを体験できます。</p>
+    <div class="nav-grid">
+      <a class="ncard" href="map.html" style="--c:var(--kuko)">
+        <div class="glow"></div>
+        <div class="tag">VIEW A · ANIMATION</div>
+        <h3>運行アニメーションマップ</h3>
+        <p>一日の全列車が 3 色の路線を走る様子を再生。時刻スライダー・速度調整・走行本数表示つき。</p>
+        <div class="go">→</div>
+      </a>
+      <a class="ncard" href="board.html" style="--c:var(--hako)">
+        <div class="glow"></div>
+        <div class="tag">VIEW B · DEPARTURES</div>
+        <h3>発車標・時刻表ビューア</h3>
+        <p>駅を選ぶと発車案内を表示。平日／土曜／休日の切替、日本語・English 対応。</p>
+        <div class="go">→</div>
+      </a>
+    </div>
+  </section>
+
+  <section class="sec wrap">
+    <h2><span class="no">04</span> 既製ツールで使う</h2>
+    <p class="sub">標準 GTFS なので、世の中のツールにそのまま読み込めます。</p>
+    <div class="tools">
+      <div class="panel">
+        <h4>ダウンロード</h4>
+        <p>フィード本体と、地図ツール向けの GeoJSON。</p>
+        <div class="row">
+          <a class="btn primary" href="data/feed.zip" download>⬇ feed.zip</a>
+          <a class="btn" href="data/network.geojson" download>⬇ network.geojson</a>
+        </div>
+        <p style="margin-top:14px">GeoJSON は <b>geojson.io</b> / <b>kepler.gl</b> / <b>QGIS</b> にドラッグするだけで路線図が描けます。</p>
+      </div>
+      <div class="panel">
+        <h4>検証・配信・経路検索</h4>
+        <div class="row">
+          <a class="btn" href="https://gtfs-validator.mobilitydata.org/" target="_blank" rel="noopener">Canonical Validator ↗</a>
+          <a class="btn" href="https://www.transit.land/feeds" target="_blank" rel="noopener">transit.land ↗</a>
+        </div>
+        <p style="margin-top:14px">経路検索を試すなら OpenTripPlanner:</p>
+        <pre class="code">java -jar otp-shaded.jar --build --serve .
+# feed.zip と OSM(福岡) を同じフォルダに置いて起動
+# → http://localhost:8080 で 橋本→福岡空港 を検索</pre>
+      </div>
+    </div>
+  </section>
+
+  <footer class="wrap">
+    時刻表データ: 福岡市交通局 ／ 参照データ（座標・色・運賃・翻訳）:
+    <a href="https://github.com/kuwayamamasayuki/GTFS-FukuokaCitySubway" target="_blank" rel="noopener" style="color:var(--hako)">kuwayamamasayuki/GTFS-FukuokaCitySubway</a>
+    ／ 新駅座標: 日本語版ウィキペディア。<br>
+    本デモは生成した GTFS-JP フィードを可視化したものです（MobilityData Canonical Validator: ERROR 0 件）。
+  </footer>
+</main>
+
+<script>
+const LINE_CLASS = {"空港線":"--kuko","箱崎線":"--hako","七隈線":"--nana"};
+
+// タイトルを 1 文字ずつ出す
+(function(){
+  const txt = "時刻表を、ひらく。";
+  const el = document.getElementById("title");
+  [...txt].forEach((ch,i)=>{
+    const s=document.createElement("span"); s.className="w"; s.textContent=ch;
+    s.style.animationDelay=(0.12+i*0.045)+"s"; el.appendChild(s);
+  });
+})();
+
+function countUp(el, target, dur=1200, suffix=""){
+  const start=performance.now();
+  function tick(now){
+    const p=Math.min(1,(now-start)/dur);
+    const e=1-Math.pow(1-p,3);
+    el.textContent=Math.round(target*e).toLocaleString("ja-JP")+suffix;
+    if(p<1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+fetch("data/network.json").then(r=>r.json()).then(net=>{
+  drawMap(net);
+  drawStats(net);
+  const tt=document.getElementById("t-trips");
+  countUp(tt, net.stats.totals.trips);
+}).catch(e=>{
+  document.getElementById("statgrid").innerHTML =
+    '<p style="color:var(--muted)">data/network.json を読み込めません。ローカルサーバで開いてください（README 参照）。</p>';
+});
+
+function drawMap(net){
+  const svg=document.getElementById("netmap");
+  const W=1000,H=560,pad=70;
+  const mid=net.center[1]*Math.PI/180, cos=Math.cos(mid);
+  const pts=[]; net.lines.forEach(l=>l.stations.forEach(s=>pts.push([s.lon*cos,s.lat])));
+  const xs=pts.map(p=>p[0]),ys=pts.map(p=>p[1]);
+  const minx=Math.min(...xs),maxx=Math.max(...xs),miny=Math.min(...ys),maxy=Math.max(...ys);
+  const sc=Math.min((W-2*pad)/(maxx-minx),(H-2*pad)/(maxy-miny));
+  const ox=(W-(maxx-minx)*sc)/2, oy=(H-(maxy-miny)*sc)/2;
+  const proj=(lon,lat)=>[ox+(lon*cos-minx)*sc, H-(oy+(lat-miny)*sc)];
+  const NS="http://www.w3.org/2000/svg";
+  const mk=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;};
+
+  // 路線（グロー下地 + 本線）
+  net.lines.forEach(l=>{
+    const d=l.stations.map((s,i)=>{const[x,y]=proj(s.lon,s.lat);return (i?"L":"M")+x.toFixed(1)+" "+y.toFixed(1);}).join(" ");
+    svg.appendChild(mk("path",{d,fill:"none",stroke:l.color,"stroke-width":11,"stroke-linecap":"round","stroke-linejoin":"round",opacity:.18,filter:"blur(5px)"}));
+    svg.appendChild(mk("path",{d,fill:"none",stroke:l.color,"stroke-width":4.5,"stroke-linecap":"round","stroke-linejoin":"round"}));
+  });
+  // 駅
+  const seen=new Set();
+  net.lines.forEach(l=>l.stations.forEach(s=>{
+    const[x,y]=proj(s.lon,s.lat); const key=s.id;
+    if(seen.has(key))return; seen.add(key);
+    svg.appendChild(mk("circle",{cx:x,cy:y,r:4.2,fill:"#0a0e15",stroke:"#cdd7e2","stroke-width":1.6}));
+  }));
+  // ラベル（終点・乗換）
+  const labels={"姪浜":["start",-1],"福岡空港":["end",1],"貝塚":["end",1],"橋本":["start",-1],
+                "博多":["end",1],"天神":["up",-1],"中洲川端":["up",1],"天神南":["down",-1],"櫛田神社前":["down",1]};
+  const named={};
+  net.lines.forEach(l=>l.stations.forEach(s=>{named[s.name]=s;}));
+  Object.entries(labels).forEach(([nm,[pos,dir]])=>{
+    const s=named[nm]; if(!s)return; const[x,y]=proj(s.lon,s.lat);
+    const dy = pos==="up"?-12 : pos==="down"?20 : 4;
+    const dx = dir*10; const anchor = dir<0?"end":"start";
+    const t=mk("text",{x:x+dx,y:y+dy,"text-anchor":anchor,"font-size":13,"font-weight":600}); t.textContent=nm;
+    const en=mk("text",{x:x+dx,y:y+dy+13,"text-anchor":anchor,"font-size":9,class:"lbl-en"}); en.textContent=(s.name_en||"").toUpperCase();
+    svg.appendChild(t); svg.appendChild(en);
+  });
+}
+
+function drawStats(net){
+  const s=net.stats;
+  const tot=document.getElementById("totstrip");
+  const items=[["路線",s.totals.lines],["駅",s.totals.stations],["便 / 日",s.totals.trips],["停車回数",s.totals.stop_times]];
+  items.forEach(([l,v])=>{
+    const d=document.createElement("div");
+    d.innerHTML=`<div class="n">0</div><div class="l">${l}</div>`;
+    tot.appendChild(d); countUp(d.querySelector(".n"), v);
+  });
+  const grid=document.getElementById("statgrid");
+  net.lines.forEach((l,idx)=>{
+    const st=s.by_line[l.id];
+    const card=document.createElement("div"); card.className="lcard"; card.style.setProperty("--c",l.color);
+    card.innerHTML=`
+      <h3>${l.name}</h3><div class="en">${l.name_en.toUpperCase()}</div>
+      <div class="big"><span class="num">0</span><small>駅</small></div>
+      <dl>
+        <dt>営業キロ</dt><dd>${st.length_km} km</dd>
+        <dt>平日 便数</dt><dd>${st.trips["平日"]}</dd>
+        <dt>土曜 / 休日</dt><dd>${st.trips["土曜"]} / ${st.trips["休日"]}</dd>
+        <dt>始発 / 終電</dt><dd>${st.first} – ${st.last}</dd>
+      </dl>`;
+    grid.appendChild(card);
+    countUp(card.querySelector(".num"), st.stations, 1000+idx*150);
+  });
+}
+</script>
+</body>
+</html>

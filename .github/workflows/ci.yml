@@ -1,0 +1,50 @@
+name: build-validate
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 20 * * 1"   # 毎週（ダイヤ改正検知のため定期実行）
+
+jobs:
+  build-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: pip install -e ".[dev]"
+
+      - name: Unit tests
+        run: python -m pytest -q
+
+      - name: Setup Java (Canonical Validator 用)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Download timetables
+        run: python -m fukuoka_gtfs.cli download
+
+      - name: Build GTFS
+        run: python -m fukuoka_gtfs.cli build
+
+      - name: Validate (Canonical + Python)
+        run: python -m fukuoka_gtfs.cli validate --download-tools
+
+      - name: Upload feed & report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gtfs-feed
+          path: |
+            build/feed.zip
+            build/validation/report.html
+            build/validation/report.json

@@ -1,0 +1,7 @@
+fare_id,agency_id,price,currency_type,payment_method,transfers
+fare_210,3000020401307_0,210,JPY,1,
+fare_260,3000020401307_0,260,JPY,1,
+fare_300,3000020401307_0,300,JPY,1,
+fare_340,3000020401307_0,340,JPY,1,
+fare_360,3000020401307_0,360,JPY,1,
+fare_380,3000020401307_0,380,JPY,1,

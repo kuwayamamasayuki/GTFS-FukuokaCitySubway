@@ -1,0 +1,12 @@
+# 実行時依存。検証用の Java(JRE)/gtfs-validator は tools/ に自動取得するため含めない。
+openpyxl>=3.1
+xlrd==2.0.1
+PyYAML>=6
+pydantic>=2
+requests>=2
+jpholiday>=0.1.0
+# 開発用
+pytest>=8
+# 運賃の抽出・検証(scripts/verify_fares.py)用。通常のビルドには不要。
+PyMuPDF>=1.24
+numpy>=1.26

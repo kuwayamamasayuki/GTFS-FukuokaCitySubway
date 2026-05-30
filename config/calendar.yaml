@@ -1,0 +1,14 @@
+# 運行区分（service_id）の定義と、祝日の扱い。
+# Excel は 平日 / 土曜 / 休日 の 3 区分に分かれているため 3 つ定義する。
+services:
+  平日: {monday: 1, tuesday: 1, wednesday: 1, thursday: 1, friday: 1, saturday: 0, sunday: 0}
+  土曜: {monday: 0, tuesday: 0, wednesday: 0, thursday: 0, friday: 0, saturday: 1, sunday: 0}
+  休日: {monday: 0, tuesday: 0, wednesday: 0, thursday: 0, friday: 0, saturday: 0, sunday: 1}
+
+# 祝日は「休日」ダイヤで運行する想定。該当日の通常サービスを calendar_dates で
+# 除外し、休日サービスを追加する。
+holiday:
+  apply_service: 休日        # 祝日に運行するサービス
+  use_jpholiday: true        # 日本の祝日を自動算出（jpholiday）
+  extra_holiday_dates: []    # 追加で休日扱いする日（年末年始など） 例: ["20261229", "20261230"]
+  extra_normal_dates: []     # 祝日でも通常ダイヤに戻す日 例: ["20270101"]

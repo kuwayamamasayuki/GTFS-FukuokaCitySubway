@@ -1,0 +1,105 @@
+/* 福岡市地下鉄 GTFS デモ — 共通スタイル
+   コンセプト: 深夜の運行管制室。ほぼ黒の背景に 3 路線の公式カラーがネオンのように灯る。 */
+:root {
+  --bg: #080b11;
+  --bg-2: #0c111a;
+  --panel: #111824;
+  --panel-2: #0e141e;
+  --line: #1d2836;
+  --ink: #eaf0f7;
+  --muted: #8593a4;
+  --faint: #44505f;
+  --kuko: #f7931d;   /* 空港線 */
+  --hako: #00aeef;   /* 箱崎線 */
+  --nana: #11b15e;   /* 七隈線（視認性のため少し明るめ） */
+  --glow: 0 0 18px;
+  --font-display: "Shippori Mincho B1", "Hiragino Mincho ProN", serif;
+  --font-ui: "Zen Kaku Gothic New", "Hiragino Sans", "Noto Sans JP", sans-serif;
+  --font-mono: "DM Mono", "SFMono-Regular", ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0; padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(1100px 700px at 18% -8%, rgba(247,147,29,.10), transparent 60%),
+    radial-gradient(1000px 700px at 92% 4%, rgba(0,174,239,.10), transparent 60%),
+    radial-gradient(1200px 800px at 60% 110%, rgba(17,177,94,.08), transparent 55%),
+    var(--bg);
+  background-attachment: fixed;
+}
+
+/* 微細なグリッド + ノイズの質感 */
+body::before {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.022) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(circle at 50% 30%, #000 0%, transparent 85%);
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* --- ヘッダ --- */
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; align-items: center; gap: 18px;
+  padding: 14px clamp(16px, 4vw, 44px);
+  background: linear-gradient(180deg, rgba(8,11,17,.92), rgba(8,11,17,.55));
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.topbar .brand {
+  font-family: var(--font-display);
+  font-size: 19px; letter-spacing: .04em; font-weight: 600;
+}
+.topbar .brand small {
+  display: block; font-family: var(--font-mono); font-size: 10.5px;
+  letter-spacing: .42em; color: var(--muted); margin-top: 2px; font-weight: 400;
+}
+.topbar nav { margin-left: auto; display: flex; gap: 4px; flex-wrap: wrap; }
+.topbar nav a {
+  font-size: 13px; padding: 8px 14px; border-radius: 999px; color: var(--muted);
+  border: 1px solid transparent; transition: .2s;
+}
+.topbar nav a:hover { color: var(--ink); border-color: var(--line); background: var(--panel); }
+.topbar nav a.active { color: var(--ink); background: var(--panel); border-color: var(--line); }
+
+/* 路線バッジ */
+.badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 12.5px; padding: 3px 11px 3px 9px; border-radius: 999px;
+  background: var(--panel); border: 1px solid var(--line);
+}
+.badge .dot { width: 9px; height: 9px; border-radius: 50%; box-shadow: var(--glow) currentColor; }
+
+.line-kuko { color: var(--kuko); } .line-hako { color: var(--hako); } .line-nana { color: var(--nana); }
+
+/* ボタン */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-ui); font-size: 13.5px; color: var(--ink);
+  padding: 10px 16px; border-radius: 10px; cursor: pointer;
+  background: var(--panel); border: 1px solid var(--line); transition: .18s;
+}
+.btn:hover { border-color: #2c3a4d; transform: translateY(-1px); }
+.btn.primary { background: linear-gradient(135deg, rgba(247,147,29,.18), rgba(0,174,239,.16)); border-color: #2c3a4d; }
+
+/* スクロールバー */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: #1c2735; border-radius: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
