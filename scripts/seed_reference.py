@@ -145,7 +145,7 @@ def write_agency_jp() -> None:
     header = ["agency_id", "agency_official_name", "agency_zip_number", "agency_address",
               "agency_president_pos", "agency_president_name"]
     rows = [dict(agency_id="3000020401307_0", agency_official_name="福岡市交通局",
-                 agency_zip_number="8120025", agency_address="福岡県福岡市博多区店屋町6番16号",
+                 agency_zip_number="8100041", agency_address="福岡県福岡市中央区大名2丁目5番31号",
                  agency_president_pos="交通事業管理者", agency_president_name="")]
     write_rows(REF_DIR / "agency_jp.txt", header, rows)
 
