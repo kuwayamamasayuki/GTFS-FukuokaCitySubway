@@ -1,0 +1,41 @@
+# ジョルダンのダイヤ詳細ページと生成 GTFS の対応付け（Issue #5 時刻表突合テスト用）。
+#
+# ダイヤ詳細ページ(diagramdtl)は「終端駅(terminal)」ラベルに関わらず、その方面の
+# 全発車便を表示する（例: 姪浜・福岡空港方面の board には福岡空港ゆきと貝塚ゆきが混在）。
+# したがって 1 つの (駅, 路線, direction_id) につき 1 ページに集約して突合する。
+
+index_url: "https://subway.city.fukuoka.lg.jp/schedule/index.php"
+
+# fixture 取得に用いる代表日（dt=YYYYMMDDHHMM の日付部分）。曜日区分が一致すれば
+# ダイヤは同一なので、各区分の代表的な 1 日を用いる。祝日・ダイヤ改正日は避ける。
+sample_dates:
+  平日: "20260601"   # 月曜
+  土曜: "20260606"   # 土曜
+  休日: "20260607"   # 日曜
+
+daytypes: [平日, 土曜, 休日]
+
+# route_id -> service_id の接頭辞（曜日区分を付けて service_id を作る）。
+# 例: 空港線 + 平日 -> "空港箱崎_平日"
+service_groups:
+  空港線: 空港箱崎
+  箱崎線: 空港箱崎
+  七隈線: 七隈
+
+# ジョルダンの (路線名, 終端駅) -> GTFS (route_id, direction_id)。
+# 同一 direction_id を指す終端が複数あってもよい（重複排除で 1 ページに集約）。
+directions:
+  - {jorudan_line: 福岡地下鉄空港線, terminal: 福岡空港,    route_id: 空港線, direction_id: 0}
+  - {jorudan_line: 福岡地下鉄空港線, terminal: 西唐津,      route_id: 空港線, direction_id: 1}
+  - {jorudan_line: 福岡地下鉄箱崎線, terminal: 貝塚（福岡）, route_id: 箱崎線, direction_id: 0}
+  - {jorudan_line: 福岡地下鉄箱崎線, terminal: 中洲川端,    route_id: 箱崎線, direction_id: 1}
+  - {jorudan_line: 福岡地下鉄七隈線, terminal: 博多,        route_id: 七隈線, direction_id: 0}
+  - {jorudan_line: 福岡地下鉄七隈線, terminal: 天神南,      route_id: 七隈線, direction_id: 0}
+  - {jorudan_line: 福岡地下鉄七隈線, terminal: 橋本（福岡）, route_id: 七隈線, direction_id: 1}
+
+# 駅名の正規化（ジョルダン fr -> GTFS stop_name）。現状は完全一致のため空。
+station_aliases: {}
+
+# 行先表記の別名（ジョルダンの行先 -> GTFS trip_headsign）。
+# 突合実行後、純粋な表記揺れのみここで吸収する（実データの誤りは隠さない）。
+destination_aliases: {}
