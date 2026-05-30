@@ -49,7 +49,15 @@ NEW_STATIONS = {
     # 櫛田神社前(N17)
     KUSHIDA_ID: dict(stop_code="N17", stop_name="櫛田神社前",
                      stop_lat="33.591333", stop_lon="130.411583", zone_id=KUSHIDA_ID,
-                     stop_url="", yomi="くしだじんじゃまえ", en="Kushida Jinja-mae"),
+                     stop_url="", yomi="くしだじんじゃまえ", en="Kushida Shrine"),
+}
+
+# stops.stop_name の英語訳の上書き（上流フィードの表記を公開フィード向けに補正）。
+# 福岡空港: 上流は "Fukuokakuko(Airport)" だが正式英語名称は "Fukuoka Airport"。
+# 櫛田神社前: 新駅定義の en と一致（再掲して意図を明示）。
+EN_OVERRIDES = {
+    "福岡空港": "Fukuoka Airport",
+    "櫛田神社前": "Kushida Shrine",
 }
 
 
@@ -136,6 +144,8 @@ def transform_translations(text: str, stops_rows: list[dict]) -> tuple[list[str]
         for lang, tr in langs.items():
             if lang == "ja":  # feed_lang と同一の自己翻訳は不要
                 continue
+            if lang == "en" and tbl == "stops" and name in EN_OVERRIDES:
+                tr = EN_OVERRIDES[name]  # 上流の誤表記を正式英語名称へ補正
             out.append(dict(table_name=tbl, field_name=fld, language=lang,
                             field_value=name, translation=tr))
     return header, out

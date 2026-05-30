@@ -24,7 +24,7 @@ stops,stop_name,en,博多,Hakata
 stops,stop_name,ja-Hrkt,東比恵,ひがしひえ
 stops,stop_name,en,東比恵,Higashi-Hie
 stops,stop_name,ja-Hrkt,福岡空港,ふくおかくうこう
-stops,stop_name,en,福岡空港,Fukuokakuko(Airport)
+stops,stop_name,en,福岡空港,Fukuoka Airport
 stops,stop_name,ja-Hrkt,呉服町,ごふくまち
 stops,stop_name,en,呉服町,Gofukumachi
 stops,stop_name,ja-Hrkt,千代県庁口,ちよけんちょうぐち
@@ -76,4 +76,4 @@ routes,route_short_name,en,箱崎線,Hakozaki Line
 routes,route_short_name,ja-Hrkt,七隈線,ななくません
 routes,route_short_name,en,七隈線,Nanakuma Line
 stops,stop_name,ja-Hrkt,櫛田神社前,くしだじんじゃまえ
-stops,stop_name,en,櫛田神社前,Kushida Jinja-mae
+stops,stop_name,en,櫛田神社前,Kushida Shrine
