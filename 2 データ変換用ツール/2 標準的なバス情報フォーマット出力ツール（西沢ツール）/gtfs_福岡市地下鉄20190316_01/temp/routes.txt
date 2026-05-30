@@ -1,4 +1,0 @@
-route_id,agency_id,route_short_name,route_long_name,route_type,route_color
-‹ó`ü,3000020401307_0,‹ó`ü,,1,f7931d
-” èü,3000020401307_0,” èü,,1,00aeef
-µŒGü,3000020401307_0,µŒGü,,1,009157

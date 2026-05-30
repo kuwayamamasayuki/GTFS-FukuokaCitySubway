@@ -1,0 +1,13 @@
+# feed_info.txt の内容。
+feed_publisher_name: "桑山雅行"
+feed_publisher_url: "https://github.com/kuwayamamasayuki/GTFS-FukuokaCitySubway/"
+feed_lang: ja
+# 問い合わせ先（任意・推奨）
+feed_contact_url: "https://github.com/kuwayamamasayuki/GTFS-FukuokaCitySubway/issues"
+feed_contact_email: ""
+
+# フィードの有効期間（YYYYMMDD）。null の場合は start=実行日、end=start の 1 年後。
+feed_start_date: null
+feed_end_date: null
+# 版。null なら feed_start_date を版として用いる。
+feed_version: null

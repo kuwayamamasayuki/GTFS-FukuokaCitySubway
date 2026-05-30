@@ -1,0 +1,14 @@
+# 生成物・取得物
+/build/
+/demo/data/
+/data/*.xls
+/data/*.xlsx
+/data/sources.sha256
+/tools/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/

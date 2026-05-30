@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>運行アニメーションマップ — 福岡市地下鉄 GTFS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="vendor/deck.gl.min.js"></script>
+<style>
+  html,body{height:100%; overflow:hidden;}
+  #deck{position:fixed; inset:0; z-index:0;}
+  .topbar{position:fixed; left:0; right:0; top:0;}
+
+  /* 時計（中央上） */
+  .clock{
+    position:fixed; top:78px; left:50%; transform:translateX(-50%); z-index:30; text-align:center;
+    pointer-events:none;
+  }
+  .clock .t{ font-family:var(--font-mono); font-size:clamp(40px,7vw,72px); font-weight:500; letter-spacing:.04em;
+    text-shadow:0 0 30px rgba(0,174,239,.35); }
+  .clock .s{ font-family:var(--font-mono); font-size:12px; letter-spacing:.4em; color:var(--muted); margin-top:-4px;}
+
+  /* 走行本数（左上カード） */
+  .live{ position:fixed; top:84px; left:clamp(14px,3vw,32px); z-index:30; background:rgba(12,17,26,.7);
+    border:1px solid var(--line); border-radius:14px; padding:14px 18px; backdrop-filter:blur(8px); }
+  .live .n{ font-family:var(--font-mono); font-size:38px; line-height:1; color:var(--kuko); text-shadow:0 0 22px rgba(247,147,29,.4);}
+  .live .l{ font-size:11px; letter-spacing:.18em; color:var(--muted); margin-top:6px;}
+  .live .legend{ margin-top:14px; display:flex; flex-direction:column; gap:7px; }
+
+  /* コントロール（下部） */
+  .controls{ position:fixed; left:50%; bottom:26px; transform:translateX(-50%); z-index:30; width:min(880px,92vw);
+    background:rgba(12,17,26,.78); border:1px solid var(--line); border-radius:18px; padding:16px 20px;
+    backdrop-filter:blur(12px); box-shadow:0 30px 80px -40px #000; }
+  .controls .top{ display:flex; align-items:center; gap:14px; }
+  .tabs{ display:flex; gap:4px; background:#0a0e15; border:1px solid var(--line); border-radius:999px; padding:3px;}
+  .tabs button{ font-family:var(--font-ui); font-size:13px; color:var(--muted); background:none; border:none; cursor:pointer;
+    padding:7px 16px; border-radius:999px; transition:.15s;}
+  .tabs button.on{ background:var(--panel); color:var(--ink); box-shadow:0 0 0 1px var(--line);}
+  .play{ width:46px; height:46px; border-radius:50%; border:1px solid var(--line); background:var(--panel); color:var(--ink);
+    font-size:16px; cursor:pointer; display:grid; place-items:center; transition:.15s;}
+  .play:hover{ border-color:#2c3a4d;}
+  .spd{ margin-left:auto; display:flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:12px; color:var(--muted);}
+  input[type=range]{ -webkit-appearance:none; appearance:none; height:4px; border-radius:3px; background:#243244; outline:none;}
+  input[type=range]::-webkit-slider-thumb{ -webkit-appearance:none; width:15px; height:15px; border-radius:50%;
+    background:var(--kuko); box-shadow:0 0 12px rgba(247,147,29,.6); cursor:pointer;}
+  .scrub{ margin-top:14px; display:flex; align-items:center; gap:12px;}
+  .scrub input{ flex:1;}
+  .scrub .lab{ font-family:var(--font-mono); font-size:11px; color:var(--muted); min-width:42px;}
+  .hint{ position:fixed; bottom:26px; right:24px; z-index:20; color:var(--faint); font-size:11px; font-family:var(--font-mono);}
+  @media (max-width:640px){ .live{display:none;} .hint{display:none;} }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">福岡市地下鉄 <small>RUNNING MAP</small></div>
+  <nav>
+    <a href="index.html">概要</a>
+    <a href="map.html" class="active">運行マップ</a>
+    <a href="board.html">発車標</a>
+  </nav>
+</header>
+
+<div id="deck"></div>
+
+<div class="clock"><div class="t" id="clk">--:--</div><div class="s" id="clk-s">PLAYING</div></div>
+
+<div class="live">
+  <div class="n" id="running">0</div>
+  <div class="l">走行中の列車</div>
+  <div class="legend" id="legend"></div>
+</div>
+
+<div class="controls">
+  <div class="top">
+    <button class="play" id="play">❚❚</button>
+    <div class="tabs" id="tabs"></div>
+    <div class="spd">速度 <input type="range" id="speed" min="20" max="240" value="90" style="width:120px"> <span id="spdv">×90</span></div>
+  </div>
+  <div class="scrub">
+    <span class="lab" id="t0">05:00</span>
+    <input type="range" id="scrub" min="0" max="1000" value="0">
+    <span class="lab" id="t1">25:00</span>
+  </div>
+</div>
+<div class="hint">drag / scroll で地図を操作</div>
+
+<script>
+const {Deck, MapView, PathLayer, ScatterplotLayer, TripsLayer} = deck;
+const SERVICES=["平日","土曜","休日"];
+const LINE_CSS={"空港線":"--kuko","箱崎線":"--hako","七隈線":"--nana"};
+const hex2rgb=h=>{h=h.replace('#','');return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];};
+function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+
+let net, anim, dk, byService={}, service="平日";
+let t=0, playing=true, speed=90, lastNow=performance.now();
+let linePaths=[], stationPts=[];
+
+Promise.all([fetch("data/network.json").then(r=>r.json()), fetch("data/animation.json").then(r=>r.json())])
+  .then(([n,a])=>{ net=n; anim=a; init(); })
+  .catch(()=>{ document.getElementById("clk").textContent="DATA ERROR";
+    document.getElementById("clk-s").textContent="ローカルサーバで開いてください"; });
+
+function init(){
+  t=anim.tmin;
+  // ?t=0800 / ?t=08:00 で開始時刻、?speed=120 で速度を指定可能
+  const qs=new URLSearchParams(location.search);
+  if(qs.has("t")){ const m=qs.get("t").replace(":",""); const sec=(+m.slice(0,2))*3600+(+m.slice(2,4))*60;
+    if(!isNaN(sec)) t=Math.max(anim.tmin, Math.min(anim.tmax, sec)); }
+  if(qs.has("speed")) speed=Math.max(20, Math.min(240, +qs.get("speed")||90));
+  if(qs.get("pause")==="1") playing=false;
+  // 路線パス・駅
+  const colorByLine={};
+  net.lines.forEach(l=>{ colorByLine[l.id]=hex2rgb(l.color);
+    linePaths.push({path:l.stations.map(s=>[s.lon,s.lat]), color:hex2rgb(l.color)});
+  });
+  const seen=new Set();
+  net.lines.forEach(l=>l.stations.forEach(s=>{ if(!seen.has(s.id)){seen.add(s.id); stationPts.push({position:[s.lon,s.lat]});}}));
+  // 便を区分で分け、色 rgb と active 範囲を前計算
+  SERVICES.forEach(sv=>byService[sv]=[]);
+  anim.trips.forEach(tr=>{ tr.rgb=hex2rgb(tr.c); tr.t0=tr.times[0]; tr.t1=tr.times[tr.times.length-1]; byService[tr.s].push(tr); });
+
+  buildUI();
+  // 地図初期化（ベースマップ無し・ダーク背景）
+  const [w,s,e,nn]=net.bbox;
+  dk=new Deck({
+    parent:document.getElementById("deck"),
+    views:new MapView({repeat:false}),
+    initialViewState:{longitude:(w+e)/2, latitude:(s+nn)/2, zoom:11.15, pitch:0, bearing:0},
+    controller:true,
+    style:{background:"transparent"},
+    layers:[]
+  });
+  requestAnimationFrame(frame);
+}
+
+function buildUI(){
+  const tabs=document.getElementById("tabs");
+  SERVICES.forEach(sv=>{ const b=document.createElement("button"); b.textContent=sv; if(sv===service)b.className="on";
+    b.onclick=()=>{ service=sv; [...tabs.children].forEach(c=>c.classList.toggle("on",c.textContent===sv)); }; tabs.appendChild(b);});
+  const leg=document.getElementById("legend");
+  net.lines.forEach(l=>{ const d=document.createElement("div"); d.className="badge"; d.style.color=l.color;
+    d.innerHTML=`<span class="dot" style="background:${l.color}"></span><span style="color:var(--ink)">${l.name}</span>`;
+    leg.appendChild(d);});
+  const play=document.getElementById("play");
+  play.onclick=()=>{ playing=!playing; play.textContent=playing?"❚❚":"▶";
+    document.getElementById("clk-s").textContent=playing?"PLAYING":"PAUSED"; };
+  const sp=document.getElementById("speed");
+  sp.value=speed; document.getElementById("spdv").textContent="×"+speed;
+  sp.oninput=()=>{ speed=+sp.value; document.getElementById("spdv").textContent="×"+speed; };
+  document.getElementById("play").textContent=playing?"❚❚":"▶";
+  document.getElementById("clk-s").textContent=playing?"PLAYING":"PAUSED";
+  const sc=document.getElementById("scrub");
+  sc.oninput=()=>{ t=anim.tmin+(anim.tmax-anim.tmin)*(+sc.value/1000); };
+  document.getElementById("t0").textContent=fmt(anim.tmin);
+  document.getElementById("t1").textContent=fmt(anim.tmax);
+}
+
+function fmt(sec){ const h=Math.floor(sec/3600), m=Math.floor(sec%3600/60); return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0"); }
+
+function positionsAt(trips){
+  const out=[];
+  for(const tr of trips){
+    if(t<tr.t0||t>tr.t1) continue;
+    const tm=tr.times; let i=1; while(i<tm.length-1 && tm[i]<t) i++;
+    const a=tm[i-1],b=tm[i]; const f=b>a?(t-a)/(b-a):0;
+    const p=tr.path[i-1],q=tr.path[i];
+    out.push({position:[p[0]+(q[0]-p[0])*f, p[1]+(q[1]-p[1])*f], color:tr.rgb});
+  }
+  return out;
+}
+
+function frame(now){
+  const dt=(now-lastNow)/1000; lastNow=now;
+  if(playing){ t+=dt*speed; if(t>anim.tmax) t=anim.tmin; }
+  const trips=byService[service];
+  const heads=positionsAt(trips);
+
+  dk.setProps({layers:[
+    new PathLayer({id:"lines", data:linePaths, getPath:d=>d.path, getColor:d=>[...d.color,70],
+      getWidth:3, widthUnits:"pixels", widthMinPixels:2, capRounded:true, jointRounded:true}),
+    new ScatterplotLayer({id:"stations", data:stationPts, getPosition:d=>d.position,
+      getRadius:3.2, radiusUnits:"pixels", radiusMinPixels:2.4,
+      filled:true, getFillColor:[10,14,21], stroked:true, getLineColor:[170,185,200], lineWidthMinPixels:1.1}),
+    new TripsLayer({id:"trails", data:trips, getPath:d=>d.path, getTimestamps:d=>d.times,
+      getColor:d=>d.rgb, currentTime:t, trailLength:780, fadeTrail:true,
+      widthUnits:"pixels", getWidth:2, widthMinPixels:2, opacity:.85, capRounded:true, jointRounded:true}),
+    new ScatterplotLayer({id:"heads", data:heads, getPosition:d=>d.position, getFillColor:d=>d.color,
+      getRadius:4.6, radiusUnits:"pixels", radiusMinPixels:3.4,
+      stroked:true, getLineColor:[255,255,255], lineWidthMinPixels:.8,
+      updateTriggers:{getPosition:t}}),
+  ]});
+
+  document.getElementById("clk").textContent=fmt(t);
+  document.getElementById("running").textContent=heads.length;
+  document.getElementById("scrub").value=Math.round((t-anim.tmin)/(anim.tmax-anim.tmin)*1000);
+  requestAnimationFrame(frame);
+}
+</script>
+</body>
+</html>

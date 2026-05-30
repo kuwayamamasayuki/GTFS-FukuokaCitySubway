@@ -1,0 +1,11 @@
+# ダウンロード元の時刻表 Excel と、それぞれが含む路線。
+# ダイヤ改正で URL が変わったらここを更新する。
+sources:
+  - name: kukohakozaki
+    url: "https://subway.city.fukuoka.lg.jp/subway/about/data/kukohakozaki_timetable.xls"
+    filename: kukohakozaki_timetable.xls
+    lines: [空港線, 箱崎線]
+  - name: nanakuma
+    url: "https://subway.city.fukuoka.lg.jp/subway/about/data/nanakuma_timetable.xlsx"
+    filename: nanakuma_timetable.xlsx
+    lines: [七隈線]
