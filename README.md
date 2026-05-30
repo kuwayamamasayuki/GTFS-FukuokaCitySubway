@@ -58,6 +58,34 @@ python -m fukuoka_gtfs.cli all --download-tools
 更新は `make publish`（`build` 実行後に `build/gtfs/` を `dist/` へ反映）で行います。
 （`build/` 自体は一時生成物として `.gitignore` 済み。`dist/` が公開スナップショット。）
 
+## デモ（`demo/`）
+
+生成した GTFS-JP フィードを可視化する、**ブラウザだけで動く**デモ一式を `demo/` に同梱
+しています。フィードがどんなデータかを手早く確認したり、第三者に見せたりする用途に使えます。
+
+[![デモ概要ハブ](demo/screenshots/index.png)](demo/screenshots/index_full.png)
+
+| 画面 | ファイル | 内容 |
+|---|---|---|
+| 概要ハブ | `demo/index.html` | 路線図＋統計インフォグラフィックと、feed.zip / GeoJSON のダウンロード・各種既製ツール（Validator・transit.land・OTP）への導線 |
+| 運行マップ | `demo/map.html` | 一日の全便を実ダイヤで走らせる運行アニメーション（deck.gl 製・ベースマップ不要） |
+| 発車標 | `demo/board.html` | 駅・曜日区分・言語（日本語/English）・基準時刻を切り替えられる発車標／時刻表ビューア |
+
+```bash
+# 事前に GTFS を生成（build/gtfs/ が必要）
+python -m fukuoka_gtfs.cli build
+
+# デモ用データ（demo/data/*.json, network.geojson）を生成
+python demo/build_demo_data.py
+
+# ローカルサーバで配信（fetch 利用のため file:// 直開きは不可）
+cd demo && python -m http.server 8000   # → http://localhost:8000/
+```
+
+データはすべてフィードから自動生成されるため、ダイヤ改正後は `python demo/build_demo_data.py`
+を再実行するだけで最新になります。画面構成・スクリーンショット撮影・既製ツール連携などの
+詳細は `demo/README.md` を参照してください。
+
 ## アーキテクチャ
 
 ```
