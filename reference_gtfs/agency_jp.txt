@@ -1,2 +1,2 @@
 agency_id,agency_official_name,agency_zip_number,agency_address,agency_president_pos,agency_president_name
-3000020401307_0,福岡市交通局,8120025,福岡県福岡市博多区店屋町6番16号,交通事業管理者,
+3000020401307_0,福岡市交通局,8100041,福岡県福岡市中央区大名2丁目5番31号,交通事業管理者,
