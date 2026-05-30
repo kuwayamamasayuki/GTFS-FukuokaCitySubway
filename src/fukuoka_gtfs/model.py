@@ -26,10 +26,11 @@ class Trip:
     """1 便（GTFS の 1 trip 相当）。"""
 
     route_id: str
-    service_id: str
+    service_id: str          # calendar 参照用（例: 空港箱崎_平日）
     direction_id: int
     headsign: str
     block_id: str
+    service_segment: str = ""  # 区分のみ（平日/土曜/休日）。trip_id 生成に使う
     visits: list[StopVisit] = field(default_factory=list)
 
     @property

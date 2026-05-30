@@ -1,8 +1,11 @@
 """calendar.txt / calendar_dates.txt を生成する。
 
-平日 / 土曜 / 休日 の 3 区分を calendar.txt に出力し、日本の祝日は
-「休日」ダイヤで運行する想定で calendar_dates.txt に例外を書く
-（該当日の通常サービスを除外し、休日サービスを追加）。
+有効期間は路線グループごとに異なるため、service_id を ``<グループid>_<区分>``
+（例: ``空港箱崎_平日``）として、グループ × 区分（平日/土曜/休日）の組で出力する。
+日本の祝日は「休日」ダイヤで運行する想定で calendar_dates に例外を書く。
+
+end_date が遠い将来（例: 99991231）でも calendar_dates が無限に増えないよう、
+祝日例外の生成は本日からの horizon_years（既定 2 年）で打ち切る。
 """
 from __future__ import annotations
 
@@ -20,50 +23,67 @@ def _parse(d: str) -> dt.date:
     return dt.datetime.strptime(d, "%Y%m%d").date()
 
 
-def build_calendar(services: dict[str, dict], start_date: str, end_date: str) -> list[dict]:
+def _service_id(group_id: str, segment: str) -> str:
+    return f"{group_id}_{segment}"
+
+
+def build_calendar(services: dict[str, dict], service_groups: list[dict]) -> list[dict]:
+    """グループ × 区分 ごとに calendar 行を作る（有効期間はグループの値）。"""
     rows = []
-    for sid, flags in services.items():
-        row = {"service_id": sid, "start_date": start_date, "end_date": end_date}
-        for wd in WEEKDAYS:
-            row[wd] = int(flags.get(wd, 0))
-        rows.append(row)
+    for g in service_groups:
+        for segment, flags in services.items():
+            row = {"service_id": _service_id(g["id"], segment),
+                   "start_date": g["start_date"], "end_date": g["end_date"]}
+            for wd in WEEKDAYS:
+                row[wd] = int(flags.get(wd, 0))
+            rows.append(row)
     return rows
 
 
 def build_calendar_dates(
     services: dict[str, dict],
+    service_groups: list[dict],
     holiday_cfg: dict,
-    start_date: str,
-    end_date: str,
+    today: dt.date,
 ) -> list[dict]:
-    apply_service = holiday_cfg.get("apply_service", "休日")
+    apply_segment = holiday_cfg.get("apply_service", "休日")
     use_jpholiday = bool(holiday_cfg.get("use_jpholiday", True))
+    horizon_years = int(holiday_cfg.get("horizon_years", 2))
     extra_holidays = set(holiday_cfg.get("extra_holiday_dates") or [])
     extra_normal = set(holiday_cfg.get("extra_normal_dates") or [])
-
     is_holiday = _build_holiday_check(use_jpholiday)
 
-    # 曜日 index → その日に通常運行するサービス
-    weekday_service: dict[int, str] = {}
-    for sid, flags in services.items():
+    # 曜日 index → その日に通常運行する区分
+    weekday_segment: dict[int, str] = {}
+    for segment, flags in services.items():
         for i, wd in enumerate(WEEKDAYS):
             if int(flags.get(wd, 0)) == 1:
-                weekday_service[i] = sid
+                weekday_segment[i] = segment
 
-    rows: list[dict] = []
-    d, end = _parse(start_date), _parse(end_date)
+    horizon = _add_years(today, horizon_years)
     one = dt.timedelta(days=1)
-    while d <= end:
-        ymd = d.strftime("%Y%m%d")
-        holiday = (ymd in extra_holidays) or (ymd not in extra_normal and is_holiday(d))
-        if holiday:
-            normal = weekday_service.get(d.weekday())
-            if normal and normal != apply_service:
-                rows.append({"service_id": normal, "date": ymd, "exception_type": 2})
-                rows.append({"service_id": apply_service, "date": ymd, "exception_type": 1})
-        d += one
-    log.info("calendar_dates: 祝日例外 %d 件", len(rows) // 2)
+    rows: list[dict] = []
+    for g in service_groups:
+        d = _parse(g["start_date"])
+        gend = min(_parse(g["end_date"]), horizon)  # 遠い将来を打ち切る
+        while d <= gend:
+            ymd = d.strftime("%Y%m%d")
+            holiday = (ymd in extra_holidays) or (ymd not in extra_normal and is_holiday(d))
+            if holiday:
+                normal = weekday_segment.get(d.weekday())
+                if normal and normal != apply_segment:
+                    rows.append({"service_id": _service_id(g["id"], normal), "date": ymd, "exception_type": 2})
+                    rows.append({"service_id": _service_id(g["id"], apply_segment), "date": ymd, "exception_type": 1})
+            d += one
+    log.info("calendar_dates: 祝日例外 %d 件（〜%s）", len(rows) // 2, horizon.strftime("%Y%m%d"))
     return rows
+
+
+def _add_years(d: dt.date, years: int) -> dt.date:
+    try:
+        return d.replace(year=d.year + years)
+    except ValueError:  # 2/29
+        return d.replace(year=d.year + years, day=28)
 
 
 def _build_holiday_check(use_jpholiday: bool):

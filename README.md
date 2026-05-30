@@ -66,7 +66,7 @@ config/         設定（改正時に主に触る場所）
   routes.yaml     シート名の語彙 → service_id / direction_id
   stations.yaml   共用駅のホーム割当の特例
   parser.yaml     パーサ語彙・0時跨ぎ閾値・健全性しきい値
-  calendar.yaml   平日/土曜/休日 と祝日ポリシー
+  calendar.yaml   平日/土曜/休日・路線グループ別の有効期間・祝日ポリシー
   feed.yaml       feed_info（発行者・有効期間・版）
 reference_gtfs/  滅多に変化しない参照データ（scripts/seed_reference.py で生成）
 src/fukuoka_gtfs/
@@ -94,6 +94,11 @@ scripts/verify_fares.py    運賃を公式運賃表 PDF の三角表から抽出
   表記へ統一する。
 - **ホーム（子 stop）への割当**: `stop_times` は乗降可能な子ホーム（例 `9_3`）を参照する。
   通常駅は dir0→`_1`／dir1→`_2`、中洲川端・博多などの共用駅は `config/stations.yaml` で指定。
+- **路線グループ別の有効期間**: GTFS では有効期間（`calendar.txt` の start/end）は service_id 単位
+  のため、有効期間が異なる路線はグループを分け、`service_id` を `<グループ>_<区分>`
+  （例 `空港箱崎_平日`／`七隈_平日`）とする。期間は `config/calendar.yaml` の `service_groups`
+  で設定（例: 空港線・箱崎線 20260314〜、七隈線 20250804〜、ともに 99991231 まで）。
+  `end_date` が遠い将来でも `calendar_dates`（祝日例外）は `horizon_years` 分だけ生成する。
 
 ## ダイヤ改正への対応手順
 

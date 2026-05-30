@@ -67,5 +67,14 @@ class Config:
     def overnight_threshold_sec(self) -> int:
         return int(self.parser.get("overnight_threshold_hour", 4)) * 3600
 
+    @property
+    def service_groups(self) -> list[dict]:
+        return self.calendar["service_groups"]
+
+    @property
+    def route_to_group(self) -> dict[str, str]:
+        """route_id（路線名）→ サービスグループ id。"""
+        return {line: g["id"] for g in self.service_groups for line in g["lines"]}
+
     def vocab(self) -> Vocab:
         return Vocab.from_config(self.parser)

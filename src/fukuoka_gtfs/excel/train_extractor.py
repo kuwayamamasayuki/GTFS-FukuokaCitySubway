@@ -19,19 +19,21 @@ def extract_trips(
     mapper: StationMapper,
     *,
     block_prefix: str,
+    route_group: dict[str, str] | None = None,
     overnight_threshold_sec: int = DEFAULT_OVERNIGHT_THRESHOLD_SEC,
 ) -> list[Trip]:
     trips: list[Trip] = []
     for col in band.data_cols:
         trip_segments = _extract_column(
             sheet, band, kind, mapper, col,
-            block_prefix=block_prefix, overnight_threshold_sec=overnight_threshold_sec,
+            block_prefix=block_prefix, route_group=route_group or {},
+            overnight_threshold_sec=overnight_threshold_sec,
         )
         trips.extend(trip_segments)
     return trips
 
 
-def _extract_column(sheet, band, kind, mapper, col, *, block_prefix, overnight_threshold_sec):
+def _extract_column(sheet, band, kind, mapper, col, *, block_prefix, route_group, overnight_threshold_sec):
     # 1) 非空の時刻セルを行順に収集
     raw: list[tuple[str, str, float]] = []  # (parent_id, name, fraction)
     for srow in band.station_rows:
@@ -78,8 +80,11 @@ def _extract_column(sheet, band, kind, mapper, col, *, block_prefix, overnight_t
             StopVisit(stop_id=mapper.platform(pid, route_id, kind.direction_id), sec=sec)
             for pid, sec in zip(seg_parents, seg_secs)
         ]
+        segment = kind.service_id  # 区分（平日/土曜/休日）
+        group = route_group.get(route_id)
+        service_id = f"{group}_{segment}" if group else segment
         trips.append(Trip(
-            route_id=route_id, service_id=kind.service_id, direction_id=kind.direction_id,
-            headsign=headsign, block_id=block_id, visits=visits,
+            route_id=route_id, service_id=service_id, service_segment=segment,
+            direction_id=kind.direction_id, headsign=headsign, block_id=block_id, visits=visits,
         ))
     return trips
