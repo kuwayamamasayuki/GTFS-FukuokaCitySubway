@@ -44,3 +44,11 @@ def test_daytypes_and_sample_dates():
     m = _m()
     assert m.daytypes == ["平日", "土曜", "休日"]
     assert m.sample_dates["平日"] == "20260601"
+
+
+def test_default_destination_per_direction():
+    m = _m()
+    assert m.default_destination("七隈線", 0) == "博多"
+    assert m.default_destination("七隈線", 1) == "橋本"
+    assert m.default_destination("空港線", 0) == "福岡空港"
+    assert m.default_destination("箱崎線", 1) == "中洲川端"

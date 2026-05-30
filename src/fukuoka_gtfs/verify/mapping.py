@@ -18,6 +18,8 @@ class Mapping:
     service_groups: dict[str, str]
     # (jorudan_line, terminal) -> (route_id, direction_id)
     _directions: dict[tuple[str, str], tuple[str, int]]
+    # (route_id, direction_id) -> 既定行先（終端駅）
+    _line_defaults: dict[tuple[str, int], str]
     station_aliases: dict[str, str]
     destination_aliases: dict[str, str]
 
@@ -30,6 +32,10 @@ class Mapping:
     ) -> tuple[str, int] | None:
         """(路線名, 終端駅) -> (route_id, direction_id)。未知なら None。"""
         return self._directions.get((jorudan_line, terminal))
+
+    def default_destination(self, route_id: str, direction_id: int) -> str:
+        """凡例に無印が無いときの既定行先（終端駅）。未定義なら空文字。"""
+        return self._line_defaults.get((route_id, direction_id), "")
 
     def normalize_station(self, fr: str) -> str:
         """ジョルダンの駅名を GTFS stop_name に正規化する。"""
@@ -46,12 +52,17 @@ def load_mapping(path: str | Path) -> Mapping:
         (d["jorudan_line"], d["terminal"]): (d["route_id"], int(d["direction_id"]))
         for d in data["directions"]
     }
+    line_defaults = {
+        (d["route_id"], int(d["direction_id"])): d["default_destination"]
+        for d in data.get("line_defaults") or []
+    }
     return Mapping(
         index_url=data["index_url"],
         sample_dates=data["sample_dates"],
         daytypes=list(data["daytypes"]),
         service_groups=data["service_groups"],
         _directions=directions,
+        _line_defaults=line_defaults,
         station_aliases=data.get("station_aliases") or {},
         destination_aliases=data.get("destination_aliases") or {},
     )

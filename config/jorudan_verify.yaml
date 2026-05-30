@@ -33,6 +33,17 @@ directions:
   - {jorudan_line: 福岡地下鉄七隈線, terminal: 天神南,      route_id: 七隈線, direction_id: 0}
   - {jorudan_line: 福岡地下鉄七隈線, terminal: 橋本（福岡）, route_id: 七隈線, direction_id: 1}
 
+# (route_id, direction_id) ごとの既定行先（終端駅）。
+# 凡例に「無印=○○」がある駅(空港線・箱崎線)ではそちらが優先される。
+# 凡例 dd が無い七隈線では全便がこの既定行先になる。
+line_defaults:
+  - {route_id: 空港線, direction_id: 0, default_destination: 福岡空港}
+  - {route_id: 空港線, direction_id: 1, default_destination: 姪浜}
+  - {route_id: 箱崎線, direction_id: 0, default_destination: 貝塚}
+  - {route_id: 箱崎線, direction_id: 1, default_destination: 中洲川端}
+  - {route_id: 七隈線, direction_id: 0, default_destination: 博多}
+  - {route_id: 七隈線, direction_id: 1, default_destination: 橋本}
+
 # 駅名の正規化（ジョルダン fr -> GTFS stop_name）。現状は完全一致のため空。
 station_aliases: {}
 

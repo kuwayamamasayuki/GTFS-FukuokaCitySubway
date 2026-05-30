@@ -1,7 +1,10 @@
 """ジョルダンのダイヤ詳細 HTML パーサのテスト。
 
-HTML はジョルダンの実ページ（diagramdtl）の構造をそのまま縮約したもの。
-凡例ブロックと、時刻表本体（ttArea pc）に時・分・行先記号・複数ホームを含む。
+行先決定ルール:
+  * 凡例の「無印=○○」が既定行先（駅により異なる）。無ければ default_destination 引数。
+  * 「素の駅名」を値に持つ記号は上書き行先（例 貝=貝塚, 唐=唐津）。
+  * 「…で…に接続」等の注記記号は行先を変えず既定のまま（例 ●印, 前●印）。
+  * 凡例 dd が無い路線（七隈線）は全便が default_destination（終端）。
 """
 
 from fukuoka_gtfs.verify.jorudan_parser import (
@@ -10,92 +13,112 @@ from fukuoka_gtfs.verify.jorudan_parser import (
     parse_legend,
 )
 
-# 空港線・姪浜駅・福岡空港方面の実ページを縮約した HTML。
-# - 凡例: 無印=福岡空港ゆき / 貝=貝塚ゆき / ●印=…福岡空港ゆき電車
-# - 5 時台: 1,2 番ホームに 30(無印) と 45(貝), 3 番ホームに 35(貝)
-# - 0 時台: 1,2 番ホームに 00(無印), 3 番ホームに 25(●= 福岡空港)
-SAMPLE_HTML = """
+# 空港線・福岡空港方面（凡例値が「○○ゆき」形式、●印は注記）
+AIRPORT_DOWN = """
 <html><body>
 <ul class="ttArea pc">
-  <li class="pc"><dl class="ttBox ttBoxHeader">
-    <dt class="ttToggle"></dt><dd>1,2番ホームから</dd><dd>3番ホームから</dd>
-  </dl></li>
+  <li class="pc"><dl class="ttBox ttBoxHeader"><dt class="ttToggle"></dt><dd>x</dd></dl></li>
   <li class="pc"><dl class="ttBox">
     <dt class="ttToggle"><span>5</span></dt>
     <dd><ul class="ttList">
-      <li class="tooltip linindexlink">
-        <span class="legend"> &nbsp; </span>
-        <a href="javascript:void(0);">30</a>
-        <input type="hidden" value="464507;;30" class="lineindex" />
-      </li>
-      <li class="tooltip linindexlink">
-        <span class="legend"> <font color="#FF0000">貝</font> </span>
-        <a href="javascript:void(0);">45</a>
-        <input type="hidden" value="105977467;;45" class="lineindex" />
-      </li>
+      <li class="tooltip linindexlink"><span class="legend">&nbsp;</span><a>30</a></li>
+      <li class="tooltip linindexlink"><span class="legend"><font color="#FF0000">貝</font></span><a>45</a></li>
     </ul></dd>
     <dd><ul class="ttList">
-      <li class="tooltip linindexlink">
-        <span class="legend"> <font color="#FF0000">貝</font> </span>
-        <a href="javascript:void(0);">35</a>
-        <input type="hidden" value="105715323;;35" class="lineindex" />
-      </li>
-    </ul></dd>
-  </dl></li>
-  <li class="pc"><dl class="ttBox">
-    <dt class="ttToggle"><span>0</span></dt>
-    <dd><ul class="ttList">
-      <li class="tooltip linindexlink">
-        <span class="legend"> &nbsp; </span>
-        <a href="javascript:void(0);">00</a>
-        <input type="hidden" value="9770619;;00" class="lineindex" />
-      </li>
-    </ul></dd>
-    <dd><ul class="ttList">
-      <li class="tooltip linindexlink">
-        <span class="legend"> <font color="#FF0000">●</font> </span>
-        <a href="javascript:void(0);">25</a>
-        <input type="hidden" value="116594299;;25" class="lineindex" />
-      </li>
+      <li class="tooltip linindexlink"><span class="legend"><font>●</font></span><a>50</a></li>
     </ul></dd>
   </dl></li>
 </ul>
-<ul class="ttArea sp"><li>(モバイル用は無視されること)</li></ul>
-<div class="titleTxt mb8 borderD">凡例</div>
+<ul class="ttArea sp"><li>無視</li></ul>
 <div class="legendArea"><dl>
-  <dd> <span><font color="">無印</font></span>=<font color="">福岡空港ゆき</font> </dd>
-  <dd> <span><font color="#FF0000">貝</font></span>=<font color="">貝塚ゆき</font> </dd>
-  <dd> <span><font color="#FF0000">●印</font></span>=<font color="">中洲川端で貝塚ゆきにのりかえが便利な福岡空港ゆき電車</font> </dd>
+  <dd><span>無印</span>=<font>福岡空港ゆき</font></dd>
+  <dd><span><font color="#FF0000">貝</font></span>=<font>貝塚ゆき</font></dd>
+  <dd><span><font color="#FF0000">●印</font></span>=中洲川端で貝塚ゆきにのりかえが便利な福岡空港ゆき電車</dd>
 </dl></div>
 </body></html>
 """
 
+# 空港線・姪浜方面（凡例値が「素の駅名」、前●印は注記、無印=筑前前原）
+AIRPORT_UP = """
+<html><body>
+<ul class="ttArea pc">
+  <li class="pc"><dl class="ttBox">
+    <dt class="ttToggle"><span>6</span></dt>
+    <dd><ul class="ttList">
+      <li class="tooltip linindexlink"><span class="legend">&nbsp;</span><a>10</a></li>
+      <li class="tooltip linindexlink"><span class="legend">唐</span><a>20</a></li>
+      <li class="tooltip linindexlink"><span class="legend">前
+                        ●</span><a>30</a></li>
+    </ul></dd>
+  </dl></li>
+</ul>
+<div class="legendArea"><dl>
+  <dd><span>無印</span>=筑前前原</dd>
+  <dd><span>唐</span>=唐津</dd>
+  <dd><span>前●印</span>=筑前前原で唐津、西唐津ゆきに接続しています。</dd>
+</dl></div>
+</body></html>
+"""
 
-def test_parse_legend_maps_markers_to_final_destinations():
-    legend = parse_legend(SAMPLE_HTML)
-    assert legend[""] == "福岡空港"  # 無印 = 既定行先
+# 七隈線（凡例 dd 無し）。全便 default_destination。
+NANAKUMA = """
+<html><body>
+<ul class="ttArea pc">
+  <li class="pc"><dl class="ttBox">
+    <dt class="ttToggle"><span>7</span></dt>
+    <dd><ul class="ttList">
+      <li class="tooltip linindexlink"><span class="legend">&nbsp;</span><a>05</a></li>
+      <li class="tooltip linindexlink"><span class="legend">&nbsp;</span><a>15</a></li>
+    </ul></dd>
+  </dl></li>
+</ul>
+<div class="legendArea"><dl></dl></div>
+</body></html>
+"""
+
+
+def test_legend_keeps_only_clean_station_entries():
+    legend = parse_legend(AIRPORT_DOWN)
+    assert legend[""] == "福岡空港"  # 無印（ゆきを除去）
     assert legend["貝"] == "貝塚"
-    # ●印 は説明文だが最終行先は福岡空港
-    assert legend["●"] == "福岡空港"
+    assert "●" not in legend  # 注記は行先定義ではない
 
 
-def test_parse_diagram_extracts_all_departures_with_destinations():
-    deps = parse_diagram(SAMPLE_HTML)
-    assert Departure(hour=5, minute=30, destination="福岡空港") in deps
-    assert Departure(hour=5, minute=45, destination="貝塚") in deps
-    assert Departure(hour=5, minute=35, destination="貝塚") in deps  # 3 番ホーム統合
-    assert Departure(hour=0, minute=0, destination="福岡空港") in deps
-    assert Departure(hour=0, minute=25, destination="福岡空港") in deps  # ●
+def test_legend_bare_station_values():
+    legend = parse_legend(AIRPORT_UP)
+    assert legend[""] == "筑前前原"
+    assert legend["唐"] == "唐津"
+    assert "前●" not in legend  # 注記
 
 
-def test_parse_diagram_merges_platforms_and_counts():
-    deps = parse_diagram(SAMPLE_HTML)
-    # 全ホーム統合で 5 便（5 時台 3 便 + 0 時台 2 便）
-    assert len(deps) == 5
+def test_default_destination_used_when_no_unmarked_entry():
+    # 七隈線は凡例 dd 無し → 全便 default
+    deps = parse_diagram(NANAKUMA, default_destination="博多")
+    assert deps == [Departure(7, 5, "博多"), Departure(7, 15, "博多")]
 
 
-def test_parse_diagram_ignores_mobile_area():
-    # sp(モバイル)領域の li を時刻として拾わないこと
-    deps = parse_diagram(SAMPLE_HTML)
-    assert all(isinstance(d.minute, int) for d in deps)
-    assert len(deps) == 5
+def test_airport_down_destinations():
+    deps = parse_diagram(AIRPORT_DOWN, default_destination="福岡空港")
+    assert Departure(5, 30, "福岡空港") in deps  # 無印
+    assert Departure(5, 45, "貝塚") in deps      # 貝
+    assert Departure(5, 50, "福岡空港") in deps  # ●印=注記→既定
+    assert len(deps) == 3
+
+
+def test_airport_up_marker_and_annotation():
+    deps = parse_diagram(AIRPORT_UP, default_destination="筑前前原")
+    assert Departure(6, 10, "筑前前原") in deps  # 無印
+    assert Departure(6, 20, "唐津") in deps      # 唐
+    assert Departure(6, 30, "筑前前原") in deps  # 前●＝注記→既定
+    assert len(deps) == 3
+
+
+def test_unmarked_entry_overrides_default():
+    # 凡例に無印があれば、それが default_destination 引数より優先される
+    deps = parse_diagram(AIRPORT_UP, default_destination="無関係")
+    assert Departure(6, 10, "筑前前原") in deps
+
+
+def test_ignores_mobile_area_and_header():
+    deps = parse_diagram(AIRPORT_DOWN, default_destination="福岡空港")
+    assert len(deps) == 3  # sp領域とttBoxHeaderを拾わない
