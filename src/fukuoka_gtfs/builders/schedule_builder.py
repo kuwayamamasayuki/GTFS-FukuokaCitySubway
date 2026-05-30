@@ -1,7 +1,8 @@
 """Trip 群から trips.txt と stop_times.txt を生成する。
 
-trip_id は ``{route_id}_{service_id}_{direction_id}_{連番:03d}``。連番は
-出発時刻順に振るため、差分が読みやすく安定する。
+trip_id は ``{route_id}_{区分}_{direction_id}_{連番:03d}``（区分=平日/土曜/休日）。
+連番は出発時刻順に振るため、差分が読みやすく安定する。service_id（trips.txt の列）は
+グループ別（例: 空港箱崎_平日）で、calendar.txt の有効期間に対応する。
 """
 from __future__ import annotations
 
@@ -29,7 +30,8 @@ def build(trips: list[Trip]) -> tuple[list[dict], list[dict]]:
     for (route_id, service_id, direction_id), group in groups.items():
         group.sort(key=lambda t: t.first_sec)
         for i, trip in enumerate(group, start=1):
-            trip_id = f"{route_id}_{service_id}_{direction_id}_{i:03d}"
+            seg = trip.service_segment or service_id
+            trip_id = f"{route_id}_{seg}_{direction_id}_{i:03d}"
             trips_rows.append(dict(
                 route_id=route_id, service_id=service_id, trip_id=trip_id,
                 trip_headsign=trip.headsign, direction_id=direction_id,

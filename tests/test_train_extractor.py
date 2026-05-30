@@ -27,12 +27,22 @@ def _sheet():
     return Sheet(name="(平日　姪浜方面)", grid=grid)
 
 
+ROUTE_GROUP = {"空港線": "空港箱崎", "箱崎線": "空港箱崎"}
+
+
 def _extract():
     sheet = _sheet()
     band = detect_bands(sheet, Vocab())[0]
     mapper = StationMapper.from_stops(STOPS, OVERRIDES)
     kind = SheetKind(service_id="平日", direction_id=1, direction_label="姪浜方面")
-    return extract_trips(sheet, band, kind, mapper, block_prefix="t_")
+    return extract_trips(sheet, band, kind, mapper, block_prefix="t_", route_group=ROUTE_GROUP)
+
+
+def test_service_id_is_group_specific():
+    trips = _extract()
+    # service_id はグループ別（空港箱崎_平日）、区分は service_segment に保持
+    assert all(t.service_id == "空港箱崎_平日" for t in trips)
+    assert all(t.service_segment == "平日" for t in trips)
 
 
 def test_total_trips():

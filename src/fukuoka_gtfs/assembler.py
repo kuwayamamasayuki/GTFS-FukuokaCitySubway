@@ -46,12 +46,17 @@ def assemble(config: Config, today: dt.date | None = None) -> dict:
 
     # 生成テーブル
     trips_rows, stop_times_rows = schedule_builder.build(trips)
-    start_date, end_date = feed_info_builder.resolve_period(config.feed, today)
-    calendar_rows = calendar_builder.build_calendar(config.calendar["services"], start_date, end_date)
+    groups = config.service_groups
+    services = config.calendar["services"]
+    # feed_info の有効期間はグループ全体の和（明示指定があればそれを優先）
+    start_date = config.feed.feed_start_date or min(g["start_date"] for g in groups)
+    end_date = config.feed.feed_end_date or max(g["end_date"] for g in groups)
+    version = config.feed.feed_version or today.strftime("%Y%m%d")  # 版＝発行日（既定）
+    calendar_rows = calendar_builder.build_calendar(services, groups)
     calendar_dates_rows = calendar_builder.build_calendar_dates(
-        config.calendar["services"], config.calendar.get("holiday", {}), start_date, end_date,
+        services, groups, config.calendar.get("holiday", {}), today,
     )
-    feed_info_rows = feed_info_builder.build(config.feed, start_date, end_date)
+    feed_info_rows = feed_info_builder.build(config.feed, start_date, end_date, version)
 
     # 参照ファイルを取り込み（BOM 除去・LF 統一のため read→write）
     for name in REFERENCE_FILES:

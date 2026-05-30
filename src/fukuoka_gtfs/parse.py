@@ -48,6 +48,7 @@ def parse_all(config: Config, mapper: StationMapper) -> list[Trip]:
                 sheet_trips.extend(train_extractor.extract_trips(
                     sheet, band, kind, mapper,
                     block_prefix=f"{src.name}_{kind.service_id}_{kind.direction_id}_b{bi}_",
+                    route_group=config.route_to_group,
                     overnight_threshold_sec=config.overnight_threshold_sec,
                 ))
             n = len(sheet_trips)
