@@ -8,6 +8,7 @@
 | 概要ハブ | `index.html` | **路線図 + 統計インフォグラフィック**（D）と、**既製ツール連携**（C: feed.zip / GeoJSON ダウンロード、Validator・transit.land・OTP への導線） |
 | 運行マップ | `map.html` | **運行アニメーション**（A）。一日の全便が 3 色の路線を実ダイヤで走行。時刻・速度・区分・走行本数。deck.gl 製 |
 | 発車標 | `board.html` | **発車標・時刻表ビューア**（B）。駅選択・平日/土曜/休日・日本語/English・基準時刻スライダー |
+| HTML 時刻表 | `gtfs-to-html/html/index.html` | **既製ツール [GTFS-to-HTML](https://gtfstohtml.com/) 連携**（Issue #17）。フィードから路線別の印刷向け時刻表 HTML を自動生成。詳細は [`gtfs-to-html/README.md`](gtfs-to-html/README.md) |
 
 ## 動かし方
 
@@ -42,6 +43,10 @@ demo/
     animation.json    全便の経路と通過時刻
     departures.json   親駅×区分の発車時刻
     network.geojson   路線+駅（geojson.io / kepler.gl / QGIS 用）
+  gtfs-to-html/       既製ツール GTFS-to-HTML で HTML 時刻表を生成する例（Issue #17）
+    config.json       gtfs-to-html 設定（入力=dist の feed.zip、出力=html/）
+    package.json      gtfs-to-html をローカル導入する定義（要 Node.js 20+）
+    html/             生成済み HTML 時刻表（index + 路線別ページ）
 ```
 
 ## スクリーンショット撮影
@@ -67,6 +72,22 @@ deck.gl は `vendor/` に同梱済みなので、地図描画は CDN 非依存�
 - **データカタログ**: [transit.land](https://www.transit.land/) などに登録可能な標準フィード。
 - **経路検索**: OpenTripPlanner に `feed.zip` と福岡の OSM 抽出を読ませると、
   橋本→福岡空港などの経路検索デモになります。
+
+## HTML 時刻表（GTFS-to-HTML）
+
+[GTFS-to-HTML](https://gtfstohtml.com/) は GTFS から印刷にも向く HTML 時刻表を生成する
+既製ツールです。本リポジトリの公開フィード（`dist/FukuokaCitySubway.zip`）を入力とする
+設定と、**生成済みの成果物**を `gtfs-to-html/` に同梱しています。
+
+```bash
+# まずは同梱の成果物をそのまま開くだけでも閲覧できます
+#   demo/gtfs-to-html/html/index.html
+
+# 再生成する場合（Node.js 20+ が必要）
+make demo-html            # = cd demo/gtfs-to-html && npm install && npm run build
+```
+
+詳細・設定の説明は [`gtfs-to-html/README.md`](gtfs-to-html/README.md) を参照してください。
 
 ## 技術メモ
 

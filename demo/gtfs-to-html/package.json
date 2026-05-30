@@ -1,0 +1,16 @@
+{
+  "name": "fukuoka-subway-gtfs-to-html",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GTFS-to-HTML を使い、福岡市地下鉄 GTFS-JP フィードから HTML 時刻表を生成するデモ例",
+  "license": "MIT",
+  "scripts": {
+    "build": "gtfs-to-html --configPath ./config.json"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "gtfs-to-html": "^2.12.0"
+  }
+}
