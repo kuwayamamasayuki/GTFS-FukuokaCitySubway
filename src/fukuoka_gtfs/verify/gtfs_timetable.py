@@ -7,6 +7,7 @@
 
 from __future__ import annotations
 
+from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -68,12 +69,29 @@ def departures(
         ):
             trip_meta[t["trip_id"]] = t.get("trip_headsign", "")
 
+    # 各 trip の最終 stop_sequence（終着）。終着での停車は発車に数えない。
+    last_seq: dict[str, int] = defaultdict(lambda: -1)
+    for st in feed.stop_times:
+        tid = st.get("trip_id")
+        if tid in trip_meta:
+            seq = int(st["stop_sequence"])
+            if seq > last_seq[tid]:
+                last_seq[tid] = seq
+
     out: list[Departure] = []
     for st in feed.stop_times:
         if st.get("stop_id") not in child_ids:
             continue
         trip_id = st.get("trip_id")
         if trip_id not in trip_meta:
+            continue
+        # 真の終着（行先＝当駅名）での到着は発車ではないので除外する。
+        # 行先が当駅名と異なる便（JR 直通などフィード境界の先へ継続する便）は、
+        # 当駅が最終停車であっても実際には発車するため残す。
+        if (
+            int(st["stop_sequence"]) == last_seq[trip_id]
+            and trip_meta[trip_id] == stop_name
+        ):
             continue
         hh, mm, _ = st["departure_time"].split(":")
         out.append(
