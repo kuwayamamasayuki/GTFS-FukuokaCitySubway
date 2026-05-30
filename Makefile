@@ -1,4 +1,4 @@
-.PHONY: setup seed download build validate all test clean
+.PHONY: setup seed fares verify-fares download build validate all publish test clean
 
 PY ?= python
 
@@ -25,6 +25,11 @@ validate:         ## 生成済み GTFS を検証（Canonical + Python）
 
 all:              ## download → build → validate
 	$(PY) -m fukuoka_gtfs.cli all --download-tools
+
+publish: build    ## 生成した GTFS を dist/ に公開スナップショットとして配置
+	rm -rf dist && mkdir -p dist
+	cp build/gtfs/*.txt dist/
+	cp build/feed.zip dist/FukuokaCitySubway.zip
 
 test:             ## テスト
 	$(PY) -m pytest -q
