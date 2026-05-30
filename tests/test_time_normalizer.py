@@ -24,10 +24,27 @@ def test_normalize_clean_minutes():
     assert secs == [5 * 3600 + 1800, 5 * 3600 + 32 * 60, 5 * 3600 + 34 * 60]
 
 
-def test_normalize_rounds_seconds():
-    # 00:16:25 → 分丸めで 00:16、先頭が早朝なので +24h → 24:16
+def test_normalize_truncates_seconds_below_30():
+    # 00:16:25 → 秒切り捨てで 00:16、先頭が早朝なので +24h → 24:16
     frac = (16 * 60 + 25) / 86400
     assert normalize_sequence([frac]) == [24 * 3600 + 16 * 60]
+
+
+def test_normalize_truncates_seconds_at_or_above_30():
+    # Issue #7: 七隈線 .xlsx の深夜便は実秒付き（例 00:31:42）。
+    # 公式公開時刻（ジョルダン）は秒を切り捨てる。四捨五入だと 00:32 になり +1 分ずれる。
+    # 12:05:42 → 12:05（12:06 ではない）
+    assert normalize_sequence([(12 * 3600 + 5 * 60 + 42) / 86400]) == [12 * 3600 + 5 * 60]
+    # 12:05:30 ちょうど → 12:05（四捨五入なら 12:06 に切り上がる境界）
+    assert normalize_sequence([(12 * 3600 + 5 * 60 + 30) / 86400]) == [12 * 3600 + 5 * 60]
+    # 深夜便の実例 00:31:42 → 00:31、先頭が早朝なので +24h → 24:31
+    assert normalize_sequence([(31 * 60 + 42) / 86400]) == [24 * 3600 + 31 * 60]
+
+
+def test_normalize_truncation_no_float_drift():
+    # float 誤差で丸め下げが 1 分早まらないこと（秒=0 の正分は厳密に保つ）。
+    assert normalize_sequence([(12 * 3600 + 5 * 60) / 86400]) == [12 * 3600 + 5 * 60]
+    assert normalize_sequence([(23 * 3600 + 48 * 60) / 86400]) == [23 * 3600 + 48 * 60]
 
 
 def test_normalize_overnight_start():
