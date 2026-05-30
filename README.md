@@ -98,7 +98,9 @@ scripts/verify_fares.py    運賃を公式運賃表 PDF の三角表から抽出
 - **路線グループ別の有効期間**: GTFS では有効期間（`calendar.txt` の start/end）は service_id 単位
   のため、有効期間が異なる路線はグループを分け、`service_id` を `<グループ>_<区分>`
   （例 `空港箱崎_平日`／`七隈_平日`）とする。期間は `config/calendar.yaml` の `service_groups`
-  で設定（例: 空港線・箱崎線 20260314〜、七隈線 20250804〜、ともに 99991231 まで）。
+  で設定（例: 空港線・箱崎線 20260401〜、七隈線 20260401〜、ともに 99991231 まで）。
+  各グループの `start_date` がそのグループのダイヤ改正日。改正日が路線で異なる場合は
+  該当グループの `start_date` だけを更新する（グループは独立して期間を持てる）。
   `end_date` が遠い将来でも `calendar_dates`（祝日例外）は `horizon_years` 分だけ生成する。
 
 ## ダイヤ改正への対応手順
@@ -106,9 +108,11 @@ scripts/verify_fares.py    運賃を公式運賃表 PDF の三角表から抽出
 1. `python -m fukuoka_gtfs.cli download` で最新 Excel を取得し、健全性サマリ
    （6 シート検出・区分×方向・便数）を確認する。
 2. 必要に応じて設定だけを更新する:
-   - 有効期間・版 … `config/feed.yaml`
+   - ダイヤ改正日（有効期間の開始）… `config/calendar.yaml` の `service_groups` の `start_date`
+     （路線で改正日が異なる場合は該当グループのみ更新）
+   - フィード全体の有効期間・版 … `config/feed.yaml`（未指定なら start はグループ最小、end は最大）
    - URL・期待シート名 … `config/sources.yaml`
-   - 祝日 … `config/calendar.yaml`
+   - 祝日 … `config/calendar.yaml` の `holiday`
    - **駅が増えた場合のみ** … `reference_gtfs/stops.txt`（親駅＋子ホーム）と
      `config/stations.yaml`、`reference_gtfs/translations.txt`
 3. `python -m fukuoka_gtfs.cli all --download-tools` で再生成・検証する。

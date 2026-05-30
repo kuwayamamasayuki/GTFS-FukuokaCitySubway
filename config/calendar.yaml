@@ -7,14 +7,17 @@ services:
 
 # 路線グループごとに有効期間を分ける。service_id は "<id>_<区分>"（例: 空港箱崎_平日）。
 # GTFS では有効期間は service_id 単位なので、有効期間が異なる路線はグループを分ける。
+# 各グループの start_date がそのグループのダイヤ改正日。空港箱崎と七隈は別グループなので、
+# 改正日が路線で異なる場合も該当グループの start_date だけを更新すればよい。
+# 2026/4/1 ダイヤ改正により、両グループとも start_date を 20260401 とする（Issue #9）。
 service_groups:
   - id: 空港箱崎
     lines: [空港線, 箱崎線]
-    start_date: "20260314"
+    start_date: "20260401"
     end_date: "99991231"
   - id: 七隈
     lines: [七隈線]
-    start_date: "20250804"
+    start_date: "20260401"
     end_date: "99991231"
 
 # 祝日は「休日」ダイヤで運行する想定。該当日の通常区分を calendar_dates で除外し、
