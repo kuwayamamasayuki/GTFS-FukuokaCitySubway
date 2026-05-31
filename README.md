@@ -86,8 +86,9 @@ cd demo && python -m http.server 8000   # → http://localhost:8000/
 を再実行するだけで最新になります。画面構成・スクリーンショット撮影・既製ツール連携などの
 詳細は `demo/README.md` を参照してください。
 
+運行マップ（`demo/map.html`）は deck.gl(MIT) 製で、外部ツール不要のままブラウザだけで運行アニメーションを再生します。
 既製ツール連携の例として、HTML 時刻表を生成する [GTFS-to-HTML](https://gtfstohtml.com/)（`demo/gtfs-to-html/`、Issue #17）と、
-運行アニメーションを作る [TransitFlow](https://github.com/transitland/transitland-processing-animation)（`demo/transitland-animation/`、Issue #18）も同梱しています。
+運行アニメーションを既製ツールに取り込む [kepler.gl](https://github.com/keplergl/kepler.gl)(MIT)（`demo/kepler-animation/`、Issue #18）も同梱しています。
 
 ## アーキテクチャ
 

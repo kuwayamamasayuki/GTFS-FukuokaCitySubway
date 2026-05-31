@@ -37,8 +37,8 @@ publish: build    ## 生成した GTFS を dist/ に公開スナップショッ�
 demo-html:        ## GTFS-to-HTML で dist/ フィードから HTML 時刻表を生成（要 Node.js 20+）
 	cd demo/gtfs-to-html && npm install && npm run build
 
-demo-animation:   ## TransitFlow 用の運行アニメーション入力を build/gtfs から生成（Issue #18）
-	$(PY) demo/transitland-animation/gtfs_to_transitflow.py --gtfs build/gtfs --out demo/transitland-animation
+demo-animation:   ## kepler.gl 用の運行アニメーション GeoJSON を build/gtfs から生成（Issue #18）
+	$(PY) demo/kepler-animation/gtfs_to_kepler.py --gtfs build/gtfs --out demo/kepler-animation/data/trips.geojson
 
 test:             ## テスト
 	$(PY) -m pytest -q
