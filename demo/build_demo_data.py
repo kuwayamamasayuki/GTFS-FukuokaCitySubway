@@ -37,6 +37,11 @@ def to_sec(hms: str) -> int:
     return h * 3600 + m * 60 + s
 
 
+def service_cat(service_id: str) -> str:
+    """service_id（例: 空港箱崎_平日）から曜日区分（平日/土曜/休日）を取り出す。"""
+    return service_id.split("_")[-1]
+
+
 def hhmm(sec: int) -> str:
     return f"{sec // 3600:02d}:{sec % 3600 // 60:02d}"
 
@@ -114,7 +119,7 @@ def main() -> None:
             continue
         t = trips[tid]
         anim_trips.append({"r": t["route_id"], "c": line_color[t["route_id"]],
-                           "s": t["service_id"], "d": int(t["direction_id"]),
+                           "s": service_cat(t["service_id"]), "d": int(t["direction_id"]),
                            "path": path, "times": times})
         tmin, tmax = min(tmin, times[0]), max(tmax, times[-1])
 
@@ -129,7 +134,7 @@ def main() -> None:
                            **{sv: [] for sv in SERVICES}}
     for tid, items in seq_time.items():
         t = trips[tid]
-        sv, rid = t["service_id"], t["route_id"]
+        sv, rid = service_cat(t["service_id"]), t["route_id"]
         for _, sid, sec in items:
             pid = child_to_parent.get(sid, sid)
             departures[pid][sv].append(
@@ -149,9 +154,10 @@ def main() -> None:
         lid: {sv: [] for sv in SERVICES} for lid in LINE_ORDER}
     for tid, items in seq_time.items():
         t = trips[tid]
-        trips_by_line_service[t["route_id"]][t["service_id"]] += 1
+        sv = service_cat(t["service_id"])
+        trips_by_line_service[t["route_id"]][sv] += 1
         secs = [s for _, _, s in items]
-        first_last[t["route_id"]][t["service_id"]].extend([secs[0], secs[-1]])
+        first_last[t["route_id"]][sv].extend([secs[0], secs[-1]])
 
     def line_length(lid: str) -> float:
         sts = [parents[line_stations[lid][n]] for n in sorted(line_stations[lid])]
