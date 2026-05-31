@@ -54,6 +54,9 @@ OTP を起動したら、付属の**デバッグ用 Web クライアント**（<
 `http://localhost:8000/opentripplanner/` で開けます（`file://` 直開きは fetch 不可）。
 サンプル未生成時は生成手順を案内します。
 
+このページの描画は Playwright による GUI テスト（`tests/gui/test_otp.py`、`make test-gui`）で
+検証しています（Issue #24 の基盤を利用）。
+
 ## `prepare_otp.py` のオプション
 
 | オプション | 既定 | 意味 |

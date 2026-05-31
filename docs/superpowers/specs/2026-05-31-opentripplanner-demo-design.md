@@ -60,9 +60,9 @@ demo デザイン（ダーク基調・3 路線カラー、戻りリンク）に�
 サンプル未生成時は「`make demo-otp-sample` で生成してください」と案内する。
 ライブ経路検索は行わない。
 
-このページはブラウザ描画のため、本 PR では**手動テスト**で確認する（Playwright による
-GUI テスト基盤は別 PR #24 にあり master 未マージのため、本 PR では依存しない。#24
-マージ後に GUI テストを追加できる）。手動手順は実装時に明示する。
+このページは Issue #24 で導入した Playwright 基盤（`tests/gui/`）で GUI テストする
+（`tests/gui/test_otp.py`）。#24 が master にマージされたため、本 PR の最終形では
+GUI テストを同梱する。
 
 ### 4. `demo/opentripplanner/README.md`
 
@@ -87,8 +87,9 @@ Java 17 要件 / 手順（prepare → 起動 → sample 取得）/ オプショ�
   `otp_jar_url` / `osmium_extract_args` を単体テスト。
 - `tests/test_otp_sample.py` — `find_stop_coord` / `plan_query` /
   `summarize_itinerary`（小さな OTP 応答フィクスチャを入力）を単体テスト。
-- `demo/opentripplanner/index.html`（オフライン表示ページ）はブラウザ描画のため
-  **手動テスト**（実装時に手順を明示）。Playwright 基盤が master に入り次第 GUI テスト追加可。
+- `tests/gui/test_otp.py`（`gui` マーカー）— オフライン表示ページが同梱サンプルを
+  描画すること・サンプル欠如時に生成手順を案内すること・OTP デバッグ UI への導線を
+  Playwright で検証（`demo_site` フィクスチャに opentripplanner ページとサンプルを追加）。
 
 ### 8. `.gitignore`
 
