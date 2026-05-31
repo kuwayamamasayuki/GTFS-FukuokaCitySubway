@@ -198,6 +198,20 @@ python -m pytest -q
 `tests/` は合成データによる単体テスト（時刻正規化・バンド検出・駅対応付け・直通分割）と、
 `data/` に Excel がある場合の既知便回帰テストから成る。
 
+### GUI テスト（Playwright・Issue #24）
+
+`demo/` の 3 画面を Playwright + ヘッドレス Chromium で自動テストする（`tests/gui/`）。
+固定の小さな GTFS フィクスチャからデモデータを生成して検証するため、`download`/`build` や
+ネットワークは不要。通常の `make test` は GUI を除外（`-m "not gui"`）し高速に回る。
+
+```bash
+pip install -e ".[dev]" && python -m playwright install chromium
+make test-gui          # = pytest -q -m gui
+```
+
+Chromium 未導入の環境では GUI テストは自動 skip される。詳細は
+[`demo/README.md`](demo/README.md) の「GUI 自動テスト」を参照。
+
 ### 時刻表の確認テスト（ジョルダン突合・Issue #5）
 
 生成 GTFS の **全駅・全方面・全曜日区分** の発車時刻を、外部の権威ある時刻表
