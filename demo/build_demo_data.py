@@ -14,7 +14,7 @@ import json
 import math
 import re
 import shutil
-from collections import defaultdict
+from collections import Counter, defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -40,6 +40,36 @@ def to_sec(hms: str) -> int:
 def service_cat(service_id: str) -> str:
     """service_id（例: 空港箱崎_平日）から曜日区分（平日/土曜/休日）を取り出す。"""
     return service_id.split("_")[-1]
+
+
+def direction_label(headsigns: list[str]) -> str:
+    """方向グループの代表方面ラベル＝最頻 headsign。
+
+    同数のときは headsign の文字列順で選び、結果を決定的にする。
+    """
+    counts = Counter(headsigns)
+    return min(counts, key=lambda h: (-counts[h], h))
+
+
+def group_by_direction(entries: list[dict], line_order: list[str]) -> list[dict]:
+    """発車エントリ列を (route, dir) でグループ化し方面ラベルを付ける。
+
+    各エントリは route / dir / t / hhmm / headsign / color を持つ。
+    グループ順は line_order → dir(0,1)、各グループ内の trips は時刻順。
+    """
+    groups: dict[tuple[str, int], list[dict]] = defaultdict(list)
+    for e in entries:
+        groups[(e["route"], e["dir"])].append(e)
+    out = []
+    for (rid, d), es in groups.items():
+        es.sort(key=lambda x: x["t"])
+        out.append({
+            "route": rid, "dir": d, "color": es[0]["color"],
+            "dest": direction_label([e["headsign"] for e in es]),
+            "trips": [{"t": e["t"], "hhmm": e["hhmm"], "headsign": e["headsign"]} for e in es],
+        })
+    out.sort(key=lambda g: (line_order.index(g["route"]), g["dir"]))
+    return out
 
 
 def hhmm(sec: int) -> str:
@@ -127,22 +157,24 @@ def main() -> None:
         json.dumps({"tmin": tmin, "tmax": tmax, "trips": anim_trips},
                    ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 
-    # --- departures.json（親駅×区分） ---
-    departures: dict[str, dict] = {}
-    for pid, p in parents.items():
-        departures[pid] = {"name": p["name"], "name_en": p["name_en"], "code": p["code"],
-                           **{sv: [] for sv in SERVICES}}
+    # --- departures.json（親駅×区分×方向） ---
+    # まず親駅ごと・区分ごとに発車エントリを集め、(route, dir) でグループ化する。
+    flat: dict[str, dict[str, list[dict]]] = {
+        pid: {sv: [] for sv in SERVICES} for pid in parents}
     for tid, items in seq_time.items():
         t = trips[tid]
         sv, rid = service_cat(t["service_id"]), t["route_id"]
         for _, sid, sec in items:
             pid = child_to_parent.get(sid, sid)
-            departures[pid][sv].append(
+            flat[pid][sv].append(
                 {"t": sec, "hhmm": hhmm(sec), "route": rid, "color": line_color[rid],
                  "headsign": t["trip_headsign"], "dir": int(t["direction_id"])})
-    for pid in departures:
-        for sv in SERVICES:
-            departures[pid][sv].sort(key=lambda x: x["t"])
+
+    departures: dict[str, dict] = {}
+    for pid, p in parents.items():
+        departures[pid] = {"name": p["name"], "name_en": p["name_en"], "code": p["code"],
+                           **{sv: group_by_direction(flat[pid][sv], LINE_ORDER)
+                              for sv in SERVICES}}
 
     (OUT / "departures.json").write_text(
         json.dumps(departures, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
