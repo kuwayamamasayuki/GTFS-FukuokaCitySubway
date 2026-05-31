@@ -1,4 +1,4 @@
-.PHONY: setup seed fares verify-fares fetch-jorudan-fares download build validate all publish demo-html demo-animation test clean
+.PHONY: setup seed fares verify-fares fetch-jorudan-fares download build validate all publish demo-html demo-animation demo-otp demo-otp-sample test clean
 
 PY ?= python
 
@@ -39,6 +39,12 @@ demo-html:        ## GTFS-to-HTML で dist/ フィードから HTML 時刻表を
 
 demo-animation:   ## kepler.gl 用の運行アニメーション GeoJSON を build/gtfs から生成（Issue #18）
 	$(PY) demo/kepler-animation/gtfs_to_kepler.py --gtfs build/gtfs --out demo/kepler-animation/data/trips.geojson
+
+demo-otp:         ## OpenTripPlanner の作業ディレクトリを用意（OSM/jar 取得・config 生成、要 Java 17+ / osmium）（Issue #25）
+	$(PY) demo/opentripplanner/prepare_otp.py
+
+demo-otp-sample:  ## 起動中の OTP からサンプル経路を取得し demo/opentripplanner/data に保存（Issue #25）
+	$(PY) demo/opentripplanner/fetch_sample.py
 
 test:             ## テスト
 	$(PY) -m pytest -q

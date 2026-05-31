@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>経路検索（OpenTripPlanner） — 福岡市地下鉄 GTFS デモ</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  .wrap{max-width:980px;margin:0 auto;padding:0 20px}
+  .card{background:var(--card,#141821);border:1px solid rgba(255,255,255,.08);
+    border-radius:14px;padding:20px;margin:14px 0}
+  .meta{display:flex;flex-wrap:wrap;gap:10px 26px;align-items:baseline;margin:6px 0 14px}
+  .meta .od{font-size:1.3rem;font-weight:700}
+  .meta .big{font-size:1.6rem;font-weight:700;color:#2dd4bf}
+  .meta .l{opacity:.7;font-size:.85rem;letter-spacing:.04em}
+  .legs{list-style:none;margin:0;padding:0}
+  .leg{display:grid;grid-template-columns:78px 14px 1fr;gap:12px;align-items:start;padding:8px 0}
+  .leg .t{font-variant-numeric:tabular-nums;opacity:.85;font-size:.9rem}
+  .leg .dot{width:12px;height:12px;border-radius:50%;margin-top:4px;
+    background:#2dd4bf;box-shadow:0 0 0 3px rgba(45,212,191,.18)}
+  .leg.walk .dot{background:#94a3b8;box-shadow:0 0 0 3px rgba(148,163,184,.18)}
+  .leg .mode{font-weight:600}
+  .leg .od2{opacity:.8;font-size:.92rem}
+  .hint{opacity:.75}
+  pre.code{background:#0c0f15;border:1px solid rgba(255,255,255,.08);border-radius:10px;
+    padding:14px;overflow:auto;font-size:.86rem}
+  .note{border-left:3px solid #2dd4bf;padding:8px 0 8px 14px;opacity:.92}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">福岡市地下鉄 <small>FUKUOKA SUBWAY · GTFS</small></div>
+  <nav>
+    <a href="../index.html">概要</a>
+    <a href="../map.html">運行マップ</a>
+    <a href="../board.html">発車標</a>
+    <a href="../gtfs-to-html/html/index.html">時刻表</a>
+    <a href="index.html" class="active">経路検索</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <p class="kicker">VIEW D · ROUTING · OPENTRIPPLANNER</p>
+    <h1><span class="ja">経路検索（OpenTripPlanner）</span></h1>
+    <p class="lead">本リポジトリの GTFS-JP フィードと OSM を
+      <a href="https://www.opentripplanner.org/" target="_blank" rel="noopener">OpenTripPlanner</a>（OSS）に
+      読ませると、地下鉄の<b>経路検索</b>ができます。下は実際に OTP を起動して取得した
+      <b>サンプル経路</b>です（オフラインでも閲覧できます）。</p>
+  </section>
+
+  <section class="sec wrap">
+    <h2><span class="no">01</span> サンプル経路</h2>
+    <div id="sample" class="card"><p class="hint">読み込み中…</p></div>
+  </section>
+
+  <section class="sec wrap">
+    <h2><span class="no">02</span> 自分で動かす</h2>
+    <p class="sub">Java 17 以上が必要です。手順の詳細は
+      <a href="README.md">README.md</a> を参照してください。</p>
+    <pre class="code"># 1) 作業ディレクトリを用意（OSM/jar 取得・config 生成）
+make demo-otp
+
+# 2) グラフ構築 → サーバ起動（http://localhost:8080）
+cd demo/opentripplanner/work
+java -Xmx4g -jar otp-2.5.0-shaded.jar --build --save .
+java -Xmx4g -jar otp-2.5.0-shaded.jar --load .
+
+# 3) 別ターミナルでサンプル経路を取得（このページの表示を更新）
+make demo-otp-sample</pre>
+    <p class="note">OTP を起動したら、付属の
+      <a href="http://localhost:8080/" target="_blank" rel="noopener">デバッグ用 Web クライアント（localhost:8080）</a>
+      で地図上の経路検索も試せます。</p>
+  </section>
+
+  <footer class="wrap">
+    経路検索エンジン: <a href="https://www.opentripplanner.org/" target="_blank" rel="noopener">OpenTripPlanner</a>（オープンソース）
+    ／ 道路ネットワーク: <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a>（ODbL、Geofabrik 配布）
+    ／ 時刻表データ: 福岡市交通局。
+  </footer>
+</main>
+
+<script>
+const SEC=s=>{const h=Math.floor(s/3600),m=Math.round(s%3600/60);return h?`${h}時間${m}分`:`${m}分`;};
+function fmtClock(ms){ // OTP の startTime/endTime はエポックミリ秒
+  const d=new Date(ms); if(isNaN(d)) return "";
+  return String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");
+}
+function render(data){
+  const s=data.summary||{};
+  const legs=(s.legs||[]).map(l=>{
+    const walk=(l.mode==="WALK"||l.mode==null);
+    const label = walk ? "徒歩" : (l.route ? l.route : l.mode);
+    const t = l.startTime ? fmtClock(l.startTime) : "";
+    return `<li class="leg ${walk?"walk":""}">
+      <div class="t">${t}</div><div class="dot"></div>
+      <div><div class="mode">${label}</div>
+        <div class="od2">${l.from||""} → ${l.to||""}</div></div></li>`;
+  }).join("");
+  document.getElementById("sample").innerHTML=`
+    <div class="meta">
+      <span class="od">${data.from} → ${data.to}</span>
+      <span class="l">${data.date} ${data.time} 出発</span>
+      <span class="big">${s.duration_min!=null?s.duration_min+" 分":"—"}</span>
+      <span class="l">乗換 ${s.transfers!=null?s.transfers:"—"} 回${s.walk_distance_m!=null?" ・ 徒歩 "+s.walk_distance_m+" m":""}</span>
+    </div>
+    <ul class="legs">${legs||'<li class="hint">leg 情報がありません。</li>'}</ul>`;
+}
+fetch("data/sample-itinerary.json")
+  .then(r=>{ if(!r.ok) throw new Error("not found"); return r.json(); })
+  .then(render)
+  .catch(()=>{ document.getElementById("sample").innerHTML=
+    `<p class="hint">サンプル経路はまだ生成されていません。<br>
+     OTP を起動して <code>make demo-otp-sample</code> を実行すると、ここに
+     <b>橋本→福岡空港</b>の経路が表示されます（下の手順参照）。</p>`; });
+</script>
+</body>
+</html>
