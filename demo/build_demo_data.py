@@ -9,6 +9,7 @@
 """
 from __future__ import annotations
 
+import argparse
 import csv
 import json
 import math
@@ -20,6 +21,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 GTFS = ROOT / "build" / "gtfs"
 OUT = Path(__file__).resolve().parent / "data"
+FEED_ZIP = ROOT / "build" / "feed.zip"
 
 LINE_ORDER = ["空港線", "箱崎線", "七隈線"]
 LINE_EN = {"空港線": "Kuko Line", "箱崎線": "Hakozaki Line", "七隈線": "Nanakuma Line"}
@@ -27,8 +29,8 @@ CODE_LINE = {"K": "空港線", "H": "箱崎線", "N": "七隈線"}
 SERVICES = ["平日", "土曜", "休日"]
 
 
-def read(name: str) -> list[dict]:
-    with (GTFS / name).open(encoding="utf-8-sig") as f:
+def read(gtfs_dir: Path, name: str) -> list[dict]:
+    with (gtfs_dir / name).open(encoding="utf-8-sig") as f:
         return list(csv.DictReader(f))
 
 
@@ -85,14 +87,18 @@ def haversine(a: tuple[float, float], b: tuple[float, float]) -> float:
     return r * 2 * math.asin(math.sqrt(x))
 
 
-def main() -> None:
-    OUT.mkdir(parents=True, exist_ok=True)
+def build(gtfs_dir: Path, out_dir: Path, feed_zip: Path | None = FEED_ZIP) -> None:
+    """``gtfs_dir`` の GTFS からデモ用 JSON/GeoJSON を ``out_dir`` に生成する。
 
-    stops = read("stops.txt")
-    routes = {r["route_id"]: r for r in read("routes.txt")}
-    trips = {t["trip_id"]: t for t in read("trips.txt")}
-    stop_times = read("stop_times.txt")
-    translations = read("translations.txt")
+    ``feed_zip`` が存在すれば ``out_dir/feed.zip`` へコピーする（None でコピー無効）。
+    """
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    stops = read(gtfs_dir, "stops.txt")
+    routes = {r["route_id"]: r for r in read(gtfs_dir, "routes.txt")}
+    trips = {t["trip_id"]: t for t in read(gtfs_dir, "trips.txt")}
+    stop_times = read(gtfs_dir, "stop_times.txt")
+    translations = read(gtfs_dir, "translations.txt")
 
     # 翻訳（駅名→英語）
     en = {t["field_value"]: t["translation"] for t in translations
@@ -153,7 +159,7 @@ def main() -> None:
                            "path": path, "times": times})
         tmin, tmax = min(tmin, times[0]), max(tmax, times[-1])
 
-    (OUT / "animation.json").write_text(
+    (out_dir / "animation.json").write_text(
         json.dumps({"tmin": tmin, "tmax": tmax, "trips": anim_trips},
                    ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 
@@ -176,7 +182,7 @@ def main() -> None:
                            **{sv: group_by_direction(flat[pid][sv], LINE_ORDER)
                               for sv in SERVICES}}
 
-    (OUT / "departures.json").write_text(
+    (out_dir / "departures.json").write_text(
         json.dumps(departures, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 
     # --- 統計 ---
@@ -221,7 +227,7 @@ def main() -> None:
             "services": SERVICES,
         },
     }
-    (OUT / "network.json").write_text(
+    (out_dir / "network.json").write_text(
         json.dumps(network, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 
     # --- GeoJSON（既製ツール用） ---
@@ -238,20 +244,29 @@ def main() -> None:
                          "properties": {"name": p["name"], "name_en": p["name_en"],
                                         "code": p["code"], "marker-color": "#ffffff"},
                          "geometry": {"type": "Point", "coordinates": [p["lon"], p["lat"]]}})
-    (OUT / "network.geojson").write_text(
+    (out_dir / "network.geojson").write_text(
         json.dumps({"type": "FeatureCollection", "features": features}, ensure_ascii=False),
         encoding="utf-8")
 
     # feed.zip をデモ配下へコピー（demo/ をルートに配信してもダウンロードできるように）
-    feed_zip = ROOT / "build" / "feed.zip"
-    if feed_zip.exists():
-        shutil.copy(feed_zip, OUT / "feed.zip")
+    if feed_zip is not None and feed_zip.exists():
+        shutil.copy(feed_zip, out_dir / "feed.zip")
 
     # サイズ報告
     for f in ["network.json", "animation.json", "departures.json", "network.geojson"]:
-        kb = (OUT / f).stat().st_size / 1024
+        kb = (out_dir / f).stat().st_size / 1024
         print(f"  {f}: {kb:.0f} KB")
     print(f"便数 {len(anim_trips)} / 時間帯 {hhmm(tmin)}〜{hhmm(tmax)}")
+
+
+def main(argv: list[str] | None = None) -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--gtfs", type=Path, default=GTFS,
+                        help="入力 GTFS ディレクトリ（既定: build/gtfs）")
+    parser.add_argument("--out", type=Path, default=OUT,
+                        help="出力ディレクトリ（既定: demo/data）")
+    args = parser.parse_args(argv)
+    build(args.gtfs, args.out)
 
 
 if __name__ == "__main__":

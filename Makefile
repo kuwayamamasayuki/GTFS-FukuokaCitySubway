@@ -1,4 +1,4 @@
-.PHONY: setup seed fares verify-fares fetch-jorudan-fares download build validate all publish demo-html demo-animation test clean
+.PHONY: setup seed fares verify-fares fetch-jorudan-fares download build validate all publish demo-html demo-animation test test-gui clean
 
 PY ?= python
 
@@ -40,8 +40,12 @@ demo-html:        ## GTFS-to-HTML で dist/ フィードから HTML 時刻表を
 demo-animation:   ## kepler.gl 用の運行アニメーション GeoJSON を build/gtfs から生成（Issue #18）
 	$(PY) demo/kepler-animation/gtfs_to_kepler.py --gtfs build/gtfs --out demo/kepler-animation/data/trips.geojson
 
-test:             ## テスト
-	$(PY) -m pytest -q
+test:             ## テスト（GUI を除く高速な単体テスト）
+	$(PY) -m pytest -q -m "not gui"
+
+test-gui:         ## GUI(demo/)テスト（要 `python -m playwright install chromium`）
+	$(PY) -m playwright install chromium
+	$(PY) -m pytest -q -m gui
 
 clean:
 	rm -rf build

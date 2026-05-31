@@ -7,6 +7,8 @@ requests>=2
 jpholiday>=0.1.0
 # 開発用
 pytest>=8
+# GUI(demo/)テスト用。実行には `python -m playwright install chromium` が別途必要。
+pytest-playwright>=0.5
 # 運賃の抽出・検証(scripts/verify_fares.py)用。通常のビルドには不要。
 PyMuPDF>=1.24
 numpy>=1.26
