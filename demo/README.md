@@ -10,6 +10,7 @@
 | 発車標 | `board.html` | **発車標・時刻表ビューア**（B）。駅選択・平日/土曜/休日・日本語/English・基準時刻スライダー。発車は**路線×方向ごとのカード**に分けて表示（見出しは終点方面、乗換駅は路線ごとに分割）。 |
 | HTML 時刻表 | `gtfs-to-html/html/index.html` | **既製ツール [GTFS-to-HTML](https://gtfstohtml.com/) 連携**（Issue #17）。フィードから路線別の印刷向け時刻表 HTML を自動生成。詳細は [`gtfs-to-html/README.md`](gtfs-to-html/README.md) |
 | 運行アニメーション（kepler.gl） | `kepler-animation/` | **既製ツール [kepler.gl](https://github.com/keplergl/kepler.gl)（MIT）連携**（Issue #18）。フィードから kepler.gl Trip layer 用 GeoJSON を生成。詳細は [`kepler-animation/README.md`](kepler-animation/README.md) |
+| 経路検索（OpenTripPlanner） | `opentripplanner/` | **既製ツール [OpenTripPlanner](https://www.opentripplanner.org/)（BSD）連携**（Issue #25）。フィードと OSM から経路検索。サンプル経路の静的表示と起動手順を同梱。詳細は [`opentripplanner/README.md`](opentripplanner/README.md) |
 
 ## 動かし方
 
@@ -51,6 +52,11 @@ demo/
   kepler-animation/   既製ツール kepler.gl で運行アニメーションを作る例（Issue #18）
     gtfs_to_kepler.py   GTFS → kepler.gl Trip layer 用 GeoJSON 変換器
     data/trips.geojson  生成済み GeoJSON（kepler.gl にドラッグ＆ドロップ）
+  opentripplanner/    既製ツール OpenTripPlanner で経路検索する例（Issue #25）
+    prepare_otp.py      OTP 作業ディレクトリの準備（OSM/jar 取得・config 生成）
+    fetch_sample.py     起動中の OTP からサンプル経路を取得
+    index.html          サンプル経路の静的表示ページ
+    data/sample-itinerary.json  取得済みサンプル経路（橋本→福岡空港）
 ```
 
 ## スクリーンショット撮影
@@ -93,7 +99,8 @@ make test-gui                      # = pytest -q -m gui（上記 install も実�
 - **公式検証**: `build/feed.zip` を [gtfs-validator.mobilitydata.org](https://gtfs-validator.mobilitydata.org/) にアップロード。
 - **データカタログ**: [transit.land](https://www.transit.land/) などに登録可能な標準フィード。
 - **経路検索**: OpenTripPlanner に `feed.zip` と福岡の OSM 抽出を読ませると、
-  橋本→福岡空港などの経路検索デモになります。
+  橋本→福岡空港などの経路検索デモになります（手順・スクリプト・サンプルは
+  [`opentripplanner/`](opentripplanner/README.md) に同梱、Issue #25）。
 
 ## HTML 時刻表（GTFS-to-HTML）
 
@@ -127,6 +134,25 @@ make demo-animation       # = python demo/kepler-animation/gtfs_to_kepler.py ...
 手順は [`kepler-animation/README.md`](kepler-animation/README.md) を参照してください。
 なお、ブラウザ完結で同様のアニメーションを見たいだけなら、同梱の `map.html`（deck.gl 製・MIT）
 がそのまま使えます。
+
+## 経路検索（OpenTripPlanner）
+
+[OpenTripPlanner](https://www.opentripplanner.org/)（**2-clause BSD**）は GTFS と OSM を
+入力に経路検索を行う定番の OSS です。本リポジトリでは、フィードと福岡周辺の OSM から
+OTP 作業ディレクトリを組み立てる準備スクリプトと、起動中の OTP から取得した**サンプル経路**
+（橋本→福岡空港）を `opentripplanner/` に同梱しています。
+
+```bash
+make demo-otp            # OSM/OTP jar 取得・config 生成（要 Java 17+ / osmium）
+cd demo/opentripplanner/work
+java -Xmx4g -jar otp-2.5.0-shaded.jar --build --save .
+java -Xmx4g -jar otp-2.5.0-shaded.jar --load .     # http://localhost:8080
+make demo-otp-sample     # 別ターミナルでサンプル経路を取得
+```
+
+`opentripplanner/index.html` は取得済みサンプル経路を静的表示します（OTP 同梱の
+デバッグクライアントでは地図上の経路検索も可能）。詳細・オプションは
+[`opentripplanner/README.md`](opentripplanner/README.md) を参照してください。
 
 ## 技術メモ
 

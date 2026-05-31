@@ -70,6 +70,7 @@ python -m fukuoka_gtfs.cli all --download-tools
 | 概要ハブ | `demo/index.html` | 路線図＋統計インフォグラフィックと、feed.zip / GeoJSON のダウンロード・各種既製ツール（Validator・transit.land・OTP）への導線 |
 | 運行マップ | `demo/map.html` | 一日の全便を実ダイヤで走らせる運行アニメーション（deck.gl 製・ベースマップ不要） |
 | 発車標 | `demo/board.html` | 駅・曜日区分・言語（日本語/English）・基準時刻を切り替えられる発車標／時刻表ビューア |
+| 経路検索 | `demo/opentripplanner/` | OpenTripPlanner にフィードと OSM を読ませた経路検索。サンプル経路の静的表示と起動手順を同梱（Issue #25） |
 
 ```bash
 # 事前に GTFS を生成（build/gtfs/ が必要）
@@ -87,8 +88,9 @@ cd demo && python -m http.server 8000   # → http://localhost:8000/
 詳細は `demo/README.md` を参照してください。
 
 運行マップ（`demo/map.html`）は deck.gl(MIT) 製で、外部ツール不要のままブラウザだけで運行アニメーションを再生します。
-既製ツール連携の例として、HTML 時刻表を生成する [GTFS-to-HTML](https://gtfstohtml.com/)（`demo/gtfs-to-html/`、Issue #17）と、
-運行アニメーションを既製ツールに取り込む [kepler.gl](https://github.com/keplergl/kepler.gl)(MIT)（`demo/kepler-animation/`、Issue #18）も同梱しています。
+既製ツール連携の例として、HTML 時刻表を生成する [GTFS-to-HTML](https://gtfstohtml.com/)（`demo/gtfs-to-html/`、Issue #17）、
+運行アニメーションを既製ツールに取り込む [kepler.gl](https://github.com/keplergl/kepler.gl)(MIT)（`demo/kepler-animation/`、Issue #18）、
+経路検索を行う [OpenTripPlanner](https://www.opentripplanner.org/)(BSD)（`demo/opentripplanner/`、Issue #25）も同梱しています。
 
 ## アーキテクチャ
 

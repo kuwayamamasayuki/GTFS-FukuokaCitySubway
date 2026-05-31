@@ -79,6 +79,14 @@ def demo_site(tmp_path_factory):
     # index のダウンロードリンク（data/feed.zip）が 404 にならないよう空 ZIP を置く。
     (data_dir / "feed.zip").write_bytes(_EMPTY_ZIP)
 
+    # OpenTripPlanner オフライン表示ページ（Issue #25）と同梱サンプル経路。
+    otp_src = DEMO / "opentripplanner"
+    otp_dst = site / "opentripplanner"
+    (otp_dst / "data").mkdir(parents=True)
+    shutil.copy(otp_src / "index.html", otp_dst / "index.html")
+    shutil.copy(otp_src / "data" / "sample-itinerary.json",
+                otp_dst / "data" / "sample-itinerary.json")
+
     httpd = _serve(site)
     port = httpd.server_address[1]
     try:

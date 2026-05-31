@@ -115,6 +115,7 @@
     <a href="map.html">運行マップ</a>
     <a href="board.html">発車標</a>
     <a href="gtfs-to-html/html/index.html">時刻表</a>
+    <a href="opentripplanner/index.html">経路検索</a>
   </nav>
 </header>
 
@@ -150,7 +151,7 @@
 
   <section class="sec wrap">
     <h2><span class="no">03</span> インタラクティブ デモ</h2>
-    <p class="sub">2 つのビューでフィードを体験できます。</p>
+    <p class="sub">複数のビューでフィードを体験できます。</p>
     <div class="nav-grid">
       <a class="ncard" href="map.html" style="--c:var(--kuko)">
         <div class="glow"></div>
@@ -171,6 +172,13 @@
         <div class="tag">VIEW C · TIMETABLE</div>
         <h3>時刻表サイト（GTFS-to-HTML）</h3>
         <p>OSS の GTFS-to-HTML でフィードから生成した静的な時刻表 HTML。全駅・全便を一覧。</p>
+        <div class="go">→</div>
+      </a>
+      <a class="ncard" href="opentripplanner/index.html" style="--c:#2dd4bf">
+        <div class="glow"></div>
+        <div class="tag">VIEW D · ROUTING</div>
+        <h3>経路検索（OpenTripPlanner）</h3>
+        <p>OSS の OTP にフィードと OSM を読ませた経路検索。橋本→福岡空港のサンプル経路と起動手順。</p>
         <div class="go">→</div>
       </a>
     </div>
@@ -198,10 +206,10 @@
           <a class="btn" href="https://gtfs-validator.mobilitydata.org/" target="_blank" rel="noopener">Canonical Validator ↗</a>
           <a class="btn" href="https://www.transit.land/feeds" target="_blank" rel="noopener">transit.land ↗</a>
         </div>
-        <p style="margin-top:14px">経路検索を試すなら OpenTripPlanner:</p>
-        <pre class="code">java -jar otp-shaded.jar --build --serve .
-# feed.zip と OSM(福岡) を同じフォルダに置いて起動
-# → http://localhost:8080 で 橋本→福岡空港 を検索</pre>
+        <p style="margin-top:14px">経路検索は OpenTripPlanner（OSS）で。フィードと OSM から作る
+          <b>橋本→福岡空港</b>のサンプル経路と起動手順を同梱しています（→
+          <a href="opentripplanner/index.html">経路検索デモ</a> /
+          <a href="opentripplanner/README.md">手順</a>）。</p>
       </div>
     </div>
   </section>

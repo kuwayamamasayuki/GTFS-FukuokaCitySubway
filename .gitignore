@@ -10,6 +10,11 @@
 /demo/gtfs-to-html/node_modules/
 /demo/gtfs-to-html/html/log.txt
 
+# OpenTripPlanner デモ（OTP jar・OSM・グラフは大きいため無視。スクリプト/ページ/取得済みサンプルはコミット）
+/demo/opentripplanner/work/
+/demo/opentripplanner/*.osm.pbf
+/demo/opentripplanner/*.jar
+
 # Python
 .venv/
 __pycache__/
