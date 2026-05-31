@@ -153,11 +153,15 @@ def prepare(workdir: Path, feed_zip: Path, *, region: str, otp_version: str,
     bbox = bbox_from_stops(read_stops_from_feed(feed_zip), margin_km)
     print(f"  bbox(min_lon,min_lat,max_lon,max_lat) = {bbox}")
 
-    osm_dst = workdir / OSM_NAME
     if osm_path is not None:
-        print(f"  OSM をコピー: {osm_path}")
+        # 入力の拡張子を保って OTP に形式を正しく認識させる（.osm / .osm.pbf 等）。
+        osm_name = "fukuoka" + ("".join(osm_path.suffixes) or osm_path.suffix)
+        osm_dst = workdir / osm_name
+        print(f"  OSM をコピー: {osm_path} → {osm_name}")
         shutil.copy(osm_path, osm_dst)
     else:
+        osm_name = OSM_NAME
+        osm_dst = workdir / osm_name
         raw = workdir / f"{region.replace('/', '_')}-latest.osm.pbf"
         _download(geofabrik_url(region), raw)
         args = osmium_extract_args(bbox, raw, osm_dst)
@@ -173,7 +177,7 @@ def prepare(workdir: Path, feed_zip: Path, *, region: str, otp_version: str,
     shutil.copy(feed_zip, workdir / FEED_NAME)
     print(f"  コピー: {FEED_NAME}")
 
-    _write_json(workdir / "build-config.json", build_config())
+    _write_json(workdir / "build-config.json", build_config(osm_name))
     _write_json(workdir / "router-config.json", router_config())
     _write_json(workdir / "otp-config.json", otp_config())
 

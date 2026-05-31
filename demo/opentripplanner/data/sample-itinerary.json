@@ -1,0 +1,140 @@
+{
+  "from": "橋本",
+  "to": "福岡空港",
+  "date": "2026-04-01",
+  "time": "08:00:00",
+  "summary": {
+    "duration_sec": 2520,
+    "duration_min": 42,
+    "walk_distance_m": 0,
+    "transfers": 1,
+    "legs": [
+      {
+        "mode": "SUBWAY",
+        "route": "七隈線",
+        "from": "Hashimoto",
+        "to": "Hakata",
+        "startTime": 1774998300000,
+        "endTime": 1775000160000
+      },
+      {
+        "mode": "SUBWAY",
+        "route": "空港線",
+        "from": "Hakata",
+        "to": "Fukuoka Airport",
+        "startTime": 1775000520000,
+        "endTime": 1775000820000
+      }
+    ]
+  },
+  "itineraries": [
+    {
+      "duration": 2520,
+      "walkDistance": 0.0,
+      "legs": [
+        {
+          "mode": "SUBWAY",
+          "startTime": 1774998300000,
+          "endTime": 1775000160000,
+          "from": {
+            "name": "Hashimoto"
+          },
+          "to": {
+            "name": "Hakata"
+          },
+          "route": {
+            "shortName": "七隈線",
+            "longName": null
+          }
+        },
+        {
+          "mode": "SUBWAY",
+          "startTime": 1775000520000,
+          "endTime": 1775000820000,
+          "from": {
+            "name": "Hakata"
+          },
+          "to": {
+            "name": "Fukuoka Airport"
+          },
+          "route": {
+            "shortName": "空港線",
+            "longName": null
+          }
+        }
+      ]
+    },
+    {
+      "duration": 2700,
+      "walkDistance": 0.0,
+      "legs": [
+        {
+          "mode": "SUBWAY",
+          "startTime": 1774998480000,
+          "endTime": 1775000340000,
+          "from": {
+            "name": "Hashimoto"
+          },
+          "to": {
+            "name": "Hakata"
+          },
+          "route": {
+            "shortName": "七隈線",
+            "longName": null
+          }
+        },
+        {
+          "mode": "SUBWAY",
+          "startTime": 1775000820000,
+          "endTime": 1775001180000,
+          "from": {
+            "name": "Hakata"
+          },
+          "to": {
+            "name": "Fukuoka Airport"
+          },
+          "route": {
+            "shortName": "空港線",
+            "longName": null
+          }
+        }
+      ]
+    },
+    {
+      "duration": 2520,
+      "walkDistance": 0.0,
+      "legs": [
+        {
+          "mode": "SUBWAY",
+          "startTime": 1774998900000,
+          "endTime": 1775000640000,
+          "from": {
+            "name": "Hashimoto"
+          },
+          "to": {
+            "name": "Hakata"
+          },
+          "route": {
+            "shortName": "七隈線",
+            "longName": null
+          }
+        },
+        {
+          "mode": "SUBWAY",
+          "startTime": 1775001120000,
+          "endTime": 1775001420000,
+          "from": {
+            "name": "Hakata"
+          },
+          "to": {
+            "name": "Fukuoka Airport"
+          },
+          "route": {
+            "shortName": "空港線",
+            "longName": null
+          }
+        }
+      ]
+    }
+  ]
+}
