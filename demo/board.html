@@ -46,20 +46,28 @@
   .lang button{ font-family:var(--font-mono); font-size:11px; color:var(--muted); background:none;border:none;cursor:pointer;padding:6px 12px;border-radius:999px;}
   .lang button.on{ background:var(--panel); color:var(--ink);}
 
+  /* 方向グリッド（路線×方向ごとのカードを2カラムで並べる。狭い画面では1カラム） */
+  .dirgrid{ display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); }
+  @media (max-width:760px){ .dirgrid{ grid-template-columns:1fr; } }
+  .dcard{ background:linear-gradient(180deg,#0b0f17,#080b11); display:flex; flex-direction:column; }
+  .dhead{ display:flex; align-items:center; gap:9px; padding:14px 22px; border-bottom:1px solid var(--line);
+          position:sticky; top:0; background:#0a0e15; z-index:1; }
+  .dhead .dot{ width:11px;height:11px;border-radius:50%; box-shadow:var(--glow) currentColor; flex:none; }
+  .dhead .dest{ font-family:var(--font-display); font-size:18px; font-weight:600; }
+  .dhead .ln{ font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; color:var(--muted); }
+  .dhead .arr{ margin-left:auto; font-size:16px; color:var(--muted); }
+
   /* 行 */
-  .rows{ }
-  .row{ display:grid; grid-template-columns:108px 1fr auto 84px; align-items:center; gap:16px;
-        padding:15px 26px; border-bottom:1px solid #121a26; opacity:0; transform:translateY(6px);
+  .row{ display:grid; grid-template-columns:88px 1fr 64px; align-items:center; gap:12px;
+        padding:13px 22px; border-bottom:1px solid #121a26; opacity:0; transform:translateY(6px);
         animation:flip .4s forwards; }
   @keyframes flip{ to{ opacity:1; transform:none; } }
-  .row .time{ font-family:var(--font-mono); font-size:27px; font-weight:500; letter-spacing:.02em; }
-  .row .dest .ja{ font-size:17px; } .row .dest .en{ font-family:var(--font-mono); font-size:11px; color:var(--muted); letter-spacing:.1em; }
-  .row .ln{ font-size:12.5px; display:inline-flex; align-items:center; gap:7px; }
-  .row .ln .dot{ width:9px;height:9px;border-radius:50%; box-shadow:var(--glow) currentColor;}
+  .row .time{ font-family:var(--font-mono); font-size:23px; font-weight:500; letter-spacing:.02em; }
+  .row .dest .ja{ font-size:15px; } .row .dest .en{ font-family:var(--font-mono); font-size:10.5px; color:var(--muted); letter-spacing:.08em; }
   .row .cd{ font-family:var(--font-mono); font-size:12px; color:var(--muted); text-align:right; }
   .row .cd b{ color:var(--kuko); font-size:15px; }
   .empty{ padding:50px 26px; text-align:center; color:var(--muted); }
-  .dir{ font-family:var(--font-mono); font-size:11px; color:var(--faint); }
+  .empty2{ padding:28px 22px; text-align:center; color:var(--faint); font-size:12.5px; }
 </style>
 </head>
 <body>
@@ -149,24 +157,43 @@ function render(){
   const s=dep[cur];
   document.getElementById("b-name").textContent = lang==="en" ? s.name_en : s.name;
   const nowSec=nowMin*60;
-  const list=(s[service]||[]).filter(d=>d.t>=nowSec).slice(0,14);
+  const groups=s[service]||[];
   const rows=document.getElementById("rows");
-  if(!list.length){ rows.innerHTML=`<div class="empty">この時刻以降の発車はありません（${SVLABEL[service]}）。</div>`; return; }
+  if(!groups.length){ rows.innerHTML=`<div class="empty">運行のない区分です（${SVLABEL[service]}）。</div>`; return; }
   rows.innerHTML="";
-  list.forEach((d,i)=>{
-    const min=Math.round((d.t-nowSec)/60);
-    const cd = min<=0 ? "<b>まもなく</b>" : `<b>${min}</b>分`;
-    const destJa=d.headsign, destEn=enName(d.headsign);
-    const r=document.createElement("div"); r.className="row"; r.style.animationDelay=(i*0.03)+"s";
-    r.innerHTML=`
-      <div class="time" style="color:${d.color}">${d.hhmm}</div>
-      <div class="dest"><div class="ja">${lang==="en"?destEn:destJa} ${lang==="en"?"":""}</div>
-        <div class="en">${lang==="en"?destJa:destEn} ・ ${d.route}</div></div>
-      <div class="ln" style="color:${d.color}"><span class="dot" style="background:${d.color}"></span>
-        <span style="color:var(--ink)">${d.route}</span></div>
-      <div class="cd">${cd}</div>`;
-    rows.appendChild(r);
+  const grid=document.createElement("div"); grid.className="dirgrid";
+  groups.forEach(g=>{
+    const upcoming=g.trips.filter(d=>d.t>=nowSec).slice(0,14);
+    const arr = g.dir===0 ? "↓" : "↑";        // 方向の向きを示す目印（dir 0/1）
+    const destEn=enName(g.dest);
+    const head = lang==="en" ? destEn : `${g.dest}方面`;
+    const card=document.createElement("div"); card.className="dcard";
+    card.innerHTML=`<div class="dhead" style="color:${g.color}">
+      <span class="dot" style="background:${g.color}"></span>
+      <span class="dest" style="color:var(--ink)">${head}</span>
+      <span class="ln">${g.route}</span>
+      <span class="arr">${arr}</span></div>`;
+    if(!upcoming.length){
+      const e=document.createElement("div"); e.className="empty2";
+      e.textContent = lang==="en" ? "No more departures" : "この時刻以降の発車なし";
+      card.appendChild(e);
+    } else {
+      upcoming.forEach((d,i)=>{
+        const min=Math.round((d.t-nowSec)/60);
+        const cd = min<=0 ? "<b>まもなく</b>" : `<b>${min}</b>分`;
+        const hsJa=d.headsign, hsEn=enName(d.headsign);
+        const r=document.createElement("div"); r.className="row"; r.style.animationDelay=(i*0.03)+"s";
+        r.innerHTML=`
+          <div class="time" style="color:${g.color}">${d.hhmm}</div>
+          <div class="dest"><div class="ja">${lang==="en"?hsEn:hsJa}</div>
+            <div class="en">${lang==="en"?hsJa:hsEn}</div></div>
+          <div class="cd">${cd}</div>`;
+        card.appendChild(r);
+      });
+    }
+    grid.appendChild(card);
   });
+  rows.appendChild(grid);
 }
 </script>
 </body>

@@ -7,7 +7,7 @@
 |---|---|---|
 | 概要ハブ | `index.html` | **路線図 + 統計インフォグラフィック**（D）と、**既製ツール連携**（C: feed.zip / GeoJSON ダウンロード、Validator・transit.land・OTP への導線） |
 | 運行マップ | `map.html` | **運行アニメーション**（A）。一日の全便が 3 色の路線を実ダイヤで走行。時刻・速度・区分・走行本数。deck.gl 製 |
-| 発車標 | `board.html` | **発車標・時刻表ビューア**（B）。駅選択・平日/土曜/休日・日本語/English・基準時刻スライダー |
+| 発車標 | `board.html` | **発車標・時刻表ビューア**（B）。駅選択・平日/土曜/休日・日本語/English・基準時刻スライダー。発車は**路線×方向ごとのカード**に分けて表示（見出しは終点方面、乗換駅は路線ごとに分割）。 |
 | HTML 時刻表 | `gtfs-to-html/html/index.html` | **既製ツール [GTFS-to-HTML](https://gtfstohtml.com/) 連携**（Issue #17）。フィードから路線別の印刷向け時刻表 HTML を自動生成。詳細は [`gtfs-to-html/README.md`](gtfs-to-html/README.md) |
 | 運行アニメーション（kepler.gl） | `kepler-animation/` | **既製ツール [kepler.gl](https://github.com/keplergl/kepler.gl)（MIT）連携**（Issue #18）。フィードから kepler.gl Trip layer 用 GeoJSON を生成。詳細は [`kepler-animation/README.md`](kepler-animation/README.md) |
 
@@ -42,7 +42,7 @@ demo/
   data/
     network.json      路線・駅・色・統計
     animation.json    全便の経路と通過時刻
-    departures.json   親駅×区分の発車時刻
+    departures.json   親駅×区分×方向（路線×direction_id）の発車時刻
     network.geojson   路線+駅（geojson.io / kepler.gl / QGIS 用）
   gtfs-to-html/       既製ツール GTFS-to-HTML で HTML 時刻表を生成する例（Issue #17）
     config.json       gtfs-to-html 設定（入力=dist の feed.zip、出力=html/）
