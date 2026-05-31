@@ -29,7 +29,12 @@ html/
 cd demo/gtfs-to-html
 npm install        # gtfs-to-html をローカル(node_modules/)へ導入
 npm run build      # config.json に従い ../../dist/FukuokaCitySubway.zip → html/ を生成
+python3 inject_backlink.py   # 各ページ先頭に「デモTOPへ戻る」リンクを注入
 ```
+
+> GTFS-to-HTML には戻りリンクのオプションが無いため、生成後に
+> `inject_backlink.py` を実行して `../../index.html`（デモTOP）への導線を注入します。
+> 冪等なので再生成のたびに流せば導線を復元できます。
 
 リポジトリのルートからは `make demo-html` でも同じことができます。
 

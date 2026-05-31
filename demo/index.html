@@ -114,6 +114,7 @@
     <a href="index.html" class="active">概要</a>
     <a href="map.html">運行マップ</a>
     <a href="board.html">発車標</a>
+    <a href="gtfs-to-html/html/index.html">時刻表</a>
   </nav>
 </header>
 
@@ -165,6 +166,13 @@
         <p>駅を選ぶと発車案内を表示。平日／土曜／休日の切替、日本語・English 対応。</p>
         <div class="go">→</div>
       </a>
+      <a class="ncard" href="gtfs-to-html/html/index.html" style="--c:var(--nana)">
+        <div class="glow"></div>
+        <div class="tag">VIEW C · TIMETABLE</div>
+        <h3>時刻表サイト（GTFS-to-HTML）</h3>
+        <p>OSS の GTFS-to-HTML でフィードから生成した静的な時刻表 HTML。全駅・全便を一覧。</p>
+        <div class="go">→</div>
+      </a>
     </div>
   </section>
 
@@ -178,8 +186,11 @@
         <div class="row">
           <a class="btn primary" href="data/feed.zip" download>⬇ feed.zip</a>
           <a class="btn" href="data/network.geojson" download>⬇ network.geojson</a>
+          <a class="btn" href="kepler-animation/data/trips.geojson" download>⬇ trips.geojson</a>
         </div>
-        <p style="margin-top:14px">GeoJSON は <b>geojson.io</b> / <b>kepler.gl</b> / <b>QGIS</b> にドラッグするだけで路線図が描けます。</p>
+        <p style="margin-top:14px">network.geojson は <b>geojson.io</b> / <b>kepler.gl</b> / <b>QGIS</b> にドラッグするだけで路線図に。
+          時刻つきの trips.geojson を <a href="https://kepler.gl/demo" target="_blank" rel="noopener">kepler.gl</a> の Trip layer に読み込めば
+          <b>運行アニメーション</b>が再生できます（→ <a href="kepler-animation/README.md">手順</a>）。</p>
       </div>
       <div class="panel">
         <h4>検証・配信・経路検索</h4>
