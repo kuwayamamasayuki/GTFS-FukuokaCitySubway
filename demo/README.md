@@ -9,6 +9,7 @@
 | 運行マップ | `map.html` | **運行アニメーション**（A）。一日の全便が 3 色の路線を実ダイヤで走行。時刻・速度・区分・走行本数。deck.gl 製 |
 | 発車標 | `board.html` | **発車標・時刻表ビューア**（B）。駅選択・平日/土曜/休日・日本語/English・基準時刻スライダー |
 | HTML 時刻表 | `gtfs-to-html/html/index.html` | **既製ツール [GTFS-to-HTML](https://gtfstohtml.com/) 連携**（Issue #17）。フィードから路線別の印刷向け時刻表 HTML を自動生成。詳細は [`gtfs-to-html/README.md`](gtfs-to-html/README.md) |
+| 運行アニメーション（kepler.gl） | `kepler-animation/` | **既製ツール [kepler.gl](https://github.com/keplergl/kepler.gl)（MIT）連携**（Issue #18）。フィードから kepler.gl Trip layer 用 GeoJSON を生成。詳細は [`kepler-animation/README.md`](kepler-animation/README.md) |
 
 ## 動かし方
 
@@ -47,6 +48,9 @@ demo/
     config.json       gtfs-to-html 設定（入力=dist の feed.zip、出力=html/）
     package.json      gtfs-to-html をローカル導入する定義（要 Node.js 20+）
     html/             生成済み HTML 時刻表（index + 路線別ページ）
+  kepler-animation/   既製ツール kepler.gl で運行アニメーションを作る例（Issue #18）
+    gtfs_to_kepler.py   GTFS → kepler.gl Trip layer 用 GeoJSON 変換器
+    data/trips.geojson  生成済み GeoJSON（kepler.gl にドラッグ＆ドロップ）
 ```
 
 ## スクリーンショット撮影
@@ -88,6 +92,23 @@ make demo-html            # = cd demo/gtfs-to-html && npm install && npm run bui
 ```
 
 詳細・設定の説明は [`gtfs-to-html/README.md`](gtfs-to-html/README.md) を参照してください。
+
+## 運行アニメーション（kepler.gl）
+
+[kepler.gl](https://github.com/keplergl/kepler.gl)（**MIT**）は、時刻つき GeoJSON を
+ドラッグ＆ドロップするだけで運行アニメーションを再生できる既製ツールです。本リポジトリでは
+**ローカル GTFS から kepler.gl Trip layer 用 GeoJSON を生成する変換器**と、**生成済みの
+GeoJSON** を `kepler-animation/` に同梱しています。
+
+```bash
+# trips.geojson を再生成する（標準ライブラリのみ）
+make demo-animation       # = python demo/kepler-animation/gtfs_to_kepler.py ...
+```
+
+[kepler.gl/demo](https://kepler.gl/demo) に `data/trips.geojson` をドロップすれば再生できます。
+手順は [`kepler-animation/README.md`](kepler-animation/README.md) を参照してください。
+なお、ブラウザ完結で同様のアニメーションを見たいだけなら、同梱の `map.html`（deck.gl 製・MIT）
+がそのまま使えます。
 
 ## 技術メモ
 
