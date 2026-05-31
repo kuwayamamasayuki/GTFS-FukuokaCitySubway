@@ -19,7 +19,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=8"]
+dev = ["pytest>=8", "pytest-playwright>=0.5"]
 
 [project.scripts]
 fukuoka-gtfs = "fukuoka_gtfs.cli:main"
@@ -30,3 +30,6 @@ where = ["src"]
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
+markers = [
+    "gui: ブラウザ(Playwright/Chromium)を要する GUI テスト。`make test` では除外し、Chromium 未導入なら自動 skip。",
+]

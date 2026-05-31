@@ -22,7 +22,13 @@ jobs:
         run: pip install -e ".[dev]"
 
       - name: Unit tests
-        run: python -m pytest -q
+        run: python -m pytest -q -m "not gui"
+
+      - name: Install Playwright Chromium (GUI テスト用)
+        run: python -m playwright install --with-deps chromium
+
+      - name: GUI tests (demo/ を Playwright で検証)
+        run: python -m pytest -q -m gui
 
       - name: Setup Java (Canonical Validator 用)
         uses: actions/setup-java@v4

@@ -1,4 +1,4 @@
-.PHONY: setup seed fares verify-fares fetch-jorudan-fares download build validate all publish demo-html demo-animation demo-otp demo-otp-sample test clean
+.PHONY: setup seed fares verify-fares fetch-jorudan-fares download build validate all publish demo-html demo-animation demo-otp demo-otp-sample test test-gui clean
 
 PY ?= python
 
@@ -46,8 +46,12 @@ demo-otp:         ## OpenTripPlanner の作業ディレクトリを用意（OSM/
 demo-otp-sample:  ## 起動中の OTP からサンプル経路を取得し demo/opentripplanner/data に保存（Issue #25）
 	$(PY) demo/opentripplanner/fetch_sample.py
 
-test:             ## テスト
-	$(PY) -m pytest -q
+test:             ## テスト（GUI を除く高速な単体テスト）
+	$(PY) -m pytest -q -m "not gui"
+
+test-gui:         ## GUI(demo/)テスト（要 `python -m playwright install chromium`）
+	$(PY) -m playwright install chromium
+	$(PY) -m pytest -q -m gui
 
 clean:
 	rm -rf build

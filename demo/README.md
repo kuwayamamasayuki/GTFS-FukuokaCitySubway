@@ -74,6 +74,24 @@ deck.gl は `vendor/` に同梱済みなので、地図描画は CDN 非依存�
 > ヘッドレス環境で `libnss3` / `libnspr4` / `libasound2` が無く Chromium が起動しない場合
 > （sudo 不可のとき）は、`apt-get download` で取得・展開し `LD_LIBRARY_PATH` を通せば動きます。
 
+## GUI 自動テスト（Playwright）
+
+デモ 3 画面（`index.html` / `board.html` / `map.html`）の動作を Playwright + ヘッドレス
+Chromium で自動テストします（Issue #24）。テストは `tests/gui/` にあり、固定の小さな GTFS
+フィクスチャ（`tests/demo_gtfs_fixture.py`）からデモデータを生成して検証するため、
+`download` / `build` やネットワークは不要です。
+
+```bash
+pip install -e ".[dev]"            # pytest-playwright を導入
+python -m playwright install chromium
+make test-gui                      # = pytest -q -m gui（上記 install も実行）
+```
+
+- 通常の `make test` は GUI を除外（`-m "not gui"`）して高速に回ります。
+- Chromium 未導入の環境では GUI テストは自動的に skip されます。
+- 検証内容: 3 画面のスモーク、発車標の操作（駅選択・平日/土曜/休日・日本語/EN・基準時刻
+  スライダー）、概要ハブのリンク/導線、スクリーンショット生成のサニティ確認。
+
 ## 既製ツールで使う（C の詳細）
 
 - **地図に重ねる**: `data/network.geojson` を [geojson.io](https://geojson.io) /

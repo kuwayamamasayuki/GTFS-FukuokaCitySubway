@@ -146,14 +146,12 @@ def _write_mini_gtfs(gtfs: Path) -> None:
         (gtfs / name).write_text(body, encoding="utf-8")
 
 
-def test_main_generates_grouped_departures(tmp_path, monkeypatch):
+def test_main_generates_grouped_departures(tmp_path):
     gtfs = tmp_path / "gtfs"
     out = tmp_path / "data"
     _write_mini_gtfs(gtfs)
-    monkeypatch.setattr(bd, "GTFS", gtfs)
-    monkeypatch.setattr(bd, "OUT", out)
 
-    bd.main()
+    bd.build(gtfs, out, feed_zip=None)
 
     dep = json.loads((out / "departures.json").read_text(encoding="utf-8"))
 
