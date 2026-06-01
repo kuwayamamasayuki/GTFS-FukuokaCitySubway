@@ -44,6 +44,14 @@ AGENCY_ID = "3000020401307_0"
 # 2019 年版フィードには無い列のため、取り込み時に注入する（COPY_FILES では扱わない）。
 AGENCY_FARE_URL = "https://subway.city.fukuoka.lg.jp/fare/index.php"
 
+# agency.txt に補うタッチ決済（Contactless EMV）対応フラグ。GTFS 標準のオプション
+# フィールド cemv_support（Enum: 0 または空=情報なし / 1=対応 / 2=非対応）。
+# 当該事業者の全サービスで対応する場合にのみ 1 を指定すべきとされる。福岡市地下鉄は
+# 2024-04-01 から全 3 路線・全 36 駅でタッチ決済乗車に対応しているため "1"。
+# 仕様: https://gtfs.org/documentation/schedule/reference/#agencytxt
+# 参考: https://subway.city.fukuoka.lg.jp/topics/detail.php?id=1895
+CEMV_SUPPORT = "1"
+
 # そのまま取り込む参照ファイル（運賃 fare_* は scripts/verify_fares.py が公式運賃表 PDF から生成）
 COPY_FILES = ["routes.txt", "transfers.txt", "shapes.txt"]
 
@@ -122,13 +130,17 @@ def transform_stops(text: str) -> tuple[list[str], list[dict]]:
 
 
 def transform_agency(text: str) -> tuple[list[str], list[dict]]:
-    """agency.txt に agency_fare_url 列を補う（無ければ追加、空なら補完）。"""
+    """agency.txt に agency_fare_url / cemv_support 列を補う（無ければ追加、空なら補完）。"""
     header, rows = read_rows(text)
     if "agency_fare_url" not in header:
         header = [*header, "agency_fare_url"]
+    if "cemv_support" not in header:
+        header = [*header, "cemv_support"]
     for r in rows:
         if not r.get("agency_fare_url"):
             r["agency_fare_url"] = AGENCY_FARE_URL
+        if not r.get("cemv_support"):
+            r["cemv_support"] = CEMV_SUPPORT
     return header, rows
 
 
