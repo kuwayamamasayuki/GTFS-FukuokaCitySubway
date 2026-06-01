@@ -1,0 +1,19 @@
+timetable_id,route_id,direction_id,start_date,end_date,monday,tuesday,wednesday,thursday,friday,saturday,sunday,include_exceptions,timetable_label,service_notes,orientation,timetable_page_id,timetable_sequence,direction_name,show_trip_continuation
+kh_wd_0,空港線,0,,,1,1,1,1,1,0,0,0,空港線・箱崎線 平日,福岡空港・貝塚方面（平日ダイヤ）,vertical,kuko_hakozaki,0,福岡空港・貝塚方面,1
+kh_wd_0,箱崎線,0,,,1,1,1,1,1,0,0,0,空港線・箱崎線 平日,福岡空港・貝塚方面（平日ダイヤ）,vertical,kuko_hakozaki,0,福岡空港・貝塚方面,1
+kh_wd_1,空港線,1,,,1,1,1,1,1,0,0,0,空港線・箱崎線 平日,姪浜・筑前前原方面（平日ダイヤ）,vertical,kuko_hakozaki,1,姪浜・筑前前原方面,1
+kh_wd_1,箱崎線,1,,,1,1,1,1,1,0,0,0,空港線・箱崎線 平日,姪浜・筑前前原方面（平日ダイヤ）,vertical,kuko_hakozaki,1,姪浜・筑前前原方面,1
+kh_sat_0,空港線,0,,,0,0,0,0,0,1,0,0,空港線・箱崎線 土曜,福岡空港・貝塚方面（土曜ダイヤ）,vertical,kuko_hakozaki,2,福岡空港・貝塚方面,1
+kh_sat_0,箱崎線,0,,,0,0,0,0,0,1,0,0,空港線・箱崎線 土曜,福岡空港・貝塚方面（土曜ダイヤ）,vertical,kuko_hakozaki,2,福岡空港・貝塚方面,1
+kh_sat_1,空港線,1,,,0,0,0,0,0,1,0,0,空港線・箱崎線 土曜,姪浜・筑前前原方面（土曜ダイヤ）,vertical,kuko_hakozaki,3,姪浜・筑前前原方面,1
+kh_sat_1,箱崎線,1,,,0,0,0,0,0,1,0,0,空港線・箱崎線 土曜,姪浜・筑前前原方面（土曜ダイヤ）,vertical,kuko_hakozaki,3,姪浜・筑前前原方面,1
+kh_hol_0,空港線,0,,,0,0,0,0,0,0,1,0,空港線・箱崎線 休日,福岡空港・貝塚方面（休日ダイヤ）,vertical,kuko_hakozaki,4,福岡空港・貝塚方面,1
+kh_hol_0,箱崎線,0,,,0,0,0,0,0,0,1,0,空港線・箱崎線 休日,福岡空港・貝塚方面（休日ダイヤ）,vertical,kuko_hakozaki,4,福岡空港・貝塚方面,1
+kh_hol_1,空港線,1,,,0,0,0,0,0,0,1,0,空港線・箱崎線 休日,姪浜・筑前前原方面（休日ダイヤ）,vertical,kuko_hakozaki,5,姪浜・筑前前原方面,1
+kh_hol_1,箱崎線,1,,,0,0,0,0,0,0,1,0,空港線・箱崎線 休日,姪浜・筑前前原方面（休日ダイヤ）,vertical,kuko_hakozaki,5,姪浜・筑前前原方面,1
+nk_wd_0,七隈線,0,,,1,1,1,1,1,0,0,0,七隈線 平日,博多方面（平日ダイヤ）,vertical,nanakuma,0,博多方面,0
+nk_wd_1,七隈線,1,,,1,1,1,1,1,0,0,0,七隈線 平日,橋本方面（平日ダイヤ）,vertical,nanakuma,1,橋本方面,0
+nk_sat_0,七隈線,0,,,0,0,0,0,0,1,0,0,七隈線 土曜,博多方面（土曜ダイヤ）,vertical,nanakuma,2,博多方面,0
+nk_sat_1,七隈線,1,,,0,0,0,0,0,1,0,0,七隈線 土曜,橋本方面（土曜ダイヤ）,vertical,nanakuma,3,橋本方面,0
+nk_hol_0,七隈線,0,,,0,0,0,0,0,0,1,0,七隈線 休日,博多方面（休日ダイヤ）,vertical,nanakuma,4,博多方面,0
+nk_hol_1,七隈線,1,,,0,0,0,0,0,0,1,0,七隈線 休日,橋本方面（休日ダイヤ）,vertical,nanakuma,5,橋本方面,0

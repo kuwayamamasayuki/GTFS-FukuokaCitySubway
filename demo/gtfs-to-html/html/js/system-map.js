@@ -1,4 +1,4 @@
-/* global document, jQuery, _, maplibregl, geojson, mapStyleUrl */
+/* global maplibregl, geojson, mapStyleUrl, MaplibreGeocoder */
 /* eslint prefer-arrow-callback: "off", no-unused-vars: "off" */
 
 function formatRouteColor(route) {
@@ -10,86 +10,103 @@ function formatRouteTextColor(route) {
 }
 
 function formatRoute(route) {
-  const html = route.route_url
-    ? jQuery('<a>').attr('href', route.route_url)
-    : jQuery('<div>');
+  const element = route.route_url
+    ? document.createElement('a')
+    : document.createElement('div');
 
-  html.addClass('map-route-item');
+  element.className = 'map-route-item';
 
-  const routeItemDivs = [];
+  if (route.route_url) {
+    element.href = route.route_url;
+  }
 
   if (route.route_color) {
-    routeItemDivs.push(
-      jQuery('<div>')
-        .addClass('route-color-swatch')
-        .css('backgroundColor', formatRouteColor(route))
-        .css('color', formatRouteTextColor(route))
-        .text(route.route_short_name ?? ''),
-    );
+    const colorSwatch = document.createElement('div');
+    colorSwatch.className = 'route-color-swatch';
+    colorSwatch.style.backgroundColor = formatRouteColor(route);
+    colorSwatch.style.color = formatRouteTextColor(route);
+    colorSwatch.textContent = route.route_short_name ?? '';
+    element.appendChild(colorSwatch);
   }
-  routeItemDivs.push(
-    jQuery('<div>')
-      .addClass('underline-hover')
-      .text(route.route_long_name ?? `Route ${route.route_short_name}`),
-  );
 
-  html.append(routeItemDivs);
+  const routeName = document.createElement('div');
+  routeName.className = 'underline-hover';
+  routeName.textContent =
+    route.route_long_name ?? `Route ${route.route_short_name}`;
+  element.appendChild(routeName);
 
-  return html.prop('outerHTML');
+  return element.outerHTML;
 }
 
 function formatRoutePopup(features) {
-  const html = jQuery('<div>');
+  const container = document.createElement('div');
 
   if (features.length > 1) {
-    jQuery('<div>').addClass('popup-title').text('Routes').appendTo(html);
+    const title = document.createElement('div');
+    title.className = 'popup-title';
+    title.textContent = 'Routes';
+    container.appendChild(title);
   }
 
-  jQuery(html).append(
-    features.map((feature) => formatRoute(feature.properties)),
-  );
+  features.forEach((feature) => {
+    const routeHTML = formatRoute(feature.properties);
+    container.insertAdjacentHTML('beforeend', routeHTML);
+  });
 
-  return html.prop('outerHTML');
+  return container.outerHTML;
 }
 
 function formatStopPopup(feature) {
-  const routes = JSON.parse(feature.properties.routes);
-  const html = jQuery('<div>');
+  let routes = [];
+  try {
+    routes = JSON.parse(feature.properties.routes);
+  } catch (error) {
+    console.error('Failed to parse routes JSON:', error);
+  }
+  const container = document.createElement('div');
 
-  jQuery('<div>')
-    .addClass('popup-title')
-    .text(feature.properties.stop_name)
-    .appendTo(html);
+  const title = document.createElement('div');
+  title.className = 'popup-title';
+  title.textContent = feature.properties.stop_name;
+  container.appendChild(title);
 
   if (feature.properties.stop_code ?? false) {
-    jQuery('<div>')
-      .html([
-        jQuery('<div>').addClass('popup-label').text('Stop Code:'),
-        jQuery('<strong>').text(feature.properties.stop_code),
-      ])
-      .appendTo(html);
+    const stopCodeContainer = document.createElement('div');
+
+    const label = document.createElement('div');
+    label.className = 'popup-label';
+    label.textContent = 'Stop Code:';
+    stopCodeContainer.appendChild(label);
+
+    const code = document.createElement('strong');
+    code.textContent = feature.properties.stop_code;
+    stopCodeContainer.appendChild(code);
+
+    container.appendChild(stopCodeContainer);
   }
 
-  jQuery('<div>').addClass('popup-label').text('Routes Served:').appendTo(html);
+  const routesLabel = document.createElement('div');
+  routesLabel.className = 'popup-label';
+  routesLabel.textContent = 'Routes Served:';
+  container.appendChild(routesLabel);
 
-  jQuery(html).append(
-    jQuery('<div>')
-      .addClass('route-list')
-      .html(routes.map((route) => formatRoute(route))),
-  );
+  const routeList = document.createElement('div');
+  routeList.className = 'route-list';
+  routes.forEach((route) => {
+    const routeHTML = formatRoute(route);
+    routeList.insertAdjacentHTML('beforeend', routeHTML);
+  });
+  container.appendChild(routeList);
 
-  jQuery('<a>')
-    .addClass('btn-blue btn-sm')
-    .prop(
-      'href',
-      `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${feature.geometry.coordinates[1]},${feature.geometry.coordinates[0]}&heading=0&pitch=0&fov=90`,
-    )
-    .prop('target', '_blank')
-    .prop('rel', 'noopener noreferrer')
-    .html('View on Streetview')
-    .appendTo(html);
+  const streetviewLink = document.createElement('a');
+  streetviewLink.className = 'btn-active btn-sm';
+  streetviewLink.href = `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${feature.geometry.coordinates[1]},${feature.geometry.coordinates[0]}&heading=0&pitch=0&fov=90`;
+  streetviewLink.target = '_blank';
+  streetviewLink.rel = 'noopener noreferrer';
+  streetviewLink.textContent = 'View on Streetview';
+  container.appendChild(streetviewLink);
 
-  return html.prop('outerHTML');
+  return container.outerHTML;
 }
 
 function getBounds(geojson) {
@@ -121,7 +138,10 @@ function createSystemMap() {
   };
 
   if (!geojson || geojson.features.length === 0) {
-    jQuery('#' + id).hide();
+    const systemMapElement = document.getElementById('system_map');
+    if (systemMapElement) {
+      systemMapElement.style.display = 'none';
+    }
     return false;
   }
 
@@ -132,11 +152,6 @@ function createSystemMap() {
     center: bounds.getCenter(),
     zoom: 12,
   });
-  const routes = {};
-
-  for (const feature of geojson.features) {
-    routes[feature.properties.route_id] = feature.properties;
-  }
 
   map.scrollZoom.disable();
   map.addControl(new maplibregl.NavigationControl());
@@ -148,7 +163,7 @@ function createSystemMap() {
     fitMapToBounds(map, bounds);
     disablePointsOfInterest(map);
     addMapLayers(map, geojson, defaultRouteColor, lineLayout);
-    setupEventListeners(map, routes);
+    setupEventListeners(map);
   });
 }
 
@@ -159,12 +174,15 @@ function addGeocoder(map, bounds) {
         forwardGeocode: async (config) => {
           const features = [];
           try {
-            const request = `https://nominatim.openstreetmap.org/search?q=${
-              config.query
-            }&format=geojson&polygon_geojson=1&addressdetails=1&viewbox=${bounds.getWest()},${bounds.getSouth()},${bounds.getEast()},${bounds.getNorth()}&bounded=1`;
+            const request = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
+              config.query,
+            )}&format=geojson&polygon_geojson=1&addressdetails=1&viewbox=${bounds.getWest()},${bounds.getSouth()},${bounds.getEast()},${bounds.getNorth()}&bounded=1`;
             const response = await fetch(request);
-            const geojson = await response.json();
-            for (const feature of geojson.features) {
+            const geocodeResult = await response.json();
+            for (const feature of geocodeResult.features) {
+              if (!feature.bbox || feature.bbox.length < 4) {
+                continue;
+              }
               const center = [
                 feature.bbox[0] + (feature.bbox[2] - feature.bbox[0]) / 2,
                 feature.bbox[1] + (feature.bbox[3] - feature.bbox[1]) / 2,
@@ -195,6 +213,7 @@ function addGeocoder(map, bounds) {
       },
       {
         maplibregl,
+        debounceSearch: 800,
         proximity: {
           latitude: bounds.getCenter()[0],
           longitude: bounds.getCenter()[1],
@@ -245,11 +264,6 @@ function addMapLayers(map, geojson, defaultRouteColor, lineLayout) {
   addStops(map, geojson);
   addHighlightedStops(map, geojson);
   addRouteLabels(map, geojson);
-}
-
-function getFirstSymbolLayerId(map) {
-  const layers = map.getStyle().layers;
-  return layers.find((layer) => layer.type === 'symbol').id;
 }
 
 function addRouteLineShadow(map, geojson, lineLayout, firstSymbolId) {
@@ -513,22 +527,23 @@ function addRouteLabels(map, geojson) {
   });
 }
 
-function setupEventListeners(map, routes) {
-  map.on('mousemove', (event) => handleMouseMove(event, map, routes));
+function setupEventListeners(map) {
+  map.on('mousemove', (event) => handleMouseMove(event, map));
   map.on('click', (event) => handleClick(event, map));
   setupTableHoverListeners(map);
 }
 
-function handleMouseMove(event, map, routes) {
+function handleMouseMove(event, map) {
   const features = map.queryRenderedFeatures(event.point, {
     layers: ['routes', 'route-outlines', 'stops-highlighted', 'stops'],
   });
   if (features.length > 0) {
     map.getCanvas().style.cursor = 'pointer';
-    highlightRoutes(
-      map,
-      _.compact(_.uniq(features.map((feature) => feature.properties.route_id))),
-    );
+    // Get unique route IDs
+    const routeIds = features
+      .map((feature) => feature.properties.route_id)
+      .filter((value, index, self) => value && self.indexOf(value) === index);
+    highlightRoutes(map, routeIds);
 
     if (features.some((feature) => feature.layer.id === 'stops')) {
       highlightStop(
@@ -574,10 +589,32 @@ function showStopPopup(map, feature) {
 }
 
 function showRoutePopup(map, features, lngLat) {
-  const routes = _.orderBy(
-    _.uniqBy(features, (feature) => feature.properties.route_short_name),
-    (feature) => Number.parseInt(feature.properties.route_short_name, 10),
-  );
+  // Get list of unique routes, using route_short_name as the key
+  const seen = {};
+  const uniqueRoutes = [];
+  for (const feature of features) {
+    const routeShortName = feature.properties.route_short_name;
+    if (!seen[routeShortName]) {
+      seen[routeShortName] = true;
+      uniqueRoutes.push(feature);
+    }
+  }
+
+  // Sort by route_short_name as number, then alphabetically
+  const routes = uniqueRoutes.sort((a, b) => {
+    const aNum = Number.parseInt(a.properties.route_short_name, 10);
+
+    if (Number.isNaN(aNum) && Number.isNaN(bNum)) {
+      return a.properties.route_short_name.localeCompare(
+        b.properties.route_short_name,
+      );
+    }
+    if (Number.isNaN(aNum)) return 1;
+    if (Number.isNaN(bNum)) return -1;
+
+    const bNum = Number.parseInt(b.properties.route_short_name, 10);
+    return aNum - bNum;
+  });
 
   new maplibregl.Popup()
     .setLngLat(lngLat)
@@ -676,18 +713,32 @@ function unHighlightRoutes(map, zoom) {
 }
 
 function setupTableHoverListeners(map) {
-  jQuery(() => {
-    jQuery('.overview-list a').hover((event) => {
-      const routeIdString = jQuery(event.target).data('route-ids');
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      initializeTableHoverListeners(map);
+    });
+  } else {
+    initializeTableHoverListeners(map);
+  }
+}
+
+function initializeTableHoverListeners(map) {
+  const overviewLinks = document.querySelectorAll('.overview-list a');
+
+  overviewLinks.forEach((link) => {
+    link.addEventListener('mouseenter', (event) => {
+      const routeIdString = event.currentTarget.dataset.routeIds;
       if (routeIdString) {
         const routeIds = routeIdString.toString().split(',');
         highlightRoutes(map, routeIds, true);
       }
     });
-
-    jQuery('.overview-list').hover(
-      () => {},
-      () => unHighlightRoutes(map, true),
-    );
   });
+
+  const overviewList = document.querySelector('.overview-list');
+  if (overviewList) {
+    overviewList.addEventListener('mouseleave', () => {
+      unHighlightRoutes(map, true);
+    });
+  }
 }

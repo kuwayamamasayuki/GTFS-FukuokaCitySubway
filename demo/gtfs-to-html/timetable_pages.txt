@@ -1,0 +1,3 @@
+timetable_page_id,timetable_page_label,filename
+kuko_hakozaki,空港線・箱崎線,空港線・箱崎線.html
+nanakuma,七隈線,七隈線.html

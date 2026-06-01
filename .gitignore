@@ -6,9 +6,10 @@
 /data/sources.sha256
 /tools/
 
-# GTFS-to-HTML デモ（生成 HTML は html/ にコミット。依存と生成日時ログのみ無視）
+# GTFS-to-HTML デモ（生成 HTML は html/ にコミット。依存・生成日時ログ・作業用 feed/ は無視）
 /demo/gtfs-to-html/node_modules/
 /demo/gtfs-to-html/html/log.txt
+/demo/gtfs-to-html/feed/
 
 # OpenTripPlanner デモ（OTP jar・OSM・グラフは大きいため無視。スクリプト/ページ/取得済みサンプルはコミット）
 /demo/opentripplanner/work/

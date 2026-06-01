@@ -11,15 +11,32 @@
 ```
 html/
   index.html                  概要ページ（路線一覧へのリンク）
-  20250804-99991231/
-    空港線.html                空港線の全時刻表（平日/土曜/休日 × 上下）
-    箱崎線.html
-    七隈線.html
+  timetables/
+    空港線・箱崎線.html         空港線＋箱崎線を 1 つにまとめた時刻表（平日/土曜/休日 × 上下）
+    七隈線.html                七隈線の時刻表
   css/  js/                    GTFS-to-HTML 同梱のスタイル・スクリプト
 ```
 
-`20250804-99991231` はフィードの運行期間（`calendar.txt` 由来）から付く
-フォルダ名です。ダイヤ改正で期間が変われば名前も変わります。
+## 空港線と箱崎線を 1 つの時刻表に（Issue #35）
+
+空港線↔箱崎線は中洲川端で相互に直通運転しています。これを 1 つの時刻表として
+見せるため、GTFS-to-HTML の追加ファイル [`timetables.txt`](https://gtfstohtml.com/docs/timetables)
+／`timetable_pages.txt` を用意しています。
+
+- **`show_trip_continuation=1`** … 直通便を `trips.txt` の `block_id` でたどり、
+  「○○行きへ直通（Continues as …）」として連続表示します。
+- **複数 route の統合** … 同じ `timetable_id` に空港線・箱崎線の 2 行を持たせ、
+  両路線の便を 1 つの表へまとめています（七隈線は単独の時刻表）。
+
+> `show_trip_continuation` は `config.json` ではなく **入力 GTFS 内の
+> `timetables.txt` の列**です。このファイルを置くと自動生成は無効になり、
+> 生成する時刻表（路線・方向・曜日）をすべて `timetables.txt` で定義します。
+
+`timetables.txt` は入力 GTFS データセットに同梱して読ませる必要があります。
+公開スナップショット `dist/FukuokaCitySubway.zip` は標準 GTFS のまま保ちたいので、
+`prepare_feed.py` が「dist の中身＋このデモの追加ファイル」を結合した作業用フォルダ
+`feed/` を作り、`config.json` はそれを入力に使います（`feed/` は再生成のたびに
+作り直すため Git 管理外）。
 
 ## 自分で再生成する
 
@@ -28,9 +45,13 @@ html/
 ```bash
 cd demo/gtfs-to-html
 npm install        # gtfs-to-html をローカル(node_modules/)へ導入
-npm run build      # config.json に従い ../../dist/FukuokaCitySubway.zip → html/ を生成
+npm run build      # prebuild(prepare_feed.py) で feed/ を組み立て → config.json に従い html/ を生成
 python3 inject_backlink.py   # 各ページ先頭に「デモTOPへ戻る」リンクを注入
 ```
+
+> `npm run build` は npm の `prebuild` フックで自動的に `python3 prepare_feed.py`
+> を実行し、`dist/FukuokaCitySubway.zip` ＋ `timetables.txt` ／ `timetable_pages.txt`
+> を結合した `feed/` を用意してから時刻表を生成します。
 
 > GTFS-to-HTML には戻りリンクのオプションが無いため、生成後に
 > `inject_backlink.py` を実行して `../../index.html`（デモTOP）への導線を注入します。
@@ -52,7 +73,7 @@ python -m fukuoka_gtfs.cli build && make publish   # dist/ を最新化
 
 | キー | 値 | 意味 |
 |---|---|---|
-| `agencies[].path` | `../../dist/FukuokaCitySubway.zip` | 入力 GTFS（公開スナップショット） |
+| `agencies[].path` | `feed` | 入力 GTFS（`prepare_feed.py` が dist＋追加ファイルから組み立てる作業用フォルダ） |
 | `outputPath` | `html` | 出力先フォルダ |
 | `useParentStation` | `true` | 子ホーム（`13_1` 等）を親駅にまとめる |
 | `showMap` | `false` | 地図埋め込みを省略（地図タイル用トークン不要） |

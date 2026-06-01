@@ -2,7 +2,7 @@
   "agencies": [
     {
       "agencyKey": "fukuoka-city-subway",
-      "path": "../../dist/FukuokaCitySubway.zip"
+      "path": "feed"
     }
   ],
   "outputPath": "html",
