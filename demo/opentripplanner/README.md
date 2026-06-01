@@ -44,8 +44,14 @@ make demo-otp-sample
 #   → data/sample-itinerary.json を更新（index.html がこれを表示）
 ```
 
-OTP を起動したら、付属の**デバッグ用 Web クライアント**（<http://localhost:8080/>）でも
-地図上の経路検索を試せます。
+OTP を起動したら、付属の**デバッグ用 Web クライアント**
+（<http://localhost:8080/debug-client-preview/>）で地図上の経路検索を試せます。
+
+> ⚠️ ルート直下 <http://localhost:8080/> は**旧 Leaflet 版**のデバッグクライアントで、
+> OTP 2.x では経路結果（Itineraries）パネルが空のまま表示されない既知の不具合があります
+> （旧 `/geocode` エンドポイントへの依存・非推奨化のため）。経路エンジン自体は正常で、
+> **新しい `/debug-client-preview/` を使えば結果が表示されます**。スクリプトで結果を
+> 確認したい場合は GraphiQL（<http://localhost:8080/graphiql>）も利用できます。
 
 ## オフライン表示ページ（`index.html`）
 
