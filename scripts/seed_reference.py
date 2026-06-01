@@ -16,6 +16,7 @@ Excel から毎回生成するため、ここでは扱わない。
   * translations: 旧スキーマ(trans_id,lang,translation) → 現行スキーマ
                   (table_name,field_name,language,field_value,translation) へ移行。
                   feed_lang(ja) と同一の自己翻訳は除外。新駅の訳語を追加。
+  * routes.txt  : route_sort_order 列を補い、空港線→箱崎線→七隈線の順で表示させる。
   * agency_jp / routes_jp : GTFS-JP 拡張ファイルを新規作成（公開用）。
   * transfers/shapes/fare_attributes/fare_rules : ほぼそのまま取り込み。
 
@@ -53,7 +54,13 @@ AGENCY_FARE_URL = "https://subway.city.fukuoka.lg.jp/fare/index.php"
 CEMV_SUPPORT = "1"
 
 # そのまま取り込む参照ファイル（運賃 fare_* は scripts/verify_fares.py が公式運賃表 PDF から生成）
-COPY_FILES = ["routes.txt", "transfers.txt", "shapes.txt"]
+COPY_FILES = ["transfers.txt", "shapes.txt"]
+
+# routes.txt に補う route_sort_order（GTFS 標準のオプションフィールド）。
+# 値が小さいほど経路一覧で先に表示される。福岡市地下鉄の路線記号 K/H/N（空港線/箱崎線/
+# 七隈線）の順に合わせ、空港線=1 → 箱崎線=2 → 七隈線=3 とする。
+# 仕様: https://gtfs.org/documentation/schedule/reference/#routestxt
+ROUTE_SORT_ORDER = {"空港線": "1", "箱崎線": "2", "七隈線": "3"}
 
 # 新駅・延伸の定義（座標は日本語版ウィキペディア由来）
 KUSHIDA_ID = "36"
@@ -178,6 +185,26 @@ def transform_translations(text: str, stops_rows: list[dict]) -> tuple[list[str]
     return header, out
 
 
+def transform_routes(text: str) -> tuple[list[str], list[dict]]:
+    """routes.txt に route_sort_order 列を補う（無ければ追加、空なら補完）。
+
+    空港線→箱崎線→七隈線 の順で表示されるよう ROUTE_SORT_ORDER を割り当てる。
+    既に値がある行は上書きしない（冪等）。
+    """
+    header, rows = read_rows(text)
+    if "route_sort_order" not in header:
+        header = [*header, "route_sort_order"]
+    for r in rows:
+        if not r.get("route_sort_order"):
+            order = ROUTE_SORT_ORDER.get(r["route_id"])
+            if order is None:
+                print(f"  注意: route_sort_order 未定義の route_id: {r['route_id']!r}",
+                      file=sys.stderr)
+                continue
+            r["route_sort_order"] = order
+    return header, rows
+
+
 def write_agency_jp() -> None:
     header = ["agency_id", "agency_official_name", "agency_zip_number", "agency_address",
               "agency_president_pos", "agency_president_name"]
@@ -210,6 +237,9 @@ def main() -> int:
 
     a_header, a_rows = transform_agency(fetch("agency.txt"))
     write_rows(REF_DIR / "agency.txt", a_header, a_rows)
+
+    r_header, r_rows = transform_routes(fetch("routes.txt"))
+    write_rows(REF_DIR / "routes.txt", r_header, r_rows)
 
     for name in COPY_FILES:
         header, rows = read_rows(fetch(name))
