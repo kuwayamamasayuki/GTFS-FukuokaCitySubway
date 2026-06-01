@@ -69,8 +69,12 @@ java -Xmx4g -jar otp-2.5.0-shaded.jar --load .
 # 3) 別ターミナルでサンプル経路を取得（このページの表示を更新）
 make demo-otp-sample</pre>
     <p class="note">OTP を起動したら、付属の
-      <a href="http://localhost:8080/" target="_blank" rel="noopener">デバッグ用 Web クライアント（localhost:8080）</a>
-      で地図上の経路検索も試せます。</p>
+      <a href="http://localhost:8080/debug-client-preview/" target="_blank" rel="noopener">デバッグ用 Web クライアント（debug-client-preview）</a>
+      で地図上の経路検索も試せます。<br>
+      ※ ルート直下 <code>http://localhost:8080/</code> は旧 Leaflet 版で、OTP 2.x では
+      経路結果（Itineraries）が表示されない既知の不具合があります。必ず
+      <code>/debug-client-preview/</code> を開いてください（または
+      <a href="http://localhost:8080/graphiql" target="_blank" rel="noopener">GraphiQL</a>）。</p>
   </section>
 
   <footer class="wrap">
