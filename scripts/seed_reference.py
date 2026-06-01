@@ -40,8 +40,12 @@ REF_DIR = Path(__file__).resolve().parent.parent / "reference_gtfs"
 
 AGENCY_ID = "3000020401307_0"
 
+# agency.txt に補う運賃案内 URL（福岡市地下鉄 公式運賃ページ）。
+# 2019 年版フィードには無い列のため、取り込み時に注入する（COPY_FILES では扱わない）。
+AGENCY_FARE_URL = "https://subway.city.fukuoka.lg.jp/fare/index.php"
+
 # そのまま取り込む参照ファイル（運賃 fare_* は scripts/verify_fares.py が公式運賃表 PDF から生成）
-COPY_FILES = ["agency.txt", "routes.txt", "transfers.txt", "shapes.txt"]
+COPY_FILES = ["routes.txt", "transfers.txt", "shapes.txt"]
 
 # 新駅・延伸の定義（座標は日本語版ウィキペディア由来）
 KUSHIDA_ID = "36"
@@ -117,6 +121,17 @@ def transform_stops(text: str) -> tuple[list[str], list[dict]]:
     return header, rows
 
 
+def transform_agency(text: str) -> tuple[list[str], list[dict]]:
+    """agency.txt に agency_fare_url 列を補う（無ければ追加、空なら補完）。"""
+    header, rows = read_rows(text)
+    if "agency_fare_url" not in header:
+        header = [*header, "agency_fare_url"]
+    for r in rows:
+        if not r.get("agency_fare_url"):
+            r["agency_fare_url"] = AGENCY_FARE_URL
+    return header, rows
+
+
 def transform_translations(text: str, stops_rows: list[dict]) -> tuple[list[str], list[dict]]:
     """旧 translations を現行スキーマ(field_value 方式)へ移行する。"""
     _, old = read_rows(text)
@@ -180,6 +195,9 @@ def main() -> int:
 
     t_header, t_rows = transform_translations(fetch("translations.txt"), s_rows)
     write_rows(REF_DIR / "translations.txt", t_header, t_rows)
+
+    a_header, a_rows = transform_agency(fetch("agency.txt"))
+    write_rows(REF_DIR / "agency.txt", a_header, a_rows)
 
     for name in COPY_FILES:
         header, rows = read_rows(fetch(name))
