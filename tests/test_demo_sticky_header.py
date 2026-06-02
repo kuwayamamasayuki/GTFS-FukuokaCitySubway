@@ -51,6 +51,20 @@ def test_injects_sticky_css_into_timetable_page():
     assert out.index('href="../css/timetable_styles.css"') < out.index(MARKER)
 
 
+def test_sticky_header_has_opaque_background():
+    """固定ヘッダの th 自身に不透明な背景色を持たせる（スクロール時の透過＝駅名と時刻の重なりを防ぐ）。
+
+    背景色を thead tr ではなく sticky な th に直接持たせないと、本文がヘッダ下に
+    スクロールしたとき時刻が透けて駅名と重なる（実機で確認した不具合）。
+    """
+    mod = _load_module()
+    out = mod.inject_into_html(TIMETABLE_HTML)
+    # th に background（不透明色）が指定されていること
+    assert "background" in out
+    # 既存ヘッダ色 rgb(224,230,245) を th 自身に乗せる
+    assert "224,230,245" in out or "224, 230, 245" in out
+
+
 def test_injection_is_idempotent():
     """2 回注入してもマーカーは 1 つだけ（再生成・再実行に耐える）。"""
     mod = _load_module()

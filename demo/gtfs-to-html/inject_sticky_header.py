@@ -29,7 +29,12 @@ STYLE = (
     "/* Issue #38: 駅名ヘッダ行を固定（便が数百行でも駅名が常に見える） */"
     ".timetable-page .timetable .table-container{max-height:80vh;overflow:auto;}"
     ".timetable-page .timetable .table-container thead th{"
-    "position: sticky;top:0;z-index:2;}"
+    "position: sticky;top:0;z-index:2;"
+    # 背景色は既存では thead tr に乗っており sticky な th に追従しない。
+    # th 自身に不透明色を持たせ、本文がヘッダ下に潜ったときの透過（駅名と時刻の重なり）を防ぐ。
+    "background-color: rgb(224, 230, 245);"
+    # border-collapse: collapse ではスクロール時に下罫線が消えるため box-shadow で補う。
+    "box-shadow: inset 0 -2px 0 #dddddd;}"
     "</style>"
 )
 
