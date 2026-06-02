@@ -27,6 +27,11 @@ html/
   「○○行きへ直通（Continues as …）」として連続表示します。
 - **複数 route の統合** … 同じ `timetable_id` に空港線・箱崎線の 2 行を持たせ、
   両路線の便を 1 つの表へまとめています（七隈線は単独の時刻表）。
+- **`timetable_stop_order.txt`** … 統合時刻表の駅の並びを方面ごとに固定（自動の駅順では
+  中洲川端で枝分かれして見づらいため明示）。
+  - 東向き（福岡空港・貝塚方面）… 空港線を全区間通し（姪浜→中洲川端→福岡空港）→箱崎線の分岐（呉服町→貝塚）。
+  - 西向き（姪浜・筑前前原方面）… 箱崎線（貝塚→中洲川端）→空港線（福岡空港→中洲川端→姪浜）。
+    接続駅の中洲川端は両区間に現れる（箱崎線の便は前者の列、空港線の便は後者の列を使う）。
 
 > `show_trip_continuation` は `config.json` ではなく **入力 GTFS 内の
 > `timetables.txt` の列**です。このファイルを置くと自動生成は無効になり、
@@ -46,16 +51,22 @@ html/
 cd demo/gtfs-to-html
 npm install        # gtfs-to-html をローカル(node_modules/)へ導入
 npm run build      # prebuild(prepare_feed.py) で feed/ を組み立て → config.json に従い html/ を生成
-python3 inject_backlink.py   # 各ページ先頭に「デモTOPへ戻る」リンクを注入
+python3 inject_backlink.py        # 各ページ先頭に「デモTOPへ戻る」リンクを注入
+python3 inject_sticky_header.py   # 時刻表の駅名ヘッダ行を固定する CSS を注入
 ```
 
 > `npm run build` は npm の `prebuild` フックで自動的に `python3 prepare_feed.py`
 > を実行し、`dist/FukuokaCitySubway.zip` ＋ `timetables.txt` ／ `timetable_pages.txt`
-> を結合した `feed/` を用意してから時刻表を生成します。
+> ／ `timetable_stop_order.txt` を結合した `feed/` を用意してから時刻表を生成します。
 
 > GTFS-to-HTML には戻りリンクのオプションが無いため、生成後に
 > `inject_backlink.py` を実行して `../../index.html`（デモTOP）への導線を注入します。
 > 冪等なので再生成のたびに流せば導線を復元できます。
+
+> 縦型時刻表は駅＝列／便＝行で、便が数百行に及ぶため縦スクロールすると駅名ヘッダ行が
+> 流れて「どの列がどの駅か」を見失います。GTFS-to-HTML にヘッダ固定オプションが無いため、
+> 生成後に `inject_sticky_header.py` を実行して、表を高さ上限付きスクロール領域にし駅名
+> ヘッダ行を `position: sticky` で固定する CSS を注入します（Issue #38）。こちらも冪等です。
 
 リポジトリのルートからは `make demo-html` でも同じことができます。
 
