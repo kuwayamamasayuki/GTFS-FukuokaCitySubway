@@ -46,7 +46,8 @@ html/
 cd demo/gtfs-to-html
 npm install        # gtfs-to-html をローカル(node_modules/)へ導入
 npm run build      # prebuild(prepare_feed.py) で feed/ を組み立て → config.json に従い html/ を生成
-python3 inject_backlink.py   # 各ページ先頭に「デモTOPへ戻る」リンクを注入
+python3 inject_backlink.py        # 各ページ先頭に「デモTOPへ戻る」リンクを注入
+python3 inject_sticky_header.py   # 時刻表の駅名ヘッダ行を固定する CSS を注入
 ```
 
 > `npm run build` は npm の `prebuild` フックで自動的に `python3 prepare_feed.py`
@@ -56,6 +57,11 @@ python3 inject_backlink.py   # 各ページ先頭に「デモTOPへ戻る」リ�
 > GTFS-to-HTML には戻りリンクのオプションが無いため、生成後に
 > `inject_backlink.py` を実行して `../../index.html`（デモTOP）への導線を注入します。
 > 冪等なので再生成のたびに流せば導線を復元できます。
+
+> 縦型時刻表は駅＝列／便＝行で、便が数百行に及ぶため縦スクロールすると駅名ヘッダ行が
+> 流れて「どの列がどの駅か」を見失います。GTFS-to-HTML にヘッダ固定オプションが無いため、
+> 生成後に `inject_sticky_header.py` を実行して、表を高さ上限付きスクロール領域にし駅名
+> ヘッダ行を `position: sticky` で固定する CSS を注入します（Issue #38）。こちらも冪等です。
 
 リポジトリのルートからは `make demo-html` でも同じことができます。
 
