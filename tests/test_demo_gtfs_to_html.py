@@ -20,6 +20,7 @@ CONFIG = DEMO / "config.json"
 PACKAGE = DEMO / "package.json"
 TIMETABLES = DEMO / "timetables.txt"
 TIMETABLE_PAGES = DEMO / "timetable_pages.txt"
+TIMETABLE_STOP_ORDER = DEMO / "timetable_stop_order.txt"
 ROUTES = ["空港線", "箱崎線", "七隈線"]
 CONTINUATION_ROUTES = {"空港線", "箱崎線"}  # 直通で 1 時刻表に統合する 2 路線
 
@@ -97,6 +98,32 @@ def test_timetables_reference_valid_routes_and_pages():
     for r in tt_rows:
         assert r["route_id"] in valid_routes, f"未知の route_id: {r['route_id']}"
         assert r["timetable_page_id"] in valid_pages, f"未知の page: {r['timetable_page_id']}"
+
+
+def test_stop_order_lists_full_kuko_then_hakozaki_branch():
+    """統合時刻表の駅順は『空港線を全区間通し→箱崎線の分岐』になっている。
+
+    下り(方面0)では 姪浜(1)…中洲川端(9)…福岡空港(13) の後に
+    呉服町(14)…貝塚(19) が並ぶ（Issue #35 のレビュー指摘の並び）。
+    """
+    _, rows = _read_csv(TIMETABLE_STOP_ORDER)
+    _, tt_rows = _read_csv(TIMETABLES)
+    combined_ids = {
+        r["timetable_id"] for r in tt_rows
+        if r["route_id"] in CONTINUATION_ROUTES
+    }
+    by_tt: dict[str, list[str]] = {}
+    for r in rows:
+        assert r["timetable_id"] in combined_ids, \
+            f"stop_order は統合時刻表のみ対象: {r['timetable_id']}"
+        by_tt.setdefault(r["timetable_id"], []).append(r["stop_id"])
+    # 下り(_0)の代表で順序を検証
+    down = next(t for t in by_tt if t.endswith("_0"))
+    order = by_tt[down]
+    assert order == [str(i) for i in range(1, 20)], "下りは空港線1..13→箱崎線14..19の順"
+    # 福岡空港(13)が貝塚(19)より前、中洲川端(9)が福岡空港(13)より前
+    assert order.index("13") < order.index("19")
+    assert order.index("9") < order.index("13")
 
 
 def test_committed_html_artifacts_exist():
