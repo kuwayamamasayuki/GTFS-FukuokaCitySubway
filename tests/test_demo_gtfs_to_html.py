@@ -126,6 +126,38 @@ def test_stop_order_lists_full_kuko_then_hakozaki_branch():
     assert order.index("9") < order.index("13")
 
 
+def test_westbound_stop_order_branch_first_with_junction_twice():
+    """西向き(上り _1)の駅順は『貝塚→中洲川端（箱崎線）→福岡空港→…→姪浜（空港線）』。
+
+    接続駅 中洲川端(9) は箱崎線区間の末尾と空港線区間内の双方に現れる（=2回表示）。
+    箱崎線の便は前者の列、空港線の便は後者の列を使う。
+    """
+    _, rows = _read_csv(TIMETABLE_STOP_ORDER)
+    by_tt: dict[str, list[str]] = {}
+    for r in rows:
+        by_tt.setdefault(r["timetable_id"], []).append(r["stop_id"])
+    up = next(t for t in by_tt if t.endswith("_1"))
+    order = by_tt[up]
+    expected = ["19", "18", "17", "16", "15", "14", "9",
+                "13", "12", "11", "10", "9", "8", "7", "6", "5", "4", "3", "2", "1"]
+    assert order == expected, "上りは 貝塚→中洲川端 → 福岡空港→中洲川端→姪浜（中洲川端=9を2回）"
+    assert order.count("9") == 2, "接続駅 中洲川端(9) は 2 回現れること"
+    # 貝塚(19) は福岡空港(13)より前（箱崎線区間が先）
+    assert order.index("19") < order.index("13")
+
+
+def test_committed_html_renders_junction_twice_for_westbound():
+    """同梱HTMLの上り(kh_wd_1)thead で 中洲川端 が 2 列描画されている（リグレッション）。"""
+    import re
+    html = (DEMO / "html" / "timetables" / "空港線・箱崎線.html").read_text(encoding="utf-8")
+    m = html.find('data-timetable-id="kh_wd_1"')
+    assert m != -1, "上り平日(kh_wd_1)の時刻表が存在すること"
+    head = html[html.find("<thead>", m):html.find("</thead>", m)]
+    names = re.findall(r'class="stop-name"[^>]*>([^<]+)<', head)
+    assert names.count("中洲川端") == 2, "上りでは中洲川端が2列描画されること"
+    assert names[0] == "貝塚" and names[-1] == "姪浜", "貝塚で始まり姪浜で終わること"
+
+
 def test_committed_html_artifacts_exist():
     """同梱の生成 HTML（概要 + 統合/単独ページ）が存在する。"""
     assert (DEMO / "html" / "index.html").exists(), "概要ページ index.html が同梱されていること"
