@@ -19,7 +19,7 @@ HERE = Path(__file__).resolve().parent
 DIST_ZIP = HERE / ".." / ".." / "dist" / "FukuokaCitySubway.zip"
 FEED_DIR = HERE / "feed"
 # このデモ固有の gtfs-to-html 追加ファイル（入力 GTFS に同梱して読ませる）
-EXTRA_FILES = ["timetables.txt", "timetable_pages.txt"]
+EXTRA_FILES = ["timetables.txt", "timetable_pages.txt", "timetable_stop_order.txt"]
 
 
 def main() -> int:
