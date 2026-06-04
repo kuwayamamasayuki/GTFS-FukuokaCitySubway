@@ -1,8 +1,10 @@
 """calendar.txt / calendar_dates.txt を生成する。
 
-有効期間は路線グループごとに異なるため、service_id を ``<グループid>_<区分>``
+有効期間は路線グループ・区分ごとに異なりうるため、service_id を ``<グループid>_<区分>``
 （例: ``空港箱崎_平日``）として、グループ × 区分（平日/土曜/休日）の組で出力する。
-日本の祝日は「休日」ダイヤで運行する想定で calendar_dates に例外を書く。
+start_date は ``service_groups[].start_dates`` で区分ごとに、end_date はグループ共通で持つ。
+日本の祝日は「休日」ダイヤで運行する想定で calendar_dates に例外を書く（各区分は自身の
+start_date 以降のみ例外を出す）。
 
 end_date が遠い将来（例: 99991231）でも calendar_dates が無限に増えないよう、
 祝日例外の生成は本日からの horizon_years（既定 2 年）で打ち切る。
@@ -28,12 +30,15 @@ def _service_id(group_id: str, segment: str) -> str:
 
 
 def build_calendar(services: dict[str, dict], service_groups: list[dict]) -> list[dict]:
-    """グループ × 区分 ごとに calendar 行を作る（有効期間はグループの値）。"""
+    """グループ × 区分 ごとに calendar 行を作る。
+
+    start_date は区分ごと（``g["start_dates"][区分]``）、end_date はグループ共通。
+    """
     rows = []
     for g in service_groups:
         for segment, flags in services.items():
             row = {"service_id": _service_id(g["id"], segment),
-                   "start_date": g["start_date"], "end_date": g["end_date"]}
+                   "start_date": g["start_dates"][segment], "end_date": g["end_date"]}
             for wd in WEEKDAYS:
                 row[wd] = int(flags.get(wd, 0))
             rows.append(row)
@@ -63,19 +68,26 @@ def build_calendar_dates(
     horizon = _add_years(today, horizon_years)
     one = dt.timedelta(days=1)
     rows: list[dict] = []
+    adds = 0
     for g in service_groups:
-        d = _parse(g["start_date"])
+        seg_start = {seg: _parse(d) for seg, d in g["start_dates"].items()}
+        d = min(seg_start.values())  # グループ内の最早 start_date から走査
         gend = min(_parse(g["end_date"]), horizon)  # 遠い将来を打ち切る
+        apply_start = seg_start.get(apply_segment)
         while d <= gend:
             ymd = d.strftime("%Y%m%d")
             holiday = (ymd in extra_holidays) or (ymd not in extra_normal and is_holiday(d))
             if holiday:
                 normal = weekday_segment.get(d.weekday())
                 if normal and normal != apply_segment:
-                    rows.append({"service_id": _service_id(g["id"], normal), "date": ymd, "exception_type": 2})
-                    rows.append({"service_id": _service_id(g["id"], apply_segment), "date": ymd, "exception_type": 1})
+                    # 各区分は自身の start_date 以降のみ例外を出す（区分別の有効期間に整合）
+                    if d >= seg_start.get(normal, d):
+                        rows.append({"service_id": _service_id(g["id"], normal), "date": ymd, "exception_type": 2})
+                    if apply_start is not None and d >= apply_start:
+                        rows.append({"service_id": _service_id(g["id"], apply_segment), "date": ymd, "exception_type": 1})
+                        adds += 1
             d += one
-    log.info("calendar_dates: 祝日例外 %d 件（〜%s）", len(rows) // 2, horizon.strftime("%Y%m%d"))
+    log.info("calendar_dates: 祝日例外 %d 件（〜%s）", adds, horizon.strftime("%Y%m%d"))
     return rows
 
 
