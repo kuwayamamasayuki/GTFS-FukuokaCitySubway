@@ -8,7 +8,9 @@ on:
     - cron: "0 20 * * 1"   # 毎週（ダイヤ改正検知のため定期実行）
 
 jobs:
-  build-validate:
+  # ネット不要で安定して走るテスト。PR / 全 push / schedule / 手動で実行する。
+  test:
+    name: Unit & GUI tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -29,6 +31,29 @@ jobs:
 
       - name: GUI tests (demo/ を Playwright で検証)
         run: python -m pytest -q -m gui
+
+  # 時刻表 Excel のライブ取得を伴うフルパイプライン（download→build→validate）。
+  # 福岡市地下鉄サイトの WAF が GitHub Actions の IP を間欠的に 403 でブロックし、
+  # 同一 run 内の再試行では回避できない（別 run＝別 IP を引くと成功する）。
+  # そのため PR / feature ブランチの push では走らせず、master への push・週次 schedule・
+  # 手動実行に限定する（失敗時は手動 re-run で別 IP を引ける）。
+  build-validate:
+    name: Build & validate feed (live download)
+    if: >-
+      github.event_name == 'schedule' ||
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'push' && github.ref == 'refs/heads/master')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: pip install -e ".[dev]"
 
       - name: Setup Java (Canonical Validator 用)
         uses: actions/setup-java@v4
