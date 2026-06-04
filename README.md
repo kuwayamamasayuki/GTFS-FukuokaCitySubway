@@ -45,7 +45,7 @@ python -m fukuoka_gtfs.cli all --download-tools
 | 区分 | ファイル |
 |---|---|
 | **Excel から毎回生成** | `trips.txt` `stop_times.txt` `calendar.txt` `calendar_dates.txt` `feed_info.txt` |
-| **参照データ（`reference_gtfs/`）** | `agency.txt` `agency_jp.txt` `routes.txt` `routes_jp.txt` `stops.txt` `translations.txt` `transfers.txt` `shapes.txt` `fare_attributes.txt` `fare_rules.txt` |
+| **参照データ（`reference_gtfs/`）** | `agency.txt` `agency_jp.txt` `routes.txt` `routes_jp.txt` `stops.txt` `translations.txt` `shapes.txt` `fare_attributes.txt` `fare_rules.txt` |
 
 ## 配布物（`dist/`）
 

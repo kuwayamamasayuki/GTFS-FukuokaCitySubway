@@ -18,7 +18,9 @@ Excel から毎回生成するため、ここでは扱わない。
                   feed_lang(ja) と同一の自己翻訳は除外。新駅の訳語を追加。
   * routes.txt  : route_sort_order 列を補い、空港線→箱崎線→七隈線の順で表示させる。
   * agency_jp / routes_jp : GTFS-JP 拡張ファイルを新規作成（公開用）。
-  * transfers/shapes/fare_attributes/fare_rules : ほぼそのまま取り込み。
+  * shapes/fare_attributes/fare_rules : ほぼそのまま取り込み。
+  * transfers.txt : 取り込まない。七隈線の博多延伸で天神・天神南が連絡駅とみなされ
+                    なくなったため、連絡駅情報のファイル自体を廃止した（Issue #40）。
 
 新駅の座標出典: 日本語版ウィキペディア（櫛田神社前駅 / 博多駅）。
 """
@@ -54,7 +56,8 @@ AGENCY_FARE_URL = "https://subway.city.fukuoka.lg.jp/fare/index.php"
 CEMV_SUPPORT = "1"
 
 # そのまま取り込む参照ファイル（運賃 fare_* は scripts/verify_fares.py が公式運賃表 PDF から生成）
-COPY_FILES = ["transfers.txt", "shapes.txt"]
+# transfers.txt は取り込まない（Issue #40: 連絡駅情報の廃止）。
+COPY_FILES = ["shapes.txt"]
 
 # routes.txt に補う route_sort_order（GTFS 標準のオプションフィールド）。
 # 値が小さいほど経路一覧で先に表示される。福岡市地下鉄の路線記号 K/H/N（空港線/箱崎線/

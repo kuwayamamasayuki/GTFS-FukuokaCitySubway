@@ -21,7 +21,7 @@ log = logging.getLogger("fukuoka_gtfs")
 # reference_gtfs/ からそのまま取り込む参照ファイル（滅多に変化しない）
 REFERENCE_FILES = [
     "agency.txt", "agency_jp.txt", "routes.txt", "routes_jp.txt", "stops.txt",
-    "translations.txt", "transfers.txt", "shapes.txt",
+    "translations.txt", "shapes.txt",
     "fare_attributes.txt", "fare_rules.txt",
 ]
 
