@@ -88,7 +88,7 @@ NEW_STATIONS = {
 # 座標出典: OpenStreetMap（七隈線博多駅ホーム付近）。
 NANAKUMA_HAKATA_ID = "37"
 NANAKUMA_HAKATA = dict(stop_code="N18", stop_name="博多",
-                       stop_lat="33.589744", stop_lon="130.416811", zone_id="11")
+                       stop_lat="33.589616", stop_lon="130.418599", zone_id="11")
 
 # stops.stop_name の英語訳の上書き（上流フィードの表記を公開フィード向けに補正）。
 # 福岡空港: 上流は "Fukuokakuko(Airport)" だが正式英語名称は "Fukuoka Airport"。
