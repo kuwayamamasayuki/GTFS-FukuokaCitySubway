@@ -49,7 +49,8 @@ def assemble(config: Config, today: dt.date | None = None) -> dict:
     groups = config.service_groups
     services = config.calendar["services"]
     # feed_info の有効期間はグループ全体の和（明示指定があればそれを優先）
-    start_date = config.feed.feed_start_date or min(g["start_date"] for g in groups)
+    start_date = config.feed.feed_start_date or min(
+        d for g in groups for d in g["start_dates"].values())
     end_date = config.feed.feed_end_date or max(g["end_date"] for g in groups)
     version = config.feed.feed_version or today.strftime("%Y%m%d")  # 版＝発行日（既定）
     calendar_rows = calendar_builder.build_calendar(services, groups)

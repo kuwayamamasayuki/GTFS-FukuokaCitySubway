@@ -132,12 +132,14 @@ scripts/fetch_jorudan_fares.py  ジョルダン運賃を取得し突合フィク
   通常駅は dir0→`_1`／dir1→`_2`、中洲川端・博多などの共用駅は `config/stations.yaml` で指定。
   なお博多は空港線博多(id 11)と七隈線博多(id 37)を別座標の 2 駅で表す（運賃ゾーンは同一）。
   この非対称なモデルの設計意図は [`docs/design/hakata-nanakuma-station.md`](docs/design/hakata-nanakuma-station.md) を参照（Issue #53）。
-- **路線グループ別の有効期間**: GTFS では有効期間（`calendar.txt` の start/end）は service_id 単位
+- **路線グループ・区分別の有効期間**: GTFS では有効期間（`calendar.txt` の start/end）は service_id 単位
   のため、有効期間が異なる路線はグループを分け、`service_id` を `<グループ>_<区分>`
   （例 `空港箱崎_平日`／`七隈_平日`）とする。期間は `config/calendar.yaml` の `service_groups`
-  で設定（例: 空港線・箱崎線 20260401〜、七隈線 20260401〜、ともに 99991231 まで）。
-  各グループの `start_date` がそのグループのダイヤ改正日。改正日が路線で異なる場合は
-  該当グループの `start_date` だけを更新する（グループは独立して期間を持てる）。
+  で設定。`start_dates` で **区分（平日/土曜/休日）ごとの改正日（start_date）** を独立して持たせ、
+  `end_date` はグループ共通とする。改正が一部区分だけに及ぶ場合も、その区分の `start_dates` だけを
+  更新すればよい（グループは独立して期間を持てる）。
+  例: 2026/4/1 開始の「ミッドナイト・トレイン」（月〜土の終電延長）に伴い平日・土曜は 20260401〜、
+  休日は 4/1 改正の対象外のため従来の改正日（空港箱崎 20260314〜／七隈 20250804〜）を維持（Issue #42）。
   `end_date` が遠い将来でも `calendar_dates`（祝日例外）は `horizon_years` 分だけ生成する。
 
 ## ダイヤ改正への対応手順
@@ -145,9 +147,9 @@ scripts/fetch_jorudan_fares.py  ジョルダン運賃を取得し突合フィク
 1. `python -m fukuoka_gtfs.cli download` で最新 Excel を取得し、健全性サマリ
    （6 シート検出・区分×方向・便数）を確認する。
 2. 必要に応じて設定だけを更新する:
-   - ダイヤ改正日（有効期間の開始）… `config/calendar.yaml` の `service_groups` の `start_date`
-     （路線で改正日が異なる場合は該当グループのみ更新）
-   - フィード全体の有効期間・版 … `config/feed.yaml`（未指定なら start はグループ最小、end は最大）
+   - ダイヤ改正日（有効期間の開始）… `config/calendar.yaml` の `service_groups` の `start_dates`
+     （路線・区分で改正日が異なる場合は該当する区分のみ更新）
+   - フィード全体の有効期間・版 … `config/feed.yaml`（未指定なら start は全区分の最小、end はグループ最大）
    - URL・期待シート名 … `config/sources.yaml`
    - 祝日 … `config/calendar.yaml` の `holiday`
    - **駅が増えた場合のみ** … `reference_gtfs/stops.txt`（親駅＋子ホーム）と
