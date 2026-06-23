@@ -10,8 +10,11 @@ Excel から毎回生成するため、ここでは扱わない。
 
 主な変換:
   * stops.txt   : 2023 年の七隈線博多延伸を反映。
-                  - 博多(id 11) を空港線・七隈線共用駅にし、子ホーム 11_3/11_4 を追加、
-                    stop_code を "K11/N18" に更新。
+                  - 博多(id 11) は空港線駅として据え置き、stop_code を "K11/N18" に更新
+                    （N18 はジャンクション判定用。詳細は station_mapper / 設計ドキュメント）。
+                  - 七隈線博多(N18) は空港線博多と物理的に別位置のため、独立駅 id 37 +
+                    子ホーム 37_3/37_4 として別座標で追加（運賃ゾーンは zone_id=11 で同一）。
+                    Issue #53。
                   - 櫛田神社前(N17, 新 id 36) を親+子ホーム 36_1/36_2 で追加。
   * translations: 旧スキーマ(trans_id,lang,translation) → 現行スキーマ
                   (table_name,field_name,language,field_value,translation) へ移行。
@@ -22,7 +25,7 @@ Excel から毎回生成するため、ここでは扱わない。
   * transfers.txt : 取り込まない。七隈線の博多延伸で天神・天神南が連絡駅とみなされ
                     なくなったため、連絡駅情報のファイル自体を廃止した（Issue #40）。
 
-新駅の座標出典: 日本語版ウィキペディア（櫛田神社前駅 / 博多駅）。
+新駅の座標出典: 櫛田神社前駅=日本語版ウィキペディア / 七隈線博多駅(id 37)=OpenStreetMap(Issue #53)。
 """
 from __future__ import annotations
 
@@ -74,6 +77,19 @@ NEW_STATIONS = {
                      stop_url="", yomi="くしだじんじゃまえ", en="Kushida Shrine"),
 }
 
+# 七隈線博多(N18) — 空港線博多(K11, id 11)とは物理的に少し離れているため、独立した親駅
+# id 37 として別座標で持たせる（Issue #53）。ただし運賃ゾーンは空港線博多と同一(zone_id=11)に
+# 保ち、駅名「博多」も共有する。
+#   * 11 は "K11/N18"(共用ジャンクション)・空港線座標のまま据え置く。これは StationMapper の
+#     名前解決とジャンクション判定が 11 を単一情報源とするため（理由は station_mapper.from_stops
+#     と docs/design/hakata-nanakuma-station.md を参照）。
+#   * 七隈線ホームは 37_3/37_4(parent_station=37) として 37 配下へ。config/stations.yaml の
+#     platform_overrides が親 11 のキーで 37_3/37_4 を返すよう設定する。
+# 座標出典: OpenStreetMap（七隈線博多駅ホーム付近）。
+NANAKUMA_HAKATA_ID = "37"
+NANAKUMA_HAKATA = dict(stop_code="N18", stop_name="博多",
+                       stop_lat="33.589616", stop_lon="130.418599", zone_id="11")
+
 # stops.stop_name の英語訳の上書き（上流フィードの表記を公開フィード向けに補正）。
 # 福岡空港: 上流は "Fukuokakuko(Airport)" だが正式英語名称は "Fukuoka Airport"。
 # 櫛田神社前: 新駅定義の en と一致（再掲して意図を明示）。
@@ -114,14 +130,23 @@ def transform_stops(text: str) -> tuple[list[str], list[dict]]:
     header, rows = read_rows(text)
     by_id = {r["stop_id"]: r for r in rows}
 
-    # --- 博多(id 11) を空港線・七隈線共用に ---
-    hakata = by_id["11"]
-    hakata["stop_code"] = "K11/N18"
-    base = {k: hakata[k] for k in ("stop_name", "stop_lat", "stop_lon", "zone_id")}
-    for plat in ("11_3", "11_4"):
-        if plat not in by_id:
-            rows.append(dict(stop_id=plat, stop_code="", **base, stop_url="",
-                             location_type="0", parent_station="11", wheelchair_boarding="1"))
+    # --- 博多(id 11): 空港線側はそのまま。stop_code を共用表記 "K11/N18" に更新 ---
+    # （N18 を 11 に残すのは StationMapper のジャンクション判定に必須。詳細は
+    #   NANAKUMA_HAKATA の定義コメント / docs/design/hakata-nanakuma-station.md 参照）
+    by_id["11"]["stop_code"] = "K11/N18"
+
+    # --- 七隈線博多(N18) を独立駅 id 37 として追加（座標は空港線博多と別、運賃ゾーンは同一） ---
+    nh = NANAKUMA_HAKATA
+    if NANAKUMA_HAKATA_ID not in by_id:
+        rows.append(dict(stop_id=NANAKUMA_HAKATA_ID, stop_code=nh["stop_code"],
+                         stop_name=nh["stop_name"], stop_lat=nh["stop_lat"], stop_lon=nh["stop_lon"],
+                         zone_id=nh["zone_id"], stop_url="", location_type="1",
+                         parent_station="", wheelchair_boarding="1"))
+        for plat in ("37_3", "37_4"):
+            rows.append(dict(stop_id=plat, stop_code="", stop_name=nh["stop_name"],
+                             stop_lat=nh["stop_lat"], stop_lon=nh["stop_lon"], zone_id=nh["zone_id"],
+                             stop_url="", location_type="0", parent_station=NANAKUMA_HAKATA_ID,
+                             wheelchair_boarding="1"))
 
     # --- 櫛田神社前(N17) を新規追加 ---
     for sid, s in NEW_STATIONS.items():

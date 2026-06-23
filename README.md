@@ -130,6 +130,8 @@ scripts/fetch_jorudan_fares.py  ジョルダン運賃を取得し突合フィク
   秒 ≥30 の便が +1 分ずれる: Issue #7）、`25:30:00` 形式の 24 時超表記へ統一する。
 - **ホーム（子 stop）への割当**: `stop_times` は乗降可能な子ホーム（例 `9_3`）を参照する。
   通常駅は dir0→`_1`／dir1→`_2`、中洲川端・博多などの共用駅は `config/stations.yaml` で指定。
+  なお博多は空港線博多(id 11)と七隈線博多(id 37)を別座標の 2 駅で表す（運賃ゾーンは同一）。
+  この非対称なモデルの設計意図は [`docs/design/hakata-nanakuma-station.md`](docs/design/hakata-nanakuma-station.md) を参照（Issue #53）。
 - **路線グループ・区分別の有効期間**: GTFS では有効期間（`calendar.txt` の start/end）は service_id 単位
   のため、有効期間が異なる路線はグループを分け、`service_id` を `<グループ>_<区分>`
   （例 `空港箱崎_平日`／`七隈_平日`）とする。期間は `config/calendar.yaml` の `service_groups`
@@ -183,7 +185,7 @@ scripts/fetch_jorudan_fares.py  ジョルダン運賃を取得し突合フィク
 - 参照データ（座標・路線色・翻訳・shapes 等）: 制作者本人の 2019 年版フィード
   [kuwayamamasayuki/GTFS-FukuokaCitySubway](https://github.com/kuwayamamasayuki/GTFS-FukuokaCitySubway)
   を `scripts/seed_reference.py` で取り込み、現行仕様へ変換。
-- 2023 年延伸の新駅座標（櫛田神社前・七隈線博多）: 日本語版ウィキペディア。
+- 2023 年延伸の新駅座標: 櫛田神社前=日本語版ウィキペディア / 七隈線博多(id 37)=OpenStreetMap（Issue #53）。
 - 本ツールのコードは MIT ライセンス。
 
 ## 既知の制約

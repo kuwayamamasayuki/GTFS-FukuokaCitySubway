@@ -5,6 +5,9 @@
   * 親駅（location_type=1）の stop_name → parent_id
   * stop_code（例 ``K09/H01``）の接頭字から所属路線を推定
 ダイヤ改正で駅が増えても、reference_gtfs/stops.txt に親駅を 1 行足すだけで追従する。
+
+同名の親駅が複数あるとき（博多 = 空港線 id11 / 七隈線 id37。Issue #53）の扱いは
+``from_stops`` のコメントと docs/design/hakata-nanakuma-station.md を参照。
 """
 from __future__ import annotations
 
@@ -52,8 +55,19 @@ class StationMapper:
                 continue
             name = normalize_name(r["stop_name"])
             sid = r["stop_id"]
-            parent_by_name[name] = sid
-            lines_by_parent[sid] = lines_from_code(r.get("stop_code", ""))
+            lines = lines_from_code(r.get("stop_code", ""))
+            lines_by_parent[sid] = lines
+            # 同名の親駅が複数あるとき（例: 博多 = 空港線 id11 "K11/N18" と
+            # 七隈線 id37 "N18"。Issue #53）は、より多くの路線を兼ねる「共用＝ジャンクション」
+            # 駅を名前解決先(parent_id)に採用する。parent_id() はトリップの路線が判明する前に
+            # 駅名→親 を解決するため、解決先はジャンクション(single_line=None)である必要がある
+            # ──そうでないと split_segments が純路線トリップ末端の博多を別路線とみなし停車が
+            # 落ちる。七隈線ホームは platform_overrides 経由で 37_3/37_4 を返すので、名前解決先が
+            # 11 のままでも七隈線ホームへ正しく振り分けられる。
+            # 設計の詳細: docs/design/hakata-nanakuma-station.md
+            prev = parent_by_name.get(name)
+            if prev is None or len(lines) > len(lines_by_parent.get(prev, set())):
+                parent_by_name[name] = sid
         # YAML のキーは文字列なので direction を int 化して取り込む
         ov: dict[str, dict[str, dict[int, str]]] = {}
         for pid, by_line in (platform_overrides or {}).items():

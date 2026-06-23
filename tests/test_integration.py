@@ -30,11 +30,14 @@ def _first(trips, route_id, direction_id):
 
 
 def test_nanakuma_first_hakata_bound_trip(trips):
-    """七隈線 博多方面(dir0) の始発は 橋本05:15発 → 博多(11_3)05:44着。"""
+    """七隈線 博多方面(dir0) の始発は 橋本05:15発 → 博多(37_3)05:44着。
+
+    七隈線博多は独立駅 37 配下のホーム 37_3 を使う（Issue #53）。
+    """
     t = _first(trips, "七隈線", 0)
     seqs = [(v.stop_id, v.sec) for v in t.visits]
     assert seqs[0] == ("20_1", 5 * 3600 + 15 * 60)      # 橋本
-    assert seqs[-1] == ("11_3", 5 * 3600 + 44 * 60)     # 博多(七隈線ホーム)
+    assert seqs[-1] == ("37_3", 5 * 3600 + 44 * 60)     # 博多(七隈線ホーム)
     assert ("36_1", 5 * 3600 + 42 * 60) in seqs         # 櫛田神社前
 
 
