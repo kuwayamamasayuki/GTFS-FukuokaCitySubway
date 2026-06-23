@@ -1,2 +1,2 @@
 feed_publisher_name,feed_publisher_url,feed_lang,feed_start_date,feed_end_date,feed_version,feed_contact_email,feed_contact_url
-桑山雅行,https://github.com/kuwayamamasayuki/GTFS-FukuokaCitySubway/,ja,20250804,99991231,20260530,,https://github.com/kuwayamamasayuki/GTFS-FukuokaCitySubway/issues
+桑山雅行,https://github.com/kuwayamamasayuki/GTFS-FukuokaCitySubway/,ja,20260401,99991231,20260623,,https://github.com/kuwayamamasayuki/GTFS-FukuokaCitySubway/issues
