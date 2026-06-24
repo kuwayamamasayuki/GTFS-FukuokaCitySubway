@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import shutil
 import threading
-from http.server import HTTPServer, SimpleHTTPRequestHandler
+from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 import pytest
@@ -58,7 +58,9 @@ def _serve(directory: Path):
     def handler(*args, **kwargs):
         return SimpleHTTPRequestHandler(*args, directory=str(directory), **kwargs)
 
-    httpd = HTTPServer(("127.0.0.1", 0), handler)
+    # ThreadingHTTPServer: 1 ページが vendor JS（deck.gl 等）を多数並行取得するため、
+    # 単一スレッドだとリクエストが直列化し CI 負荷下で page.goto が 30s を超えうる。
+    httpd = ThreadingHTTPServer(("127.0.0.1", 0), handler)
     thread = threading.Thread(target=httpd.serve_forever, daemon=True)
     thread.start()
     return httpd
