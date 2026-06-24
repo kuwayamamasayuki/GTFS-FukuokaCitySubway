@@ -194,7 +194,8 @@ scripts/fetch_jorudan_fares.py  ジョルダン運賃を取得し突合フィク
   割り当ては `(route_id, direction_id) → shape_id` の対応表（`config/routes.yaml` の `trip_shapes`）に
   基づき機械的に行う（Issue #48）。direction_id の方面は `directions` と同一（0=空港/貝塚/博多方面、
   1=姪浜/橋本方面）。直通便（箱崎線＋空港線）は中洲川端で 2 つの trip に分割済みのため、
-  各 trip は単一路線の線形に紐づく。
+  各 trip は単一路線の線形に紐づく。なお七隈線 dir0 の shape_id は博多延伸を反映して
+  `七隈線（博多方面行き）`（上流2019フィードの「天神南方面行き」を取り込み時に改称。Issue #48/#55）。
   七隈線の天神南～博多区間は 2019 年版フィードに含まれないため、`scripts/seed_reference.py`
   の `transform_shapes()` で取り込み時に注入している（駅間距離＝福岡市地下鉄事業概要（令和7年度）
   の料金区界表、途中座標＝OpenStreetMap。Issue #55）。

@@ -65,7 +65,7 @@ def test_config_trip_shapes_direction_assignment():
     assert mapping[("空港線", 1)] == "空港線（姪浜方面行き）"
     assert mapping[("箱崎線", 0)] == "箱崎線（貝塚方面行き）"
     assert mapping[("箱崎線", 1)] == "箱崎線（中洲川端方面行き）"
-    assert mapping[("七隈線", 0)] == "七隈線（天神南方面行き）"
+    assert mapping[("七隈線", 0)] == "七隈線（博多方面行き）"  # 博多延伸で改称（Issue #48/#55）
     assert mapping[("七隈線", 1)] == "七隈線（橋本方面行き）"
 
 

@@ -12,7 +12,10 @@ _spec = importlib.util.spec_from_file_location("seed_reference", _SEED)
 seed = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(seed)
 
-TM = "七隈線（天神南方面行き）"
+# 上流2019フィードでは dir0 の shape_id は「天神南方面行き」（入力＝読み込みキー）。
+# transform_shapes は博多区間を注入し、出力 shape_id を「博多方面行き」へ改称する（Issue #48）。
+TM_SRC = "七隈線（天神南方面行き）"  # 入力（上流フィードの shape_id）
+TM = "七隈線（博多方面行き）"        # 出力（改称後の shape_id）
 HM = "七隈線（橋本方面行き）"
 
 # 天神南方面行きで seq112(天神南) の後に続く博多側 8 点：(lat, lon, dist)。
@@ -33,8 +36,8 @@ FIXTURE = (
     "shape_id,shape_pt_lat,shape_pt_lon,shape_pt_sequence,shape_dist_traveled\r\n"
     "空港線（西行き）,33.1,130.1,0,0\r\n"
     "空港線（西行き）,33.2,130.2,1,100\r\n"
-    f"{TM},33.5883058,130.4017106,111,11950\r\n"
-    f"{TM},33.5885707,130.4022468,112,12000\r\n"
+    f"{TM_SRC},33.5883058,130.4017106,111,11950\r\n"
+    f"{TM_SRC},33.5885707,130.4022468,112,12000\r\n"
     f"{HM},33.5885707,130.4022468,0,0\r\n"
     f"{HM},33.5883058,130.4017106,1,30\r\n"
 )

@@ -95,7 +95,11 @@ NANAKUMA_HAKATA = dict(stop_code="N18", stop_name="博多",
 # （延伸開業前のデータのため）。公開フィードでは博多まで描画したいので、取り込み時に注入する。
 #   * 駅間距離(shape_dist_traveled)は福岡市地下鉄事業概要(令和7年度)の料金区界表より、
 #     途中の座標は OpenStreetMap から取得（出典は Issue #55 / docs を参照）。
-SHAPE_NANAKUMA_TM = "七隈線（天神南方面行き）"  # 天神南方面行き（末尾=天神南。後ろへ博多側を追記）
+# 上流2019フィードでは七隈線が天神南止まりで、dir0 の shape_id も「天神南方面行き」。
+# 延伸で終点が博多になったため、出力 shape_id は実態に合わせ「博多方面行き」へ改称する
+# （Issue #48）。読み込みは上流名(_SRC)で行い、区間注入後に出力名へリネームする。
+SHAPE_NANAKUMA_TM_SRC = "七隈線（天神南方面行き）"  # 上流フィードの dir0 shape_id（読み込みキー）
+SHAPE_NANAKUMA_TM = "七隈線（博多方面行き）"  # 出力 dir0 shape_id（末尾=博多。後ろへ博多側を追記）
 SHAPE_NANAKUMA_HM = "七隈線（橋本方面行き）"  # 橋本方面行き（先頭=天神南。前へ博多側を前置）
 # 天神南方面行きで seq112(天神南) の後に続く博多側の点列：(lat, lon, dist[m])。
 # dist は天神南方面行きの起点(橋本側)からの累積距離。末尾(13600)が博多(N18)。
@@ -188,10 +192,11 @@ def transform_shapes(text: str) -> tuple[list[str], list[dict]]:
     """七隈線に天神南～博多の区間を注入する（Issue #55）。
 
     上流2019フィードの shapes は七隈線が天神南止まりのため、取り込み時に
-      * 天神南方面行き … 末尾(天神南, seq112) の後ろへ博多側 8 点を追記する。
+      * dir0(上流名「天神南方面行き」) … 末尾(天神南, seq112) の後ろへ博多側 8 点を
+                        追記し、shape_id を出力名「博多方面行き」へ改称する（Issue #48）。
       * 橋本方面行き   … 先頭へ博多→天神南の 8 点(seq0..7) を前置し、既存点の
                         shape_pt_sequence/shape_dist_traveled を博多起点へずらす。
-    博多は天神南方面行きで dist=13600。橋本方面行きでは博多が起点(dist0)になるため、
+    博多は dir0 で dist=13600。橋本方面行きでは博多が起点(dist0)になるため、
     各点の橋本側 dist = 13600 - (天神南側 dist)。既存点のずらし幅は天神南末尾(天神南駅)の
     dist 12000 を用いて 13600-12000=1600。再実行しても二重追加しない（冪等）。
     """
@@ -223,8 +228,8 @@ def transform_shapes(text: str) -> tuple[list[str], list[dict]]:
                 for seq, (lat, lon, dist) in enumerate(reversed(NANAKUMA_HAKATA_SHAPE))]
         return head + block
 
-    # 橋本方面のずらし幅に使う、天神南方面行きの元の末尾(天神南駅)の dist を控える。
-    tm_orig = [r for r in rows if r["shape_id"] == SHAPE_NANAKUMA_TM]
+    # 橋本方面のずらし幅に使う、dir0(上流名)の元の末尾(天神南駅)の dist を控える。
+    tm_orig = [r for r in rows if r["shape_id"] == SHAPE_NANAKUMA_TM_SRC]
     d_tenjinminami = int(tm_orig[-1]["shape_dist_traveled"]) if tm_orig else total
 
     # shape_id ごとの連続ブロック単位で処理し、元の行順を保つ。
@@ -236,8 +241,10 @@ def transform_shapes(text: str) -> tuple[list[str], list[dict]]:
         while j < n and rows[j]["shape_id"] == sid:
             j += 1
         block = rows[i:j]
-        if sid == SHAPE_NANAKUMA_TM:
+        if sid == SHAPE_NANAKUMA_TM_SRC:
             block = extend_tm(block)
+            for r in block:
+                r["shape_id"] = SHAPE_NANAKUMA_TM  # 上流名「天神南方面行き」→出力名「博多方面行き」
         elif sid == SHAPE_NANAKUMA_HM:
             block = prepend_hm(block, d_tenjinminami)
         out.extend(block)
