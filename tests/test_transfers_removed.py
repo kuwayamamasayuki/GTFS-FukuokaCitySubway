@@ -34,9 +34,15 @@ def test_assembler_does_not_reference_transfers():
 
 
 def test_seed_does_not_copy_transfers():
-    """シードスクリプトが transfers.txt を複製対象に含めない。"""
-    seed = _load_seed()
-    assert "transfers.txt" not in seed.COPY_FILES
+    """シードスクリプトが transfers.txt を取り込み対象に含めない。
+
+    shapes.txt が transform_shapes() による注入取り込みへ変わり COPY_FILES が
+    廃止されたため（Issue #55）、fetch/write の引数（=引用符付きリテラル）として
+    transfers.txt が現れないことで担保する。コメント中の日本語説明は引用符なし。
+    """
+    source = (ROOT / "scripts" / "seed_reference.py").read_text(encoding="utf-8")
+    assert '"transfers.txt"' not in source
+    assert "'transfers.txt'" not in source
 
 
 def test_reference_gtfs_has_no_transfers():
