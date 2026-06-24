@@ -46,6 +46,8 @@ def check_integrity(gtfs_dir: str | Path) -> list[str]:
     route_ids = ids("routes.txt", "route_id")
     service_ids = ids("calendar.txt", "service_id")
     trip_ids = ids("trips.txt", "trip_id")
+    shapes_path = d / "shapes.txt"
+    shape_ids = ids("shapes.txt", "shape_id") if shapes_path.exists() else set()
 
     # trips の参照
     _, trips_rows = read_csv(d / "trips.txt")
@@ -54,6 +56,9 @@ def check_integrity(gtfs_dir: str | Path) -> list[str]:
             issues.append(f"trips: 未知の route_id {r['route_id']} (trip {r['trip_id']})")
         if r["service_id"] not in service_ids:
             issues.append(f"trips: 未知の service_id {r['service_id']} (trip {r['trip_id']})")
+        shape_id = r.get("shape_id", "")
+        if shape_id and shape_id not in shape_ids:
+            issues.append(f"trips: 未知の shape_id {shape_id} (trip {r['trip_id']})")
 
     # calendar_dates の参照
     cd_path = d / "calendar_dates.txt"

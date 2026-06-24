@@ -11,15 +11,23 @@ from ..model import Trip
 
 TRIPS_HEADER = [
     "route_id", "service_id", "trip_id", "trip_headsign",
-    "direction_id", "block_id", "wheelchair_accessible",
+    "direction_id", "block_id", "shape_id", "wheelchair_accessible",
 ]
 STOP_TIMES_HEADER = [
     "trip_id", "arrival_time", "departure_time", "stop_id", "stop_sequence",
 ]
 
 
-def build(trips: list[Trip]) -> tuple[list[dict], list[dict]]:
-    """(trips 行, stop_times 行) を返す。"""
+def build(
+    trips: list[Trip],
+    shape_map: dict[tuple[str, int], str] | None = None,
+) -> tuple[list[dict], list[dict]]:
+    """(trips 行, stop_times 行) を返す。
+
+    shape_map は (route_id, direction_id) → shape_id。対応が無い組み合わせの
+    shape_id は空文字（GTFS では shape の紐付けは任意）。
+    """
+    shape_map = shape_map or {}
     # (route, service, direction) ごとに出発時刻順へ並べ、連番を振る
     groups: dict[tuple[str, str, int], list[Trip]] = {}
     for t in trips:
@@ -35,7 +43,9 @@ def build(trips: list[Trip]) -> tuple[list[dict], list[dict]]:
             trips_rows.append(dict(
                 route_id=route_id, service_id=service_id, trip_id=trip_id,
                 trip_headsign=trip.headsign, direction_id=direction_id,
-                block_id=trip.block_id, wheelchair_accessible=1,
+                block_id=trip.block_id,
+                shape_id=shape_map.get((route_id, direction_id), ""),
+                wheelchair_accessible=1,
             ))
             for seq, visit in enumerate(trip.visits, start=1):
                 t = sec_to_gtfs(visit.sec)

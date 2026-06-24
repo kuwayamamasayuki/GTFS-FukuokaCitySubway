@@ -97,7 +97,7 @@ cd demo && python -m http.server 8000   # → http://localhost:8000/
 ```
 config/         設定（改正時に主に触る場所）
   sources.yaml    Excel の URL と含む路線
-  routes.yaml     シート名の語彙 → service_id / direction_id
+  routes.yaml     シート名の語彙 → service_id / direction_id・shape_id 割当(trip_shapes)
   stations.yaml   共用駅のホーム割当の特例
   parser.yaml     パーサ語彙・0時跨ぎ閾値・健全性しきい値
   calendar.yaml   平日/土曜/休日・路線グループ別の有効期間・祝日ポリシー
@@ -190,10 +190,14 @@ scripts/fetch_jorudan_fares.py  ジョルダン運賃を取得し突合フィク
 
 ## 既知の制約
 
-- `shapes.txt` は参照用に同梱するが trip には紐づけていない（直通便は単一形状で表せない）。
+- `shapes.txt` の 6 本（3 路線×2 方向）の線形は、`trips.txt` の `shape_id` 列で各便に紐づける。
+  割り当ては `(route_id, direction_id) → shape_id` の対応表（`config/routes.yaml` の `trip_shapes`）に
+  基づき機械的に行う（Issue #48）。direction_id の方面は `directions` と同一（0=空港/貝塚/博多方面、
+  1=姪浜/橋本方面）。直通便（箱崎線＋空港線）は中洲川端で 2 つの trip に分割済みのため、
+  各 trip は単一路線の線形に紐づく。
   七隈線の天神南～博多区間は 2019 年版フィードに含まれないため、`scripts/seed_reference.py`
   の `transform_shapes()` で取り込み時に注入している（駅間距離＝福岡市地下鉄事業概要（令和7年度）
-  の料金区界表、途中座標＝OpenStreetMap。Issue #55）。地図描画用途では別途整備が必要。
+  の料金区界表、途中座標＝OpenStreetMap。Issue #55）。
 - JR 筑肥線直通便は地下鉄区間（姪浜まで）のみを収録し、行先（筑前前原 等）は
   `trip_headsign` として保持する。
 
