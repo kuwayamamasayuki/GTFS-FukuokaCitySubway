@@ -77,3 +77,25 @@ routes,route_short_name,ja-Hrkt,七隈線,ななくません
 routes,route_short_name,en,七隈線,Nanakuma Line
 stops,stop_name,ja-Hrkt,櫛田神社前,くしだじんじゃまえ
 stops,stop_name,en,櫛田神社前,Kushida Shrine
+trips,trip_headsign,ja-Hrkt,姪浜,めいのはま
+trips,trip_headsign,en,姪浜,Meinohama
+trips,trip_headsign,ja-Hrkt,西新,にしじん
+trips,trip_headsign,en,西新,Nishijin
+trips,trip_headsign,ja-Hrkt,中洲川端,なかすかわばた
+trips,trip_headsign,en,中洲川端,Nakasu-Kawabata
+trips,trip_headsign,ja-Hrkt,貝塚,かいづか
+trips,trip_headsign,en,貝塚,Kaizuka
+trips,trip_headsign,ja-Hrkt,博多,はかた
+trips,trip_headsign,en,博多,Hakata
+trips,trip_headsign,ja-Hrkt,福岡空港,ふくおかくうこう
+trips,trip_headsign,en,福岡空港,Fukuoka Airport
+trips,trip_headsign,ja-Hrkt,橋本,はしもと
+trips,trip_headsign,en,橋本,Hashimoto
+trips,trip_headsign,ja-Hrkt,唐津,からつ
+trips,trip_headsign,en,唐津,Karatsu
+trips,trip_headsign,ja-Hrkt,西唐津,にしからつ
+trips,trip_headsign,en,西唐津,Nishi-Karatsu
+trips,trip_headsign,ja-Hrkt,筑前前原,ちくぜんまえばる
+trips,trip_headsign,en,筑前前原,Chikuzen-Maebaru
+trips,trip_headsign,ja-Hrkt,筑前深江,ちくぜんふかえ
+trips,trip_headsign,en,筑前深江,Chikuzen-Fukae

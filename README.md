@@ -205,6 +205,11 @@ scripts/fetch_jorudan_fares.py  ジョルダン運賃を取得し突合フィク
   便内では running max で単調非減少に補正する。shape_id を持たない便は空欄になる。
 - JR 筑肥線直通便は地下鉄区間（姪浜まで）のみを収録し、行先（筑前前原 等）は
   `trip_headsign` として保持する。
+- 行先（`trips.trip_headsign`）の英語・かな訳は `translations.txt` に
+  `table_name=trips, field_name=trip_headsign` で収録する（Issue #46）。`translations` は
+  table_name+field_name+field_value で引かれるため、駅名が `stops` 側で訳されていても
+  行先用の行が別途必要になる。地下鉄駅と一致する行先は駅の訳語を再利用し、相互直通の
+  JR 駅（唐津・西唐津・筑前前原・筑前深江）は `seed_reference.TRIP_HEADSIGN_EXTRA` から補う。
 
 ## テスト
 
