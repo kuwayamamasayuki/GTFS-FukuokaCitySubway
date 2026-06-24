@@ -122,6 +122,22 @@ EN_OVERRIDES = {
     "櫛田神社前": "Kushida Shrine",
 }
 
+# trips.trip_headsign（行先）として現れる値。translations は
+# table_name+field_name+field_value で引かれるため、駅名が stops で翻訳済みでも
+# trips/trip_headsign は別レコードとして翻訳行を用意しないと多言語表示されない（Issue #46）。
+# 地下鉄駅と一致する行先は stops の訳語をそのまま再利用し、相互直通で乗り入れる
+# JR 筑肥線の駅（地下鉄 stops に存在しない）は TRIP_HEADSIGN_EXTRA から補う。
+TRIP_HEADSIGNS = [
+    "姪浜", "西新", "中洲川端", "貝塚", "博多", "福岡空港", "橋本",  # 地下鉄各駅
+    "唐津", "西唐津", "筑前前原", "筑前深江",  # 相互直通 JR 筑肥線（地下鉄 stops に無い）
+]
+TRIP_HEADSIGN_EXTRA = {
+    "唐津": {"ja-Hrkt": "からつ", "en": "Karatsu"},
+    "西唐津": {"ja-Hrkt": "にしからつ", "en": "Nishi-Karatsu"},
+    "筑前前原": {"ja-Hrkt": "ちくぜんまえばる", "en": "Chikuzen-Maebaru"},
+    "筑前深江": {"ja-Hrkt": "ちくぜんふかえ", "en": "Chikuzen-Fukae"},
+}
+
 
 def fetch(name: str, retries: int = 5) -> str:
     url = f"{REPO_RAW}/{urllib.parse.quote(name)}"
@@ -298,6 +314,23 @@ def transform_translations(text: str, stops_rows: list[dict]) -> tuple[list[str]
                 tr = EN_OVERRIDES[name]  # 上流の誤表記を正式英語名称へ補正
             out.append(dict(table_name=tbl, field_name=fld, language=lang,
                             field_value=name, translation=tr))
+
+    # trips.trip_headsign（行先）の翻訳を追記（Issue #46）。駅名と一致する行先は
+    # 上で組み立てた駅の訳語を再利用し（en は EN_OVERRIDES を反映）、相互直通の
+    # JR 駅は TRIP_HEADSIGN_EXTRA から補う。
+    for name in TRIP_HEADSIGNS:
+        if name in table:
+            langs = {lg: tr for lg, tr in table[name].items() if lg != "ja"}
+            if "en" in langs and name in EN_OVERRIDES:
+                langs["en"] = EN_OVERRIDES[name]
+        elif name in TRIP_HEADSIGN_EXTRA:
+            langs = dict(TRIP_HEADSIGN_EXTRA[name])
+        else:
+            print(f"  注意: 行先の訳語不明のためスキップ: {name!r}", file=sys.stderr)
+            continue
+        for lang, tr in langs.items():
+            out.append(dict(table_name="trips", field_name="trip_headsign",
+                            language=lang, field_value=name, translation=tr))
     return header, out
 
 
