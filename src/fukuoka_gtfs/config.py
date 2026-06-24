@@ -60,6 +60,15 @@ class Config:
         return {k: int(v) for k, v in self.routes["directions"].items()}
 
     @property
+    def trip_shapes(self) -> dict[tuple[str, int], str]:
+        """(route_id, direction_id) → shape_id（shapes.txt の shape_id と一致）。"""
+        return {
+            (route_id, int(direction_id)): shape_id
+            for route_id, by_dir in self.routes.get("trip_shapes", {}).items()
+            for direction_id, shape_id in by_dir.items()
+        }
+
+    @property
     def platform_overrides(self) -> dict:
         return self.stations.get("platform_overrides", {})
 

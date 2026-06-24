@@ -45,7 +45,7 @@ def assemble(config: Config, today: dt.date | None = None) -> dict:
         raise FukuokaGtfsError("便が 1 つも抽出できませんでした。")
 
     # 生成テーブル
-    trips_rows, stop_times_rows = schedule_builder.build(trips)
+    trips_rows, stop_times_rows = schedule_builder.build(trips, config.trip_shapes)
     groups = config.service_groups
     services = config.calendar["services"]
     # feed_info の有効期間はグループ全体の和（明示指定があればそれを優先）
