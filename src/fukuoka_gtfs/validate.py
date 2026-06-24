@@ -85,11 +85,20 @@ def check_integrity(gtfs_dir: str | Path) -> list[str]:
         if len(rows) < 2:
             issues.append(f"stop_times: 停車が 1 つしかない trip {trip_id}")
         prev = -1
+        prev_dist: float | None = None
         for r in rows:
             sec = _to_sec(r["departure_time"])
             if sec < prev:
                 issues.append(f"stop_times: 時刻が逆行 trip {trip_id} @seq{r['stop_sequence']}")
             prev = sec
+            sdt = r.get("shape_dist_traveled", "")
+            if sdt != "":
+                dist = float(sdt)
+                if prev_dist is not None and dist < prev_dist:
+                    issues.append(
+                        f"stop_times: shape_dist_traveled が逆行 trip {trip_id} "
+                        f"@seq{r['stop_sequence']}")
+                prev_dist = dist
 
     return issues
 

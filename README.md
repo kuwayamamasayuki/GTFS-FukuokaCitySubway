@@ -199,6 +199,10 @@ scripts/fetch_jorudan_fares.py  ジョルダン運賃を取得し突合フィク
   七隈線の天神南～博多区間は 2019 年版フィードに含まれないため、`scripts/seed_reference.py`
   の `transform_shapes()` で取り込み時に注入している（駅間距離＝福岡市地下鉄事業概要（令和7年度）
   の料金区界表、途中座標＝OpenStreetMap。Issue #55）。
+- `stop_times.txt` の `shape_dist_traveled` は、各停車（駅）の座標を紐づく `shapes.txt` の
+  線形へ投影し、その最近点の累積距離（メートル、整数丸め）を `shapes.shape_dist_traveled` から
+  線形補間して付与する（`builders/shape_dist.py`。Issue #49）。投影は駅ごとに独立に行うため、
+  便内では running max で単調非減少に補正する。shape_id を持たない便は空欄になる。
 - JR 筑肥線直通便は地下鉄区間（姪浜まで）のみを収録し、行先（筑前前原 等）は
   `trip_headsign` として保持する。
 
