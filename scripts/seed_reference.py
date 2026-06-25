@@ -31,6 +31,7 @@ from __future__ import annotations
 
 import csv
 import io
+import math
 import sys
 import time
 import urllib.parse
@@ -113,6 +114,113 @@ NANAKUMA_HAKATA_SHAPE = [
     ("33.589836", "130.414235", 13250),
     ("33.589616", "130.418599", 13600),  # 博多(N18)
 ]
+
+# --- 各駅の地上出入口(location_type=2) (Issue #50) ---------------------------------
+# 目的: 出入口を stop として持たせると、徒歩を含むドアtoドアの経路検索が可能になる。
+# 出入口の「名称」は福岡市地下鉄の公式駅立体図(各駅ページの img/map_<slug>.jpg)から
+# 読み取った。ただし公式サイト・公式オープンデータとも出入口の緯度経度は公表していない
+# ため、座標は親駅の既知座標を基準に、名称に含まれる方角語(北/南/東/西/中央)があれば
+# その方向へ、無ければ駅を中心に放射状へ約60m離して **推定** した近似値である
+# （_estimate_entrance_coord 参照）。正確な位置は別途地図照合が必要。
+#   * 福岡空港(13): 公式立体図画像が未公開(404)のため、出入口名・座標とも本人作成の
+#     旧フィード(git 0e19136, 2018年版)から採録した実測値を用いる（AIRPORT_ENTRANCES）。
+#   * 博多は空港線(id 11)と七隈線(id 37)を別駅としてモデル化している(Issue #53)。物理的に
+#     一体の複合駅だが、出入口は西側コンコース(七隈線寄り)を 37、東/中央側を 11 に割り当てる。
+# 仕様: https://gtfs.org/documentation/schedule/reference/#stopstxt (location_type=2)
+
+
+def _numbered(n: int, suffix: str = "番出口") -> list[tuple[str, str]]:
+    """「1番出口」…「n番出口」のように連番の出入口ラベルを生成する（方角語なし）。"""
+    return [(f"{i}{suffix}", "") for i in range(1, n + 1)]
+
+
+# parent(駅id) -> [(ラベル, 方角語), ...]。stop_name は「駅名+ラベル」で組み立てる。
+STATION_ENTRANCES: dict[str, list[tuple[str, str]]] = {
+    "1": [("北出口", "北"), ("南出口", "南"), ("えきマチ一丁目口", "")],
+    "2": _numbered(6),
+    "3": _numbered(5),
+    "4": _numbered(9),
+    "5": _numbered(7),
+    "6": _numbered(6),
+    "7": _numbered(6),
+    "8": [  # 天神（方角接頭の 西3/東3 のみ方角語あり）
+        ("1出入口", ""), ("2出入口", ""), ("西3a出入口", "西"), ("西3b出入口", "西"),
+        ("東3a出入口", "東"), ("東3b出入口", "東"), ("4出入口", ""), ("5出入口", ""),
+        ("6出入口", ""), ("6A出入口", ""), ("7出入口", ""), ("10出入口", ""),
+        ("11出入口", ""), ("12出入口", ""), ("13A出入口", ""), ("13B出入口", ""),
+        ("14出入口", ""), ("15出入口", ""), ("16出入口", ""),
+    ],
+    "9": _numbered(7),
+    "10": _numbered(6, "番出入口"),
+    # 博多(空港線, id 11): 東/中央側の出入口を担当（西側は七隈線博多 id 37 へ）。
+    "11": ([(f"東{i}出入口", "東") for i in range(1, 8)]
+           + [(f"中{i}出入口", "中央") for i in range(1, 5)]),
+    "12": _numbered(7, "番出入口"),
+    # "13"(福岡空港) は AIRPORT_ENTRANCES（実測座標）で別途追加。
+    "14": _numbered(6, "番出入口"),
+    "15": _numbered(8, "番出入口"),
+    "16": _numbered(7, "番出入口"),
+    "17": _numbered(4, "番出入口"),
+    "18": _numbered(4, "番出入口"),
+    "19": _numbered(4, "番出入口"),
+    "20": _numbered(2),
+    "21": _numbered(2),
+    "22": _numbered(2),
+    "23": _numbered(2),
+    "24": _numbered(2),
+    "25": _numbered(2),
+    "26": _numbered(2),
+    "27": _numbered(2),
+    "28": _numbered(2),
+    "29": _numbered(3),
+    "30": _numbered(3),
+    "31": _numbered(2),
+    "32": _numbered(2),
+    "33": _numbered(2),
+    "34": _numbered(2),
+    "35": _numbered(6),
+    "36": _numbered(7),
+    # 七隈線博多(id 37): 博多複合駅の西側コンコースの出入口群。
+    "37": [(f"西{i}出入口", "西") for i in
+           (1, 2, 3, 4, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24)],
+}
+
+# 福岡空港(id 13) の出入口。公式立体図画像が未公開のため、本人作成の旧フィード
+# (git 0e19136, 2018年版)から採録した実測座標を使う。(stop_name, lat, lon)
+AIRPORT_ENTRANCES: list[tuple[str, str, str]] = [
+    ("福岡空港1A番出入口", "33.596909", "130.448456"),
+    ("福岡空港1B番出入口", "33.596879", "130.448475"),
+    ("福岡空港2番出入口", "33.597461", "130.447788"),
+    ("福岡空港3番出入口", "33.596709", "130.448961"),
+    ("福岡空港4番出入口", "33.596783", "130.449210"),
+    ("福岡空港5番出入口", "33.596864", "130.449094"),
+]
+
+# 出入口座標の推定パラメータ（公式が座標非公開のための近似。docs/design/station-entrances.md）。
+_ENTRANCE_OFFSET = 0.00055   # 約60m を緯度degに換算（駅中心から出入口までの目安）
+_LON_PER_LAT = 0.836         # 緯度約33.6°での経度補正係数(≈cos lat)
+_DIR_VEC: dict[str, tuple[float, float]] = {
+    "北": (1.0, 0.0), "南": (-1.0, 0.0), "東": (0.0, 1.0), "西": (0.0, -1.0),
+    "中央": (0.25, 0.0),
+}
+
+
+def _estimate_entrance_coord(plat: float, plon: float, direction: str,
+                             idx: int, total: int) -> tuple[str, str]:
+    """親駅座標を基準に出入口座標を推定する（公式立体図に座標が無いための近似）。
+
+    名称に方角語があればその方向へ、無ければ駅を中心に放射状(idx で角度を割り振り)へ
+    約60m離す。同方向の複数出入口が完全に重ならないよう idx で微小に散らす。
+    """
+    vec = _DIR_VEC.get(direction)
+    if vec is None:
+        ang = 2.0 * math.pi * idx / max(total, 1)
+        vec = (math.cos(ang), math.sin(ang))
+    jitter = 0.00009 * ((idx % 5) - 2)
+    lat = plat + _ENTRANCE_OFFSET * vec[0] + jitter
+    lon = plon + (_ENTRANCE_OFFSET / _LON_PER_LAT) * vec[1] + jitter
+    return f"{lat:.6f}", f"{lon:.6f}"
+
 
 # stops.stop_name の英語訳の上書き（上流フィードの表記を公開フィード向けに補正）。
 # 福岡空港: 上流は "Fukuokakuko(Airport)" だが正式英語名称は "Fukuoka Airport"。
@@ -201,6 +309,36 @@ def transform_stops(text: str) -> tuple[list[str], list[dict]]:
                              stop_lat=s["stop_lat"], stop_lon=s["stop_lon"], zone_id=s["zone_id"],
                              stop_url="", location_type="0", parent_station=sid,
                              wheelchair_boarding="1"))
+
+    # --- 各駅の地上出入口(location_type=2) を追加（Issue #50） ---
+    # 上で追加した新駅(36/37)も親に取れるよう by_id を作り直す。stop_id が既にあれば
+    # 追加しない（冪等：出力を再投入しても重複しない）。
+    by_id = {r["stop_id"]: r for r in rows}
+
+    def add_entrance(sid: str, name: str, lat: str, lon: str, parent: str) -> None:
+        if sid in by_id:
+            return
+        row = dict(stop_id=sid, stop_code="", stop_name=name, stop_lat=lat, stop_lon=lon,
+                   zone_id="", stop_url="", location_type="2", parent_station=parent,
+                   wheelchair_boarding="0")
+        rows.append(row)
+        by_id[sid] = row
+
+    for parent_id, entries in STATION_ENTRANCES.items():
+        parent = by_id.get(parent_id)
+        if parent is None:
+            continue
+        plat, plon = float(parent["stop_lat"]), float(parent["stop_lon"])
+        total = len(entries)
+        for idx, (label, direction) in enumerate(entries):
+            lat, lon = _estimate_entrance_coord(plat, plon, direction, idx, total)
+            add_entrance(f"{parent_id}_e{idx + 1}", parent["stop_name"] + label,
+                         lat, lon, parent_id)
+
+    # 福岡空港(13) は実測座標（旧フィード由来）をそのまま使う。
+    for idx, (name, lat, lon) in enumerate(AIRPORT_ENTRANCES):
+        add_entrance(f"13_e{idx + 1}", name, lat, lon, "13")
+
     return header, rows
 
 
