@@ -133,9 +133,9 @@ scripts/fetch_jorudan_fares.py  ジョルダン運賃を取得し突合フィク
   なお博多は空港線博多(id 11)と七隈線博多(id 37)を別座標の 2 駅で表す（運賃ゾーンは同一）。
   この非対称なモデルの設計意図は [`docs/design/hakata-nanakuma-station.md`](docs/design/hakata-nanakuma-station.md) を参照（Issue #53）。
 - **地上出入口（`location_type=2`）**: 各駅の出入口を `parent_station=駅` の stop として持たせ、
-  徒歩を含むドアtoドアの経路検索を可能にする（Issue #50）。出入口名は公式駅立体図から採録。
-  公式が緯度経度を非公開のため座標は親駅基準の**推定値**（福岡空港のみ旧フィード由来の実測値）。
-  設計と座標推定方法・精度の注意は [`docs/design/station-entrances.md`](docs/design/station-entrances.md) を参照。
+  徒歩を含むドアtoドアの経路検索を可能にする（Issue #50）。出入口名・座標は本人実測の旧フィード
+  （git `0e19136`, 2018年版）由来の実測値（全35駅・198出入口、`scripts/data/legacy_entrances.csv`）。
+  設計は [`docs/design/station-entrances.md`](docs/design/station-entrances.md) を参照。
 - **路線グループ・区分別の有効期間**: GTFS では有効期間（`calendar.txt` の start/end）は service_id 単位
   のため、有効期間が異なる路線はグループを分け、`service_id` を `<グループ>_<区分>`
   （例 `空港箱崎_平日`／`七隈_平日`）とする。期間は `config/calendar.yaml` の `service_groups`
@@ -157,8 +157,8 @@ scripts/fetch_jorudan_fares.py  ジョルダン運賃を取得し突合フィク
    - URL・期待シート名 … `config/sources.yaml`
    - 祝日 … `config/calendar.yaml` の `holiday`
    - **駅が増えた場合のみ** … `reference_gtfs/stops.txt`（親駅＋子ホーム＋出入口）と
-     `config/stations.yaml`、`reference_gtfs/translations.txt`（出入口は `scripts/seed_reference.py`
-     の `STATION_ENTRANCES` に追記。詳細は [`docs/design/station-entrances.md`](docs/design/station-entrances.md)）
+     `config/stations.yaml`、`reference_gtfs/translations.txt`（出入口は
+     `scripts/data/legacy_entrances.csv` に追記。詳細は [`docs/design/station-entrances.md`](docs/design/station-entrances.md)）
 3. `python -m fukuoka_gtfs.cli all --download-tools` で再生成・検証する。
 4. 確認テストの基準データを更新する:
    - 時刻表（ジョルダン突合）: `python scripts/fetch_jorudan_fixtures.py` …
