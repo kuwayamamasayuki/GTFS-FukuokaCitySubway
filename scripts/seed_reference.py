@@ -114,6 +114,24 @@ NANAKUMA_HAKATA_SHAPE = [
     ("33.589616", "130.418599", 13600),  # 博多(N18)
 ]
 
+# --- 各駅の地上出入口(location_type=2) (Issue #50) ---------------------------------
+# 目的: 出入口を stop として持たせると、徒歩を含むドアtoドアの経路検索が可能になる。
+# 出入口データ（名称・緯度経度・親駅・wheelchair_boarding）は、ユーザー本人が過去に
+# 各駅・各ホーム・各出入口の緯度経度を実測登録した旧フィード（git 0e19136「各駅の各
+# ホーム，各出入口の緯度・経度を登録しました」, 2018年版）からそのまま採録した実測値で、
+# scripts/data/legacy_entrances.csv に置く（現行 stops.txt と同じ列構成）。
+#   * 対象は当時の全35駅(parent 1〜35)・計198出入口。2023年開業の新駅 36(櫛田神社前) /
+#     37(七隈線博多) は当時存在せず未収録（博多複合駅の出入口は当時の id 11 配下にある）。
+# 仕様: https://gtfs.org/documentation/schedule/reference/#stopstxt (location_type=2)
+LEGACY_ENTRANCES_CSV = Path(__file__).resolve().parent / "data" / "legacy_entrances.csv"
+
+
+def load_legacy_entrances() -> list[dict]:
+    """scripts/data/legacy_entrances.csv から出入口(location_type=2)行を読み込む。"""
+    _, rows = read_rows(LEGACY_ENTRANCES_CSV.read_text(encoding="utf-8-sig"))
+    return [r for r in rows if r.get("location_type") == "2"]
+
+
 # stops.stop_name の英語訳の上書き（上流フィードの表記を公開フィード向けに補正）。
 # 福岡空港: 上流は "Fukuokakuko(Airport)" だが正式英語名称は "Fukuoka Airport"。
 # 櫛田神社前: 新駅定義の en と一致（再掲して意図を明示）。
@@ -201,6 +219,18 @@ def transform_stops(text: str) -> tuple[list[str], list[dict]]:
                              stop_lat=s["stop_lat"], stop_lon=s["stop_lon"], zone_id=s["zone_id"],
                              stop_url="", location_type="0", parent_station=sid,
                              wheelchair_boarding="1"))
+
+    # --- 各駅の地上出入口(location_type=2) を追加（Issue #50） ---
+    # 旧フィード(2018年版)由来の実測出入口を採録する。stop_id が既にあれば追加しない
+    # （冪等：出力を再投入しても重複しない）。列は現行 stops.txt に合わせて補完する。
+    by_id = {r["stop_id"]: r for r in rows}
+    for e in load_legacy_entrances():
+        if e["stop_id"] in by_id:
+            continue
+        row = {col: e.get(col, "") for col in header}
+        rows.append(row)
+        by_id[e["stop_id"]] = row
+
     return header, rows
 
 
