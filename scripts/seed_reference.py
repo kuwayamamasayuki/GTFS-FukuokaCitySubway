@@ -132,6 +132,17 @@ def load_legacy_entrances() -> list[dict]:
     return [r for r in rows if r.get("location_type") == "2"]
 
 
+# 出入口(location_type=2)の wheelchair_boarding 補正（stop_id -> 値）。
+# legacy_entrances.csv は2018年版フィードのスナップショットを「そのまま」保持する不変条件を
+# 持つため、当時の値を現況に合わせて補正する場合はここに上書きを置く（EN_OVERRIDES と
+# 同じ「上流はそのまま採録し、公開向けの補正は transform で明示的に当てる」流儀）。
+#   * 薬院大通2番出入口(32_2ex): 2018年版は 2(非対応) だが、実際は1番出入口だけでなく
+#     2番出入口も車椅子対応のため 1 に補正（Issue #66）。
+WHEELCHAIR_BOARDING_OVERRIDES = {
+    "32_2ex": "1",
+}
+
+
 # stops.stop_name の英語訳の上書き（上流フィードの表記を公開フィード向けに補正）。
 # 福岡空港: 上流は "Fukuokakuko(Airport)" だが正式英語名称は "Fukuoka Airport"。
 # 櫛田神社前: 新駅定義の en と一致（再掲して意図を明示）。
@@ -230,6 +241,12 @@ def transform_stops(text: str) -> tuple[list[str], list[dict]]:
         row = {col: e.get(col, "") for col in header}
         rows.append(row)
         by_id[e["stop_id"]] = row
+
+    # --- wheelchair_boarding の補正（Issue #66） ---
+    # 2018年版由来の値を現況に合わせて上書き。出力を再投入しても結果は同じ（冪等）。
+    for sid, value in WHEELCHAIR_BOARDING_OVERRIDES.items():
+        if sid in by_id:
+            by_id[sid]["wheelchair_boarding"] = value
 
     return header, rows
 
