@@ -31,12 +31,22 @@
 | `zone_id` / `stop_url` | 空 |
 | `location_type` | `2` |
 | `parent_station` | 親駅（`location_type=1`）の `stop_id` |
-| `wheelchair_boarding` | 旧フィードの値（1 または 2） |
+| `wheelchair_boarding` | 旧フィードの値（1 または 2）。ただし下記の補正対象を除く |
+
+`legacy_entrances.csv` は 2018 年版フィードのスナップショットを**そのまま**保持する（不変条件）。
+当時の値を現況に合わせて補正したい場合は、CSV を書き換えず `transform_stops` で明示的に上書きする
+（`stop_name` の英語訳 `EN_OVERRIDES` と同じ流儀）。これにより「原データ」と「公開向け補正」を分離し、
+補正の意図と根拠を追跡できる。
+
+- `wheelchair_boarding` の補正: `WHEELCHAIR_BOARDING_OVERRIDES`（`stop_id` → 値）。
+  - 薬院大通2番出入口（`32_2ex`）: 2018 年版は `2`（非対応）だが、実際は1番出入口だけでなく
+    2番出入口も車椅子対応のため `1` に補正（Issue #66）。
 
 実装は `scripts/seed_reference.py`:
 - `LEGACY_ENTRANCES_CSV` / `load_legacy_entrances()` が `scripts/data/legacy_entrances.csv` を読む。
 - `transform_stops` 末尾で各出入口行を**冪等**に追加（既存 `stop_id` があればスキップ。
-  列は現行 `stops.txt` のヘッダに合わせて補完）。
+  列は現行 `stops.txt` のヘッダに合わせて補完）。その後 `WHEELCHAIR_BOARDING_OVERRIDES` を
+  適用する（出力を再投入しても結果は同じ＝冪等）。
 - `reference_gtfs/stops.txt` が真実のソース。`make build` / `make publish` で `dist/stops.txt` と
   `dist/FukuokaCitySubway.zip` に反映される。
 
