@@ -41,6 +41,8 @@
 - `wheelchair_boarding` の補正: `WHEELCHAIR_BOARDING_OVERRIDES`（`stop_id` → 値）。
   - 薬院大通2番出入口（`32_2ex`）: 2018 年版は `2`（非対応）だが、実際は1番出入口だけでなく
     2番出入口も車椅子対応のため `1` に補正（Issue #66）。
+  - 櫛田神社前1番出入口（`36_1ex`）: 採録元は `2`（非対応）だが、実際は6番出入口だけでなく
+    1番出入口も車椅子対応のため `1` に補正（Issue #67）。
 
 実装は `scripts/seed_reference.py`:
 - `LEGACY_ENTRANCES_CSV` / `load_legacy_entrances()` が `scripts/data/legacy_entrances.csv` を読む。
