@@ -262,3 +262,53 @@ def test_reference_dist_zip_kushida_accessible():
     by_id = {r["stop_id"]: r for r in csv.DictReader(text.splitlines())}
     for sid, expected in KUSHIDA_ENTRANCES.items():
         assert by_id[sid]["wheelchair_boarding"] == expected, f"zip: {sid}"
+
+
+# --- 中洲川端の wheelchair_boarding 補正（Issue #63） ------------------------------
+# 採録元では中洲川端4番/6番/7番出入口(9_4ex/9_6ex/9_7ex)が wheelchair_boarding=2(非対応)
+# だったが、実際は車椅子対応のため 1 に補正する。
+# legacy_entrances.csv は採録元の値のまま保持し、補正は
+# seed_reference.WHEELCHAIR_BOARDING_OVERRIDES で適用する。
+NAKASU_ENTRANCES = {"9_4ex": "1", "9_6ex": "1", "9_7ex": "1"}
+
+
+def test_legacy_csv_keeps_nakasu_source_value():
+    """legacy_entrances.csv は採録元の値のまま（9_4ex/9_6ex/9_7ex は元値 2）。"""
+    seed = _load_seed()
+    by_id = {e["stop_id"]: e for e in seed.load_legacy_entrances()}
+    for sid in NAKASU_ENTRANCES:
+        assert by_id[sid]["wheelchair_boarding"] == "2", sid
+
+
+def test_override_applies_to_nakasu():
+    """transform_stops 後、中洲川端の4番・6番・7番出入口が wheelchair_boarding=1 になる。"""
+    seed = _load_seed()
+    _, rows = seed.transform_stops(_stops_text_without_entrances())
+    by_id = {r["stop_id"]: r for r in rows}
+    for sid, expected in NAKASU_ENTRANCES.items():
+        assert by_id[sid]["wheelchair_boarding"] == expected, sid
+
+
+def test_nakasu_override_is_idempotent():
+    """補正を適用した出力を再投入しても値が変わらない（冪等）。"""
+    seed = _load_seed()
+    header, rows = seed.transform_stops(_stops_text_without_entrances())
+    header2, rows2 = seed.transform_stops(_rows_to_text(header, rows))
+    by_id = {r["stop_id"]: r for r in rows2}
+    for sid in NAKASU_ENTRANCES:
+        assert by_id[sid]["wheelchair_boarding"] == "1", sid
+
+
+def test_reference_dist_zip_nakasu_accessible():
+    """公開済みデータ(reference/dist/zip)で中洲川端の4番・6番・7番出入口が車椅子対応。"""
+    for path in (ROOT / "reference_gtfs" / "stops.txt", ROOT / "dist" / "stops.txt"):
+        _, rows = _read_stops(path)
+        by_id = {r["stop_id"]: r for r in rows}
+        for sid, expected in NAKASU_ENTRANCES.items():
+            assert by_id[sid]["wheelchair_boarding"] == expected, f"{path}: {sid}"
+    with zipfile.ZipFile(ROOT / "dist" / "FukuokaCitySubway.zip") as z:
+        name = next(n for n in z.namelist() if n.endswith("stops.txt"))
+        text = z.read(name).decode("utf-8-sig")
+    by_id = {r["stop_id"]: r for r in csv.DictReader(text.splitlines())}
+    for sid, expected in NAKASU_ENTRANCES.items():
+        assert by_id[sid]["wheelchair_boarding"] == expected, f"zip: {sid}"
