@@ -43,6 +43,8 @@
     2番出入口も車椅子対応のため `1` に補正（Issue #66）。
   - 櫛田神社前1番出入口（`36_1ex`）: 採録元は `2`（非対応）だが、実際は6番出入口だけでなく
     1番出入口も車椅子対応のため `1` に補正（Issue #67）。
+  - 中洲川端4番/6番/7番出入口（`9_4ex` / `9_6ex` / `9_7ex`）: 採録元は `2`（非対応）だが、
+    実際は車椅子対応のため `1` に補正（Issue #63）。
 
 実装は `scripts/seed_reference.py`:
 - `LEGACY_ENTRANCES_CSV` / `load_legacy_entrances()` が `scripts/data/legacy_entrances.csv` を読む。
