@@ -134,7 +134,8 @@ scripts/fetch_jorudan_fares.py  ジョルダン運賃を取得し突合フィク
   この非対称なモデルの設計意図は [`docs/design/hakata-nanakuma-station.md`](docs/design/hakata-nanakuma-station.md) を参照（Issue #53）。
 - **地上出入口（`location_type=2`）**: 各駅の出入口を `parent_station=駅` の stop として持たせ、
   徒歩を含むドアtoドアの経路検索を可能にする（Issue #50）。出入口名・座標は本人実測の旧フィード
-  （git `0e19136`, 2018年版）由来の実測値（全35駅・198出入口、`scripts/data/legacy_entrances.csv`）。
+  （git `0e19136`, 2018年版）由来の実測値に櫛田神社前の実測を加えた計205出入口
+  （`scripts/data/legacy_entrances.csv`）。
   設計は [`docs/design/station-entrances.md`](docs/design/station-entrances.md) を参照。
 - **路線グループ・区分別の有効期間**: GTFS では有効期間（`calendar.txt` の start/end）は service_id 単位
   のため、有効期間が異なる路線はグループを分け、`service_id` を `<グループ>_<区分>`

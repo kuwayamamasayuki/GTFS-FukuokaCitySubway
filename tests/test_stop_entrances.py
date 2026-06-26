@@ -6,7 +6,8 @@
 
 出入口データ（名称・緯度経度・親駅・wheelchair_boarding）は、ユーザー本人が実測登録した
 旧フィード（git 0e19136, 2018年版）由来の実測値で scripts/data/legacy_entrances.csv に
-置き、seed_reference.transform_stops が取り込む。対象は当時の全35駅(parent 1〜35)・計198。
+置き、seed_reference.transform_stops が取り込む。対象は旧フィードの全35駅(parent 1〜35)
+198件に、後から櫛田神社前(36)の実測7件を加えた計205件。
 詳細は docs/design/station-entrances.md を参照。
 
 検証内容:
@@ -32,7 +33,7 @@ LON_MIN, LON_MAX = 130.30, 130.46
 # 出入口は親駅から概ねこの範囲内（度。約1km強。博多の連絡通路出入口を含む）。
 MAX_PARENT_DELTA = 0.01
 
-EXPECTED_TOTAL = 198  # 旧フィード由来の出入口総数（parent 1〜35）
+EXPECTED_TOTAL = 205  # 旧フィード由来198(parent 1〜35) + 櫛田神社前(36) 7
 
 
 def _load_seed():
@@ -92,13 +93,13 @@ def _assert_entrances_valid(header: list[str], rows: list[dict]) -> list[dict]:
 
 
 def test_legacy_entrances_csv_loads():
-    """データファイルが 198 件の出入口を返す。"""
+    """データファイルが 205 件の出入口を返す。"""
     seed = _load_seed()
     entrances = seed.load_legacy_entrances()
     assert len(entrances) == EXPECTED_TOTAL
     assert all(e["location_type"] == "2" for e in entrances)
-    # 親駅は当時の全35駅。
-    assert {e["parent_station"] for e in entrances} == {str(i) for i in range(1, 36)}
+    # 親駅は当時の全35駅 + 櫛田神社前(36)。
+    assert {e["parent_station"] for e in entrances} == {str(i) for i in range(1, 37)}
 
 
 def test_transform_stops_adds_entrances():
@@ -133,6 +134,10 @@ def test_entrances_are_measured_values():
     airport = by_id["13_3ex"]
     assert airport["stop_name"] == "福岡空港3番出入口"
     assert (airport["stop_lat"], airport["stop_lon"]) == ("33.596709", "130.448961")
+    kushida = by_id["36_1ex"]
+    assert kushida["stop_name"] == "櫛田神社前１番出入口"
+    assert kushida["parent_station"] == "36"
+    assert (kushida["stop_lat"], kushida["stop_lon"]) == ("33.5917969", "130.4104359")
 
 
 def test_reference_stops_has_entrances():
